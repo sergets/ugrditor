@@ -1,0 +1,88 @@
+/* Кнопки: общее */
+
+.button {
+    display: inline-block;
+    opacity: 0.8;
+    background: #f84;
+    color: white;
+    font: 11px verdana;
+    border-radius: 4px;
+    height: 22px;
+    line-height: 22px;
+    /*padding-bottom: 2px;*/
+    vertical-align: 1px;
+    min-width: 22px;
+    border: 0px;
+    padding-left: 7px;
+    padding-right: 7px;
+    text-align: center;
+}
+
+.button:hover {
+    opacity: 1;
+}
+
+.sxml_username {
+    text-decoration: none; 
+    color: #0c4068;
+    font-weight: bold;
+    /*border-bottom: 1px dotted #0c4068;*/
+}
+
+.inplace {
+    margin: -2px;
+    padding: 2px;
+    border: 0px;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2) inset, -1px -1px 4px rgba(0,0,0,0.1) inset;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Кнопки на маленькой панели инструментов */
+
+.small-toolbar {
+   float: right;
+   padding: 6px;
+   padding-left: 0;
+}
+
+.small-toolbar .button {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+    padding: 2px;
+    margin-left: 3px;
+    margin-top: -1px;
+    background: #f84 url(/sxml/misc/img/thread.png)
+}
+
+.small-toolbar .button:hover::before {
+    content: '';
+    display: block;
+    position: absolute;
+    text-align: center;
+    margin-left: -15px;
+    margin-top: -29px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    width: auto;
+    height: auto;
+    padding: 2px 5px;
+    border-radius: 2px;
+    height: 16px;
+    line-height: 16px;
+    z-index: 1;
+}
+
+.small-toolbar .button:hover::after {
+    content: '-';
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 6px solid rgba(0,0,0,0);
+    border-top: 6px solid rgba(0,0,0,0.7);
+    border-bottom: 0px;
+    margin-top: -9px;
+}

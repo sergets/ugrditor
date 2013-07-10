@@ -1,0 +1,201 @@
+@import "project-common.css";
+@import "project-buttons.css";
+@import "project-permissions.css";
+@import "project-point.css";
+@import "project-point-photo.css";
+@import "project-point-comments.css";
+
+/*
+
+.points {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 70%;
+    width: 25%;
+}
+
+.point {
+    display: block;
+    width: 350px;
+    background: white;
+    overflow: auto;
+}
+
+.point h3 {
+    font-size: 11pt;
+    font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+    background: #fc9;
+    padding: 3px 25px;
+    height: 19px;
+    font-weight: 100;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    border: 0px;
+    display: block;
+}
+
+.point h3 input {
+    border: 1px dotted #f84; 
+    font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+    font-weight: 100;
+    font-size: 11pt;
+    margin: -1px;
+    padding: 0px;
+    background: #fc9;
+    width: 100%;
+    padding-left: 1px;
+    margin-left: -2px;
+    padding-right: 1px;
+}
+
+.point p {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+    border: 0px;
+ }
+ 
+ .point p.comment {
+     min-height: 55px;
+ }
+ 
+ textarea.point-comment-input {
+    width: 100%;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.1) inset;
+    font: 8pt verdana;
+    border: 0px;    
+    background: rgba(255,192,100,0.08);
+    min-height: 55px;
+ }
+ 
+ .point p.question {
+    color: #f84;
+    margin-bottom: 3px;
+ }
+ 
+ .point-q-input, .point-a-input {
+    margin: -2px;
+    padding: 1px;
+    border: 1px dotted #f84;
+    font: 8pt verdana;
+    color: #f84;
+    display: inline-block;
+    margin-right: 5px;
+ }
+ 
+ .point-q-input {
+    width: 180px;
+ }
+ 
+ .point-a-input {
+    font-style: italic;
+    font-weight: bold;
+    width: 113px;
+    margin-right: -2px;
+ }
+ 
+ i.answer {
+    font-weight: bold;
+    margin-left: 10px;
+ }
+ 
+ .point-edit-save-button {
+    display: block;
+    float: right;
+    margin-top: 10px;
+    clear: both;
+ }
+ 
+ .ymaps-b-balloon__content-holster {
+    padding: 0px 7px !important;
+ }
+ 
+ .point-edit {
+    display: none;
+ }
+ 
+ .point.editing .point-view {
+    display: none;
+ }
+ 
+ .point.editing .point-edit {
+    display: block;
+ }
+ 
+ .point-toolbar {
+    float: right;
+    padding: 6px;
+    padding-left: 0;
+ }
+
+TOOL BUTTONS
+
+.button {
+    display: inline-block;
+    opacity: 0.8;
+    background: #f84;
+    color: white;
+    font: 11px verdana;
+    border-radius: 4px;
+    height: 22px;
+    line-height: 22px;
+    padding-bottom: 2px;
+    vertical-align: 1px;
+    min-width: 22px;
+    border: 0px;
+}
+
+.button:hover {
+    opacity: 1;
+}
+
+.point-toolbar .button {
+    width: 11px;
+    height: 11px;
+    min-width: 11px;
+    padding: 2px;
+    margin-left: 3px;
+    margin-top: -1px;
+    background: #f84 url(/sxml/misc/img/thread.png)
+}
+
+.point-toolbar .button:hover::before {
+    content: '';
+    display: block;
+    position: absolute;
+    text-align: center;
+    margin-left: -15px;
+    margin-top: -29px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    width: auto;
+    height: auto;
+    padding: 2px 5px;
+    border-radius: 2px;
+    height: 16px;
+    line-height: 16px;
+    z-index: 1;
+}
+
+.point-toolbar .button:hover::after {
+    content: '-';
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 6px solid rgba(0,0,0,0);
+    border-top: 6px solid rgba(0,0,0,0.7);
+    border-bottom: 0px;
+    margin-top: -9px;
+}
+
+.point-edit-button.button {
+    background-position: -16px;
+}
+
+.point-edit-button:hover::before {
+    content: 'Редактировать' !important;
+}*/

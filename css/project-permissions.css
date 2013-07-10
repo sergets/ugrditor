@@ -1,0 +1,92 @@
+/* Точка: доступы */
+
+.permissions {
+    color: #0c4068;
+    padding-left: 20px;
+    margin-left: 5px;
+    margin-top: 2px;
+    padding-top: 1px;
+    width: 200px;
+    background: url(/sxml/misc/img/keyhole.png) no-repeat;
+    height: 20px;
+}
+
+.permissions-editor .sxml_username {
+    color: #c6f0ff;
+    border-bottom: 1px solid #0c4068;
+}
+
+.permissions .permissions-editor {
+    display: none;
+}
+
+.permissions:hover .permissions-editor {
+    display: block;
+}
+
+.permissions-editor {
+    margin-left: -70px;
+    margin-top: 5px;
+    position: absolute;
+    width: 200px;
+    background: rgba(0,0,0,0.7);
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Доступы: список пользователей */
+
+.permissions-editor .user-list {
+    margin: 2px;
+}
+
+.permissions-editor .user-list dt {
+    width: 165px;
+    float: left;
+    background: rgba(116,150,179,0.2);
+    padding: 3px;
+    border-radius: 4px 0 0 4px;
+    margin: 1px;
+}
+
+.permissions-editor .user-list dd {
+    width: 15px;
+    text-align: center;
+    float: left;
+    padding: 3px;
+    border-radius: 0 4px 4px 0;
+    margin: 1px;
+    font-weight: bold;
+    background: rgba(116,150,179,0.2);
+}
+
+.permissions-editor .user-list dd.permissions-delete {
+    color: #ffcccc;
+    background: rgba(255, 192, 192, 0.4);
+    cursor: pointer;
+}
+
+.permissions-editor .user-list dd.permissions-add {
+    color: #ccffcc;
+    background: rgba(192, 255, 192, 0.4);
+    cursor: pointer;
+}
+
+.permissions-input {
+    border: 0px;
+    width: 190px;
+    font: 11px verdana;
+    font-weight: bold;
+    color: #c6f0ff;
+    padding: 3px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.5) inset, -1px -1px 4px rgba(0,0,0,0.25) inset;
+    margin: 1px;
+}
+
+.permissions-found {
+    background: rgba(255, 255, 192, 0.3);
+}

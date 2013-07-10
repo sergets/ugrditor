@@ -1,0 +1,100 @@
+/* COMMON STYLES */
+
+body {
+    font: 11px verdana;
+    line-height: 13px;
+    overflow: hidden;
+    font: 8pt verdana;
+}
+
+textarea {
+    resize: none;
+    font: 11px verdana;
+    line-height: 13px
+}
+
+.textarea-measure {
+    width: 100%;
+    visibility: hidden;
+    float: right;
+    margin-right: -150%;
+    right: 10px;
+    top: 20px;
+    padding: 2px;
+}
+
+h1 {
+    font-family: dejavu sans light,dejavu sans,segoe ui,verdana,sans-serif;
+    font-size: 21px;
+    line-height: 30px;
+    font-weight: 100;
+    margin: 0px;
+    padding: 0px;
+}
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #0c4068;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#sxml_loginpane {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    color: white;
+    z-index: 2;
+    padding: 5px;
+}
+
+#sxml_loginpane a, #sxml_notifier a {
+    color: #f84;
+} 
+
+/* PROJECT */
+
+#project-map {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+
+#project-maintitle {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    color: white;
+    background: rgba(32,16,8,0.7);
+    padding: 10px;
+}
+
+.points {
+    display: none !important;
+}
+
+    
+.hidable {
+    display: block;
+    overflow: hidden;
+    opacity: 1;
+    max-height: 1000px;
+    transition: all ease 0.5s;
+}
+
+.hidable.hidden {
+    opacity: 0;
+    max-height: 0px;
+}
+
+.hider {
+    cursor: pointer;
+}

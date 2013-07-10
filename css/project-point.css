@@ -1,0 +1,100 @@
+            /* Точка: общее */
+        
+            .point {
+                display: block;
+                width: 350px;
+                background: white;
+                overflow: auto;
+            }
+           
+            .point h3, .point-title-input {
+                font-size: 15px;
+                line-height: 20px;
+                font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+            }
+
+            .point h3 {
+                background: #fc9;
+                padding: 3px 25px;
+                height: 19px;
+                margin-top: 0px;
+                margin-bottom: 2px;
+                border: 0px;
+                display: block;
+            }
+            
+            .point-edit-button.button {
+                background-position: -16px;
+            }
+
+            .point-edit-button:hover::before {
+                content: 'Редактировать' !important;
+            }
+            
+            .point .point-edit-only {
+                display: none;
+            }
+            
+            .point.editing .point-edit-only {
+                display: block;
+            }
+            
+            .point.editing .point-view-only {
+                display: none;
+            }
+            
+            .point.editing .point-edit-blur {
+                opacity: 0.3;
+            }
+            
+            /* Точка: просмотр */
+            
+            .point .text {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 25px;
+                margin-right: 20px;
+                width: 320px;
+                clear: left;
+                min-height: 34px;
+            }
+            
+            .point .question {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 25px;
+                margin-right: 20px;
+                width: 320px;
+                font: 11px verdana;
+                clear: left;
+                color: #f84;
+                min-height: 17px;
+            }
+            
+       
+            /* Точка: редактирование */
+            
+            .point-title-input {
+                font-size: 11pt;
+                font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+                width: 290px;
+            }
+            
+            .point textarea.text, .point textarea.question {
+                margin-top: 1px;
+                margin-bottom: 2px;
+                margin-left: 23px;
+            }
+            
+            .point-save-toolbar {
+                position: absolute;
+                margin-top: 5px;
+                margin-left: 260px;
+            }
+
+            .point-save-button {
+                width: 70px;
+            }
+            

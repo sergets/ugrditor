@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="/xsl/project.xsl"?>
+<project xmlns:sxml="http://sergets.ru/sxml">
+    <sxml:var name="projid" from="get" value="id"/>
+   
+    <!-- Заголовок: название проекта, общая информация -->
+    <sxml:select 
+        tag="descr" entry="project" entry-class="project" attrs="sxml:time sxml:user sxml:visible-to"
+        sxml:update="projects" from="projects" where="(&quot;sxml:item-id&quot; = :projid)" uses="projid" sxml:id="descr"/>
+        
+    <!-- Список точек -->
+    <points>
+        <point sxml:item-id="456" sxml:class="point" sxml:user="vk:595374" sxml:update="points" lat="55.782537" lon="37.482672" cool="2" deep="3" warn="0">
+            <name>Пушкинский сквер</name>
+            <comment>Мем. доска в честь последнего внука Пушкина</comment>
+            <q>Инициалы Пушкина:</q>
+            <a>Геогрий Гаврилович</a>
+        </point>
+        <point sxml:item-id="457" sxml:class="point" sxml:user="vk:595374" sxml:update="points" lat="55.795064" lon="37.488871" cool="2" deep="3" warn="0">
+            <name>Немецкая слобода</name>
+            <comment>Крутой квартал</comment>
+            <q>Последний номер квартиры в среднем доме:</q>
+            <a>1А</a>
+        </point>
+    </points>
+    <!--sxml:select
+        tag="points" entry="points" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon"
+        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points"/-->
+        
+    <!-- Новости -->
+    <!--sxml:select
+        tag="newslist" entry="news" entry-class="news" attrs="sxml:time sxml:user" sxml:enumerable="yes"
+        sxml:update="news" from="news" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="news"/-->
+        
+    <!-- ДЕЙСТВИЯ --> 
+        
+    <!-- Добавление точки -->
+    <sxml:action name="addpoint" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+
+        <sxml:var name="lat" from="post" value="lat"/>
+        <sxml:var name="lon" from="post" value="lon"/>
+        <sxml:var name="cool" from="post" value="cool"/>   <!-- Насколько крутая точка: цвет значка -->
+        <sxml:var name="deep" from="post" value="deep"/>   <!-- Были ли уже на месте, всё ли проверили: яркость значка -->
+        <sxml:var name="warn" from="post" value="warn"/>   <!-- Есть ли проблемы: воскл. значок -->
+        <sxml:var name="name" from="post" value="name"/>
+        <sxml:var name="comment" from="post" value="comment"/>
+        <sxml:var name="q" from="post" value="q"/>
+        <sxml:var name="a" from="post" value="a"/>
+        
+        <!-- Дбавляем точку -->
+        <sxml:insert into="points" uses="lat lon cool deep warn name comment q a" store="newpointid">
+            <lat>:lat</lat>
+            <lon>:lat</lon>
+            <cool>:cool</cool> 
+            <deep>:deep</deep> 
+            <warn>:warn</warn> 
+            <name>:name</name>
+            <comment>:comment</comment>
+            <q>:q</q>
+            <a>:a</a>
+            <thread>null</thread>
+        </sxml:insert>
+        
+        <!-- Пишем об этом новость -->
+        <!--sxml:insert into="news" uses="newpointid">
+            <type>'newpoint'</type>
+            <ref>:newpointid</ref>
+            <text/>
+            <old/>
+            <new/>
+        </sxml:insert-->
+        
+        <!-- Создаём обсуждение -->
+        <!--sxml:insert into="threads" uses="newpointid" store="newthreadid">
+            <type>'point'</type>
+            <name>null</name>
+        </sxml:insert-->
+        
+        <!-- Прикрепляем тему к точке -->
+        <!--sxml:edit in="points" id=":newpointid" uses="newpointid newthreadid">
+            <thread>:newthreadid</thread>
+        </sxml:edit-->
+
+        <!-- Когда всё получится, обновим все три штуки: появилась точка, новость о ней, и изменилось число точек в проекте -->
+        <sxml:update tag="points"/>
+        <sxml:update tag="news"/>
+        <sxml:update tag="projects"/>
+        
+    </sxml:action>
+    
+</project>

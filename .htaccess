@@ -1,0 +1,7 @@
+php_value display_errors on
+ErrorDocument 403 /sxml/common/handler.php
+DirectoryIndex index.xml index.php index.html
+<FilesMatch "\.xml$">
+order deny,allow
+deny from all
+</FilesMatch>

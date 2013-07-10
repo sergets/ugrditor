@@ -5,7 +5,7 @@
         width: 640px;
         min-height: 100%;
         overflow: visible;
-        background: url(/img/top.png) top left no-repeat;
+        background: url(//img/top.png) top left no-repeat;
     }
 
     html  {
@@ -17,7 +17,7 @@
     #top, #sxml_loginpane {
         float: left;
         width: 100%;
-        background: url(/img/top.png) top left no-repeat;
+        background: url(//img/top.png) top left no-repeat;
         height: 38px;
         position: relative;
         z-index: 1;
@@ -257,7 +257,7 @@
   #cap {
       width: 640px;
       height: 320px;
-      background: gray url(/img/bg.jpg);
+      background: gray url(//img/bg.jpg);
       overflow: hidden;
       clear: left;
       position: relative;
@@ -304,7 +304,7 @@
     .playpause {
         width: 13px;
         height: 13px;
-        background-image: url(/img/playpause.png);
+        background-image: url(//img/playpause.png);
     }
     
     .playpause.paused {
@@ -706,7 +706,7 @@
     #photoview-backward, #photoview-previous {
         width: 13px;
         height: 13px;
-        background-image: url(/img/lr.png);
+        background-image: url(//img/lr.png);
         clear: left;
         float: left;
     }
@@ -716,7 +716,7 @@
         margin-left: -28px;
         width: 13px;
         height: 13px;
-        background-image: url(/img/lr.png);
+        background-image: url(//img/lr.png);
         background-position: 0px -50px;        
         position: relative;
         top: 50%;
@@ -726,7 +726,7 @@
     #photoview-forward, #photoview-next {
         width: 13px;
         height: 13px;
-        background-image: url(/img/lr.png);
+        background-image: url(//img/lr.png);
         background-position: 0px -25px;
         clear: right;
         float: right;

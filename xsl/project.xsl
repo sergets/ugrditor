@@ -5,7 +5,7 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:import href="/sxml/client/sxml.xsl"/>
+    <xsl:import href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -13,15 +13,15 @@
           
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
-            <xsl:with-param name="sxml-root" select="'/sxml'"/>
+            <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <script>/js/ugrd.js</script>
+                <script relative="true">/js/ugrd.js</script>
                 <script>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</script>
-                <script>/js/project.js</script>
+                <script relative="true">/js/project.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
-                <style>/css/project.css</style>
-                <style>/css/sxml-loginlinks.css</style>
+                <style relative="true">/css/project.css</style>
+                <style relative="true">/css/sxml-loginlinks.css</style>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>

@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:sxml="http://sergets.ru/sxml">
 
-    <xsl:import href="/sxml/client/sxml.xsl"/>
+    <xsl:import href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -10,14 +10,14 @@
           
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
-            <xsl:with-param name="sxml-root" select="'/sxml'"/>
+            <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <script>/js/ugrd.js</script>
-                <script>/js/projects.js</script>
+                <script relative="true">/js/ugrd.js</script>
+                <script relative="true">/js/projects.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
-                <style>/css/ugrd.css</style>
-                <style>/css/sxml-loginlinks.css</style>
+                <style relative="true">/css/ugrd.css</style>
+                <style relative="true">/css/sxml-loginlinks.css</style>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>

@@ -122,7 +122,10 @@
     <xsl:template match="point" mode="sxml:js">map: {
         lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
         lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
-        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>'
+        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
+        uniqueId : '<xsl:call-template name="sxml:quote">
+            <xsl:with-param name="v" select="generate-id(.)"/>
+        </xsl:call-template>'
     }</xsl:template>
     <xsl:template match="point">
         <div>

@@ -9,23 +9,21 @@
         sxml:update="projects" from="projects" where="(&quot;sxml:item-id&quot; = :projid)" uses="projid" sxml:id="descr"/>
         
     <!-- Список точек -->
-    <points>
-        <point sxml:item-id="456" sxml:class="point" sxml:user="vk:595374" sxml:update="points" lat="55.782537" lon="37.482672" cool="2" deep="3" warn="0">
+    <!--points>
+        <point sxml:item-id="456" sxml:class="point" sxml:user="vk:595374" lat="55.782537" lon="37.482672" cool="2" deep="3" warn="0">
             <name>Пушкинский сквер</name>
-            <comment>Мем. доска в честь последнего внука Пушкина</comment>
+            <descr>Мем. доска в честь последнего внука Пушкина</descr>
             <q>Инициалы Пушкина:</q>
-            <a>Геогрий Гаврилович</a>
         </point>
-        <point sxml:item-id="457" sxml:class="point" sxml:user="vk:595374" sxml:update="points" lat="55.795064" lon="37.488871" cool="2" deep="3" warn="0">
+        <point sxml:item-id="457" sxml:class="point" sxml:user="vk:595374" lat="55.795064" lon="37.488871" cool="2" deep="3" warn="0">
             <name>Немецкая слобода</name>
-            <comment>Крутой квартал</comment>
+            <descr>Крутой квартал</descr>
             <q>Последний номер квартиры в среднем доме:</q>
-            <a>1А</a>
         </point>
-    </points>
-    <!--sxml:select
-        tag="points" entry="points" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon"
-        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points"/-->
+    </points-->
+    <sxml:select
+        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon"
+        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points"/>
         
     <!-- Новости -->
     <!--sxml:select
@@ -35,29 +33,30 @@
     <!-- ДЕЙСТВИЯ --> 
         
     <!-- Добавление точки -->
-    <sxml:action name="addpoint" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+    <sxml:action returns="newpointid" name="create-point" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
 
         <sxml:var name="lat" from="post" value="lat"/>
         <sxml:var name="lon" from="post" value="lon"/>
-        <sxml:var name="cool" from="post" value="cool"/>   <!-- Насколько крутая точка: цвет значка -->
-        <sxml:var name="deep" from="post" value="deep"/>   <!-- Были ли уже на месте, всё ли проверили: яркость значка -->
-        <sxml:var name="warn" from="post" value="warn"/>   <!-- Есть ли проблемы: воскл. значок -->
+        <sxml:var name="pr" from="post" value="pr"/>
+        <!--sxml:var name="cool" from="post" value="cool"/>   < !- - Насколько крутая точка: цвет значка - - >
+        <sxml:var name="deep" from="post" value="deep"/>   < !- - Были ли уже на месте, всё ли проверили: яркость значка - - >
+        <sxml:var name="warn" from="post" value="warn"/>   < !- - Есть ли проблемы: воскл. значок - - >
         <sxml:var name="name" from="post" value="name"/>
         <sxml:var name="comment" from="post" value="comment"/>
         <sxml:var name="q" from="post" value="q"/>
-        <sxml:var name="a" from="post" value="a"/>
+        <sxml:var name="a" from="post" value="a"/-->
         
         <!-- Дбавляем точку -->
-        <sxml:insert into="points" uses="lat lon cool deep warn name comment q a" store="newpointid">
+        <sxml:insert into="points" uses="lat lon pr" store="newpointid">
             <lat>:lat</lat>
-            <lon>:lat</lon>
-            <cool>:cool</cool> 
-            <deep>:deep</deep> 
-            <warn>:warn</warn> 
-            <name>:name</name>
-            <comment>:comment</comment>
-            <q>:q</q>
-            <a>:a</a>
+            <lon>:lon</lon>
+            <project>:pr</project>
+            <cool>null</cool> 
+            <deep>null</deep> 
+            <warn>null</warn> 
+            <name>null</name>
+            <descr>null</descr>
+            <q>null</q>
             <thread>null</thread>
         </sxml:insert>
         
@@ -85,7 +84,6 @@
         <sxml:update tag="points"/>
         <sxml:update tag="news"/>
         <sxml:update tag="projects"/>
-        
     </sxml:action>
     
 </project>

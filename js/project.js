@@ -1,6 +1,7 @@
 SXML.Project = {
 
-    _pendingMapObjects : [],
+    _pendingMapObjects : {},
+    _mapObjects : {},
     _mapReady : false,
 
     // Инициализация карты
@@ -16,6 +17,8 @@ SXML.Project = {
         // Добавляем контролы
         var topToolBar = new ymaps.control.ToolBar([
             'mapTools',
+            new ymaps.control.ToolBarSeparator(5),
+            SXML.Project.Controls.createPointButton(map)
         ], { position: { top: 75, left: 5 } });
         map.controls.add(new ymaps.control.ToolBar([ 'typeSelector' ], { position: { top: 75, right: 5 } }));
         map.controls.add(new ymaps.control.ToolBar([ 'zoomControl' ], { position: { top: 115, left: 5 } }));
@@ -64,10 +67,21 @@ SXML.Project = {
                     mapObject.options.set(SXML.Project.getIconSettings(nz));
                 }
             });
+            SXML.Project._mapObjects[mapData.uniqueId] = mapObject;
         } else {
-            SXML.Project._pendingMapObjects.push(arguments);
+            SXML.Project._pendingMapObjects[mapData.uniqueId] = arguments;
         }
     },
+    
+    // Убирание точки
+    destroyMapObject : function(uniqueId) {
+        if (SXML.Project._mapReady) {
+            SXML.Project.map.geoObjects.remove(SXML.Project._mapObjects[uniqueId]);
+            delete SXML.Project._mapObjects[uniqueId];
+        } else {
+            delete SXML.Project._pendingMapObjects[uniqueId];
+        }
+    },    
     
     // Вычисление картинки значка для точки по зуму
     getIconSettings : function(zoom) {
@@ -148,33 +162,85 @@ SXML.Project = {
     // Неймспейс для кастомных контролов
     Controls : {
     
-        createPointControl : function() {
+        // Добавление новой точки
+        createPointButton : function(map) {
+            var pointButton = new ymaps.control.Button({ data : {
+                    image : 'img/point11-xs.png'
+                } }),
+                isSelected = false,
+                mapClickHandler = function(e) {
+                    SXML.Project.Actions.createPoint(e.get('coords'));
+                    pointButton.deselect();
+                }
             
+            pointButton.events.add('select', function() {
+                map.events.add('click', mapClickHandler);
+            });
+            pointButton.events.add('deselect', function() {
+                map.events.remove('click', mapClickHandler);
+            });
+            
+            return pointButton;
         }
     
-    }
+    },
+    
+    // Действия, подразумевающие запросы к серверу
+    Actions : {
+    
+        // Создание новой точки без дополнительных данных
+        createPoint : function(coords) {
+            SXML.exec('create-point', {
+                lat : coords[0],
+                lon : coords[1],
+                pr : SXML.Project.data.id
+            });
+            var setPointCreator = function(data) {
+                if (data.action == 'create-point') {
+                    var opener = function(options) {
+                        if (options.entity.sxml['class'] == 'point' && options.entity.sxml.item == data.returned) {
+                            console.log('My balloon ' + data.returned + ' is here!');
+                            SXML.un('register', opener);
+                        }
+                    };
+                    SXML.on('register', opener);
+                    SXML.un('actionComplete', setPointCreator);
+                }
+            };
+            SXML.on('actioncomplete', setPointCreator);
+        }
+    
+    },
+    
+    // Данные о проекте
+    data : { }
+    
     
 };
 
-// Раскладываем точки по карте
 SXML.on('register', function(options) {
+    // Запоминаем информацию о проекте
+    if (options.entity.sxml['class'] == 'project') {
+        SXML.Project.data.id = options.entity.sxml.item;
+    }
+    
+    // Раскладываем точки по карте
     if (options.entity.map) {
         SXML.Project.initMapObject(options.node, options.entity.map);
     }
     if (options.entity.sxml['class'] == 'point') {
         SXML.Project.initPointDOMElems(options.node);
-
-          /*  // Если мы в балуне — перерисовать его
-            if ($(this).closest('.ymaps-b-balloon').length > 0) {
-                var balloon = SXML.Project.currentBalloon;
-                var pos = balloon.getPosition();
-                balloon.close();
-                balloon.open(pos);
-            }*/
-        //    e.preventDefault();
-        //});
     }
 });
+
+SXML.on('unregister', function(options) {
+    // Убираем точки с карты
+    if (options.entity.map) {
+        SXML.Project.destroyMapObject(options.entity.map.uniqueId);
+    }
+});
+
+//------------
 
 // Костыль для загрузки Я.Карт при xslt
 function _init() {

@@ -1,5 +1,5 @@
 php_value display_errors on
-ErrorDocument 403 /sxml/common/handler.php
+ErrorDocument 403 /editor/sxml/common/handler.php
 DirectoryIndex index.xml index.php index.html
 <FilesMatch "\.(xml|css)$">
 order deny,allow

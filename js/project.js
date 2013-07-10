@@ -72,17 +72,17 @@ SXML.Project = {
     // ¬ычисление картинки значка дл€ точки по зуму
     getIconSettings : function(zoom) {
         if (zoom <= 12) return {
-            iconImageHref : '/img/point11-s.png',
+            iconImageHref : 'img/point11-s.png',
             iconImageSize : [20, 20],
             iconImageOffset : [-7, -17]
         };
         if (zoom >= 15) return {
-            iconImageHref : '/img/point11-l.png',
+            iconImageHref : 'img/point11-l.png',
             iconImageSize : [44, 44],
             iconImageOffset : [-15, -37]
         };
         return {
-            iconImageHref : '/img/point11-m.png',
+            iconImageHref : 'img/point11-m.png',
             iconImageSize : [30, 30],
             iconImageOffset : [-11, -25]
         }

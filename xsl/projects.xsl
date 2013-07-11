@@ -16,8 +16,8 @@
                 <script relative="true">/js/projects.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
-                <style relative="true">/css/ugrd.css</style>
-                <style relative="true">/css/sxml-loginlinks.css</style>
+                <style relative="true">/css/ugrd.xcss</style>
+                <style relative="true">/css/sxml-loginlinks.xcss</style>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>

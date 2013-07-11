@@ -20,8 +20,8 @@
                 <script relative="true">/js/project.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
-                <style relative="true">/css/project.css</style>
-                <style relative="true">/css/sxml-loginlinks.css</style>
+                <style relative="true">/css/project.xcss</style>
+                <style relative="true">/css/sxml-loginlinks.xcss</style>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>

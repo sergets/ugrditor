@@ -81,6 +81,16 @@ SXML.Project = {
         } else {
             delete SXML.Project._pendingMapObjects[uniqueId];
         }
+    },
+    
+    // Открытие балуна на точке по айдишнику
+    openObjectBalloon : function(uniqueId) {
+        if (SXML.Project._mapReady && SXML.Project._mapObjects[uniqueId]) {
+            SXML.Project._mapObjects[uniqueId].balloon.open();
+        } else {
+            console.warn('not yet!');
+            // TODO
+        }
     },    
     
     // Вычисление картинки значка для точки по зуму
@@ -197,14 +207,11 @@ SXML.Project = {
             });
             var setPointCreator = function(data) {
                 if (data.action == 'create-point') {
-                    var opener = function(options) {
-                        if (options.entity.sxml['class'] == 'point' && options.entity.sxml.item == data.returned) {
-                            console.log('My balloon ' + data.returned + ' is here!');
-                            SXML.un('register', opener);
-                        }
-                    };
-                    SXML.on('register', opener);
-                    SXML.un('actionComplete', setPointCreator);
+                    SXML.greet({ sxml : { 'class' : 'point', item : data.returned } }, function(options) {
+                        SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
+                        //console.log('My balloon ' + data.returned + ' is here!');
+                    }, this, true);
+                    SXML.un('actioncomplete', setPointCreator);
                 }
             };
             SXML.on('actioncomplete', setPointCreator);
@@ -218,6 +225,22 @@ SXML.Project = {
     
 };
 
+SXML.greet({ sxml : { 'class' : 'project' } }, function(options) {
+    SXML.Project.data.id = options.entity.sxml.item;
+});
+
+SXML.greet({ map : {} }, function(options) {
+    SXML.Project.initMapObject(options.node, options.entity.map);
+});
+
+SXML.greet({ sxml : { 'class' : 'point' } }, function(options) {
+    SXML.Project.initPointDOMElems(options.node);
+});
+
+SXML.goodbye({ map : {} }, function(options) {
+    SXML.Project.destroyMapObject(options.entity.map.uniqueId);
+});
+/*
 SXML.on('register', function(options) {
     // Запоминаем информацию о проекте
     if (options.entity.sxml['class'] == 'project') {
@@ -238,7 +261,7 @@ SXML.on('unregister', function(options) {
     if (options.entity.map) {
         SXML.Project.destroyMapObject(options.entity.map.uniqueId);
     }
-});
+});*/
 
 //------------
 

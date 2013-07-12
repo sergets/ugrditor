@@ -56,6 +56,7 @@
             <warn>null</warn> 
             <name>null</name>
             <descr>null</descr>
+            <!--photoset>null</photoset-->
             <q>null</q>
             <thread>null</thread>
         </sxml:insert>

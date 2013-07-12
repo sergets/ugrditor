@@ -60,7 +60,7 @@
             </div>
             <h3>
                 <span class="point-view-only"><xsl:value-of select="$name"/></span>
-                <input class="point-edit-only point-title-input inplace" value="{$name}"/>
+                <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
             </h3>
             <!--div class="photos point-edit-blur">
                 <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
@@ -71,9 +71,9 @@
                 </div>
             </div-->
             <div class="text point-view-only"><xsl:value-of select="$descr"/></div>
-            <textarea class="text point-edit-only inplace"><xsl:value-of select="$descr"/></textarea>
+            <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
             <div class="question point-view-only"><xsl:value-of select="$q"/></div>
-            <textarea class="question point-edit-only inplace"><xsl:value-of select="$q"/></textarea>
+            <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
 
             <div class="point-save-toolbar point-edit-only">
                 <div class="button point-save-button">Сохранить</div>

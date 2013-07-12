@@ -21,9 +21,12 @@
             <q>Последний номер квартиры в среднем доме:</q>
         </point>
     </points-->
+    
     <sxml:select
         tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon"
-        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points"/>
+        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points">
+        <test1 attrid="test {$lat} and {$lon}" q="2">inproject {$lon}</test1>
+    </sxml:select>
         
     <!-- Новости -->
     <!--sxml:select
@@ -71,20 +74,22 @@
         </sxml:insert-->
         
         <!-- Создаём обсуждение -->
-        <!--sxml:insert into="threads" uses="newpointid" store="newthreadid">
+        <sxml:insert into="threads" store="newthreadid">
             <type>'point'</type>
             <name>null</name>
-        </sxml:insert-->
+        </sxml:insert>
         
         <!-- Прикрепляем тему к точке -->
-        <!--sxml:edit in="points" id=":newpointid" uses="newpointid newthreadid">
+        <sxml:edit in="points" id=":newpointid" uses="newpointid newthreadid">
             <thread>:newthreadid</thread>
-        </sxml:edit-->
+        </sxml:edit>
 
         <!-- Когда всё получится, обновим все три штуки: появилась точка, новость о ней, и изменилось число точек в проекте -->
         <sxml:update tag="points"/>
         <sxml:update tag="news"/>
         <sxml:update tag="projects"/>
     </sxml:action>
+    
+    <!-- Редактирование текста точки -->
     
 </project>

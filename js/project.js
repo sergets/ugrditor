@@ -162,6 +162,16 @@ SXML.Project = {
             $(m).detach();
             $(this).css('text-indent', l + 'px');
         });
+        
+        // Вешаем экшн на поле ввода коммента
+        $(domElem).find('.point-comments-editor').submit(function(e) {
+            SXML.Project.Actions.postComment($(this).closest('.point-comments')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
+            e.preventDefault();
+        });
+    },
+    
+    initPointCommentsDOMElem : function(domElem) {
+        // TODO перенести всё сюда
     },
     
     init : function() {
@@ -198,6 +208,8 @@ SXML.Project = {
     // Действия, подразумевающие запросы к серверу
     Actions : {
     
+        // Точки
+    
         // Создание новой точки без дополнительных данных
         createPoint : function(coords) {
             SXML.exec('create-point', {
@@ -215,8 +227,18 @@ SXML.Project = {
                 }
             };
             SXML.on('actioncomplete', setPointCreator);
+        },
+        
+        // Комментарии
+        
+        // Отправляет комментарий в заданный тред. Обновляться будет само.
+        postComment : function(threadId, text) {
+            SXML.exec('thread.xml', 'post', {
+                txt : text,
+                trd : threadId
+            });
         }
-    
+        
     },
     
     // Данные о проекте

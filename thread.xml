@@ -7,7 +7,7 @@
     <id><sxml:value-of var="thread"/></id>
     <open-to>#</open-to>
     <sxml:select 
-        tag="messages" entry="msg" entry-class="thread-message" attrs="sxml:time sxml:user" 
+        tag="messages" entry="msg" entry-class="thread-message" attrs="sxml:time sxml:user thread" 
         sxml:enumerable="true" sxml:default-range="5-1" sxml:update="messages"
         from="mymessages" where="thread = :thread" uses="thread" sxml:id="messages"/>
     <sxml:action name="post">

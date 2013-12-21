@@ -5,13 +5,13 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:import href="../sxml/client/sxml.xsl"/>
+    <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
           doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
           
-    <xsl:template match="msg" mode="point-comments">
+    <xsl:template match="msg" mode="thread">
         <div>
             <xsl:apply-templates select="." mode="sxml"/>
             <span class="point-comment-username">
@@ -30,59 +30,61 @@
         thread : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="../../id"/></xsl:call-template>'
     }</xsl:template>
     
-    <xsl:template match="point" mode="point-comments">
-        <div class="point-comments-header point-edit-blur">
-            <xsl:choose> 
-                <xsl:when test="count(thread/messages/msg) &gt; 0">
-                    <xsl:call-template name="sxml:incline">
-                        <xsl:with-param name="number" select="count(thread/messages/msg)"/>
-                        <xsl:with-param name="one">комментарий</xsl:with-param>
-                        <xsl:with-param name="few">комментария</xsl:with-param>
-                        <xsl:with-param name="many">комментариев</xsl:with-param>
-                    </xsl:call-template>
-                </xsl:when>
-                <xsl:otherwise>
-                    Написать первый комментарий
-                </xsl:otherwise>
-            </xsl:choose>
-        </div>
+    <xsl:template match="thread">
         <div>
-            <xsl:apply-templates mode="sxml" select="thread"/>
+            <xsl:apply-templates mode="sxml" select="."/>
         
-            <div class="point-comments-close"></div>
-            <div class="point-comments-wrapper">
-            
-                <xsl:apply-templates select="thread/messages/msg" mode="point-comments"/>
+            <div class="point-comments-header point-edit-blur">
+                <xsl:choose>
+                    <xsl:when test="count(messages/msg) &gt; 0">
+                        <xsl:call-template name="sxml:incline">
+                            <xsl:with-param name="number" select="count(messages/msg)"/>
+                            <xsl:with-param name="one">комментарий</xsl:with-param>
+                            <xsl:with-param name="few">комментария</xsl:with-param>
+                            <xsl:with-param name="many">комментариев</xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        Написать первый комментарий
+                    </xsl:otherwise>
+                </xsl:choose>
+            </div>
+            <div class="point-comments point-edit-blur">
+                <div class="point-comments-close"></div>
+                <div class="point-comments-wrapper">
                 
-                <xsl:call-template name="sxml:if-permitted">
-                    <xsl:with-param name="rules" select="thread/open-to"/>
-                    <xsl:with-param name="then">
+                    <xsl:apply-templates select="messages/msg" mode="thread"/>
                     
-                        <form class="point-comments-editor">
-                            <span class="point-comment-username">
-                                <xsl:call-template name="sxml:user">
-                                    <xsl:with-param name="user" select="/*/sxml:data/sxml:user"/>
-                                </xsl:call-template>:
-                            </span>
-                            <textarea class="point-comment-input inplace"></textarea>
-                            <div type="submit" class="point-comment-toolbar">
-                                <input type="submit" class="button point-comment-post-button" value="Отправить"/>
-                            </div>
-                        </form>
+                    <xsl:call-template name="sxml:if-permitted">
+                        <xsl:with-param name="rules" select="open-to"/>
+                        <xsl:with-param name="then">
                         
-                    </xsl:with-param>
-                    <xsl:with-param name="else">
-                    
-                        Нельзя :(
-                    
-                    </xsl:with-param>
-                </xsl:call-template>
-           
+                            <form class="point-comments-editor">
+                                <span class="point-comment-username">
+                                    <xsl:call-template name="sxml:user">
+                                        <xsl:with-param name="user" select="/*/sxml:data/sxml:user"/>
+                                    </xsl:call-template>:
+                                </span>
+                                <textarea class="point-comment-input inplace"></textarea>
+                                <div type="submit" class="point-comment-toolbar">
+                                    <input type="submit" class="button point-comment-post-button" value="Отправить"/>
+                                </div>
+                            </form>
+                            
+                        </xsl:with-param>
+                        <xsl:with-param name="else">
+                        
+                            Нельзя :(
+                        
+                        </xsl:with-param>
+                    </xsl:call-template>
+               
+                </div>
             </div>
         </div>
     </xsl:template>
     
-    <xsl:template match="thread" mode="sxml:class">point-comments point-edit-blur</xsl:template>
+    <xsl:template match="thread" mode="sxml:class">point-comments-thread point-edit-blur</xsl:template>
     <xsl:template match="thread" mode="sxml:js">thread : { id : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="id"/></xsl:call-template>' }</xsl:template>
     <xsl:template match="thread" mode="sxml:extras">loginDependent: true, update : [ 'messages' ]</xsl:template>
     

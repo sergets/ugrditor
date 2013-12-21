@@ -165,7 +165,7 @@ SXML.Project = {
         
         // Вешаем экшн на поле ввода коммента
         $(domElem).find('.point-comments-editor').submit(function(e) {
-            SXML.Project.Actions.postComment($(this).closest('.point-comments')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
+            SXML.Project.Actions.postComment($(this).closest('.point-comments-thread')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
             e.preventDefault();
         });
     },

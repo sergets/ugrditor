@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:sxml="http://sergets.ru/sxml">
 
-    <xsl:import href="../sxml/client/sxml.xsl"/>
+    <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"

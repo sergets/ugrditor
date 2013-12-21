@@ -5,8 +5,8 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:import href="../sxml/client/sxml.xsl"/>
-    <xsl:import href="project-point-comments.xsl"/>
+    <xsl:include href="../sxml/client/sxml.xsl"/>
+    <xsl:include href="project-point-comments.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -26,14 +26,14 @@
                 <span class="point-view-only"><xsl:value-of select="$name"/></span>
                 <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
             </h3>
-            <!--div class="photos point-edit-blur">
+            <div class="photos point-edit-blur">
                 <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
                 <img src="http://cs319121.vk.me/v319121831/75c2/M2XcOQhlFdk.jpg" class="photo"/>
                 <img src="http://cs425624.vk.me/v425624831/217/riX0zunRVXA.jpg" class="photo"/>
                 <div class="photo plus">
                     добавить фото
                 </div>
-            </div-->
+            </div>
             <div class="text point-view-only"><xsl:value-of select="$descr"/></div>
             <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
             <div class="question point-view-only"><xsl:value-of select="$q"/></div>
@@ -100,7 +100,7 @@
                 <xsl:with-param name="name" select="name"/>
                 <xsl:with-param name="q" select="q"/>
                 <xsl:with-param name="descr" select="comment"/>
-                <xsl:with-param name="comments"><xsl:apply-templates select="." mode="point-comments"/></xsl:with-param>
+                <xsl:with-param name="comments"><xsl:apply-templates select="thread"/></xsl:with-param>
                 
                     <!--div class="point-comment">
                         <span class="point-comment-username"><a href="//vk.com/" class="sxml_username">Сергей Цибульский</a>:</span>Неплохая точка. Там ещё во дворе милые домики, но мы не нашли, что именно там можно загадать.

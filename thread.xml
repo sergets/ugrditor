@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="project.xsl"?>
-<thread blabla="1" xmlns:sxml="http://sergets.ru/sxml">
+<?xml-stylesheet type="text/xsl" href="xsl/project.xsl"?>
+<thread xmlns:sxml="http://sergets.ru/sxml">
     <sxml:var name="thread" from="get" value="thread"/>
     <sxml:select what="title" from="threads" where="id = :thread" uses="thread" store="title"/>
     <title><sxml:value-of var="title"/></title>

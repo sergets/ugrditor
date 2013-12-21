@@ -23,7 +23,7 @@
     </points-->
     
     <sxml:select
-        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon"
+        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon thread"
         sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points">
         <sxml:include from="thread.xml?thread={$thread}"/>
     </sxml:select>

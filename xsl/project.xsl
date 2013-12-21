@@ -5,8 +5,8 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:import href="../sxml/client/sxml.xsl"/>
-    <xsl:import href="project-point.xsl"/>
+    <xsl:include href="../sxml/client/sxml.xsl"/>
+    <xsl:include href="project-point.xsl"/>
     
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
@@ -33,6 +33,43 @@
         <xsl:apply-templates select="points"/>
         <div id="project-map"/>
     </xsl:template>
+    
+    <!--xsl:template match="/thread">
+        <div>
+            <xsl:apply-templates mode="sxml" select="."/>
+        
+            <div class="point-comments-close"></div>
+            <div class="point-comments-wrapper">
+            
+                <xsl:apply-templates select="thread/messages/msg" mode="thread"/>
+                
+                <xsl:call-template name="sxml:if-permitted">
+                    <xsl:with-param name="rules" select="thread/open-to"/>
+                    <xsl:with-param name="then">
+                    
+                        <form class="point-comments-editor">
+                            <span class="point-comment-username">
+                                <xsl:call-template name="sxml:user">
+                                    <xsl:with-param name="user" select="/*/sxml:data/sxml:user"/>
+                                </xsl:call-template>:
+                            </span>
+                            <textarea class="point-comment-input inplace"></textarea>
+                            <div type="submit" class="point-comment-toolbar">
+                                <input type="submit" class="button point-comment-post-button" value="Отправить"/>
+                            </div>
+                        </form>
+                        
+                    </xsl:with-param>
+                    <xsl:with-param name="else">
+                    
+                        Нельзя :(
+                    
+                    </xsl:with-param>
+                </xsl:call-template>
+           
+            </div>
+        </div>
+    </xsl:template-->
     
     <xsl:template match="descr/project" mode="sxml:class">project-maintitle</xsl:template>
     <xsl:template match="descr/project">

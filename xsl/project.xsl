@@ -5,13 +5,13 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:include href="../sxml/client/sxml.xsl"/>
-    <xsl:include href="project-point.xsl"/>
-    
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
           doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+          
+    <xsl:include href="../sxml/client/sxml.xsl"/>
+    <xsl:include href="project-point.xsl"/>
           
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
@@ -80,6 +80,7 @@
     </xsl:template>
     
     <xsl:template match="points" mode="sxml:class">points</xsl:template>
+    <xsl:template match="points" mode="sxml:extras">detachableChildren : true</xsl:template>    
     <xsl:template match="points">
         <div>
             <xsl:apply-templates select="." mode="sxml"/>

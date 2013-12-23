@@ -130,8 +130,8 @@ SXML.Project = {
         });
         
         // Сохранение
-        $(domElem).find('.point-save-button').click(function(e) {
-            SXML.Project.Actions.savePointData(id, $(domElem).find('.point-title-input').val(), $(domElem).find('textarea.text').val(), $(domElem).find('textarea.question').val());
+        $(domElem).find('.point-editor').submit(function(e) {
+            $(this).closest('.point').hasClass('editing') && SXML.Project.Actions.savePointData(id, $(domElem).find('.point-title-input').val(), $(domElem).find('textarea.text').val(), $(domElem).find('textarea.question').val());
             e.preventDefault();
         });
         
@@ -223,17 +223,12 @@ SXML.Project = {
                 lat : coords[0],
                 lon : coords[1],
                 pr : SXML.Project.data.id
+            }, function(returned) {
+                SXML.greet({ sxml : { 'class' : 'point', item : returned } }, function(options) {
+                    SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
+                    $(options.node).toggleClass('editing');
+                }, this, true);
             });
-            var setPointCreator = function(data) {
-                if (data.action == 'create-point') {
-                    SXML.greet({ sxml : { 'class' : 'point', item : data.returned } }, function(options) {
-                        SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
-                        $(options.node).toggleClass('editing');
-                    }, this, true);
-                    SXML.un('actioncomplete', setPointCreator);
-                }
-            };
-            SXML.on('actioncomplete', setPointCreator);
         },
         
         // Редактирование точки (текстовые параметры)
@@ -243,16 +238,11 @@ SXML.Project = {
                 name : name,
                 descr : descr,
                 q : q
+            }, function(returned) {
+                SXML.greet({ sxml : { 'class' : 'point', item : p } }, function(options) {
+                    SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
+                }, this, true);
             });
-            var setPointEditor = function(data) {
-                if (data.action == 'edit-point') {
-                    SXML.greet({ sxml : { 'class' : 'point', item : p } }, function(options) {
-                        SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
-                    }, this, true);
-                    SXML.un('actioncomplete', setPointEditor);
-                }
-            };
-            SXML.on('actioncomplete', setPointEditor);
         },
         
         // Комментарии
@@ -292,7 +282,6 @@ SXML.goodbye({ map : {} }, function(options) {
 SXML.greet({ sxml : { 'class' : 'thread' } }, function(options) {
     SXML.Project.initPointThreadDOMElem(options.node);
 });
-
 /*
 SXML.on('register', function(options) {
     // Запоминаем информацию о проекте

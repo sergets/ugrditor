@@ -95,7 +95,7 @@
             }
 
             .point-save-button {
-                width: 70px;
+                width: 85px;
                 z-index: 2;
                 cursor: pointer;
                 position: absolute;

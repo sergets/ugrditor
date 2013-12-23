@@ -5,7 +5,6 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:include href="project-point-comments.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
@@ -18,32 +17,33 @@
         <xsl:param name="descr"/>
         <xsl:param name="comments"/>
         <!-- TODO: param name="permit-..." -->
-        
-            <div class="small-toolbar">
-                <a class="button point-edit-button" href="#"></a>
-            </div>
-            <h3>
-                <span class="point-view-only"><xsl:value-of select="$name"/></span>
-                <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
-            </h3>
-            <div class="photos point-edit-blur">
-                <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
-                <img src="http://cs319121.vk.me/v319121831/75c2/M2XcOQhlFdk.jpg" class="photo"/>
-                <img src="http://cs425624.vk.me/v425624831/217/riX0zunRVXA.jpg" class="photo"/>
-                <div class="photo plus">
-                    добавить фото
+            <form class="point-editor">
+                <div class="small-toolbar">
+                    <a class="button point-edit-button" href="#"></a>
                 </div>
-            </div>
-            <div class="text point-view-only"><xsl:value-of select="$descr"/></div>
-            <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
-            <div class="question point-view-only"><xsl:value-of select="$q"/></div>
-            <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
+                <h3>
+                    <span class="point-view-only"><xsl:value-of select="$name"/></span>
+                    <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
+                </h3>
+                <!--div class="photos point-edit-blur">
+                    <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
+                    <img src="http://cs319121.vk.me/v319121831/75c2/M2XcOQhlFdk.jpg" class="photo"/>
+                    <img src="http://cs425624.vk.me/v425624831/217/riX0zunRVXA.jpg" class="photo"/>
+                    <div class="photo plus">
+                        добавить фото
+                    </div>
+                </div-->
+                <div class="text point-view-only"><xsl:value-of select="$descr"/></div>
+                <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
+                <div class="question point-view-only"><xsl:value-of select="$q"/></div>
+                <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
 
-            <div class="point-save-toolbar point-edit-only">
-                <div class="button point-save-button">Сохранить</div>
-            </div>        
-
-            <div class="permissions point-edit-blur">ограничить доступ пока нельзя</div>
+                <div class="point-save-toolbar point-edit-only">
+                    <input type="submit" class="button point-save-button" value="Сохранить"/>
+                </div>        
+            </form>
+            
+            <!--div class="permissions point-edit-blur">ограничить доступ пока нельзя</div-->
             <xsl:copy-of select="exsl:node-set($comments)"/>
             <!--div class="point-comments-header point-edit-blur">
                 <xsl:choose> 
@@ -99,7 +99,7 @@
             <xsl:call-template name="point">
                 <xsl:with-param name="name" select="name"/>
                 <xsl:with-param name="q" select="q"/>
-                <xsl:with-param name="descr" select="comment"/>
+                <xsl:with-param name="descr" select="descr"/>
                 <xsl:with-param name="comments"><xsl:apply-templates select="thread"/></xsl:with-param>
                 
                     <!--div class="point-comment">

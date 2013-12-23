@@ -4,7 +4,7 @@
     display: inline-block;
     opacity: 0.8;
     background: #f84;
-    color: white;
+    color: white !important;
     font: 11px verdana;
     border-radius: 4px;
     height: 22px;
@@ -16,6 +16,7 @@
     padding-left: 7px;
     padding-right: 7px;
     text-align: center;
+    text-decoration: none !important;
 }
 
 .button:hover {

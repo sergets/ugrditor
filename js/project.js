@@ -4,17 +4,17 @@ SXML.Project = {
     _mapObjects : {},
     _mapReady : false,
 
-    // Инициализация карты
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєР°СЂС‚С‹
     initMap : function() {
     
-        // Создаём карту
+        // РЎРѕР·РґР°С‘Рј РєР°СЂС‚Сѓ
         var map = SXML.Project.map = new ymaps.Map('project-map', {
-            center: [55.79, 37.48], // Москва
+            center: [55.79, 37.48], // РњРѕСЃРєРІР°
             zoom: 13
         });
         map.behaviors.enable('scrollZoom');
         
-        // Добавляем контролы
+        // Р”РѕР±Р°РІР»СЏРµРј РєРѕРЅС‚СЂРѕР»С‹
         var topToolBar = new ymaps.control.ToolBar([
             'mapTools',
             new ymaps.control.ToolBarSeparator(5),
@@ -35,7 +35,7 @@ SXML.Project = {
                 if (content[0].offsetHeight != height) {
                     height = content[0].offsetHeight;
                     var focused = $(content).find(':focus');
-                    // TODO: IE сбрасывает range!!!
+                    // TODO: IE СЃР±СЂР°СЃС‹РІР°РµС‚ range!!!
                     balloon.getOverlay().events.fire('datachange', {
                         newData : balloon.getOverlay().getData()
                     });
@@ -47,19 +47,22 @@ SXML.Project = {
             clearInterval(SXML.Project._balloonInterval);
         });
             
-        // Тривиальный лейаут для балуна
+        // РўСЂРёРІРёР°Р»СЊРЅС‹Р№ Р»РµР№Р°СѓС‚ РґР»СЏ Р±Р°Р»СѓРЅР°
         SXML.Project.balloonLayout = ymaps.templateLayoutFactory.createClass('$[[options.contentBodyLayout]]');
     
         SXML.Project._mapReady = true;
     },
     
-    // Инициализация точки
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚РѕС‡РєРё
     initMapObject : function(node, mapData) {
         if (SXML.Project._mapReady) {
             var mapObject = new ymaps.Placemark([+mapData.lat, +mapData.lon], {
                 balloonContentLayout : SXML.Project.balloonLayout,
                 balloonContent : node
             }, SXML.Project.getIconSettings(SXML.Project.map.getZoom()));
+            mapObject.events.add('balloonclose', function(e) {
+                SXML.Project._onPointBalloonClose(e, node);
+            });
             SXML.Project.map.geoObjects.add(mapObject);
             SXML.Project.map.events.add('boundschange', function(e) {
                 var nz = e.get('newZoom');
@@ -73,7 +76,7 @@ SXML.Project = {
         }
     },
     
-    // Убирание точки
+    // РЈР±РёСЂР°РЅРёРµ С‚РѕС‡РєРё
     destroyMapObject : function(uniqueId) {
         if (SXML.Project._mapReady) {
             SXML.Project.map.geoObjects.remove(SXML.Project._mapObjects[uniqueId]);
@@ -83,7 +86,7 @@ SXML.Project = {
         }
     },
     
-    // Открытие балуна на точке по айдишнику
+    // РћС‚РєСЂС‹С‚РёРµ Р±Р°Р»СѓРЅР° РЅР° С‚РѕС‡РєРµ РїРѕ Р°Р№РґРёС€РЅРёРєСѓ
     openObjectBalloon : function(uniqueId) {
         if (SXML.Project._mapReady && SXML.Project._mapObjects[uniqueId]) {
             SXML.Project._mapObjects[uniqueId].balloon.open();
@@ -93,7 +96,7 @@ SXML.Project = {
         }
     },    
     
-    // Вычисление картинки значка для точки по зуму
+    // Р’С‹С‡РёСЃР»РµРЅРёРµ РєР°СЂС‚РёРЅРєРё Р·РЅР°С‡РєР° РґР»СЏ С‚РѕС‡РєРё РїРѕ Р·СѓРјСѓ
     getIconSettings : function(zoom) {
         if (zoom <= 12) return {
             iconImageHref : 'img/point11-s.png',
@@ -110,10 +113,10 @@ SXML.Project = {
             iconImageSize : [30, 30],
             iconImageOffset : [-11, -25]
         }
-        // TODO: спрайты!!!
+        // TODO: СЃРїСЂР°Р№С‚С‹!!!
     },
     
-    // Инициализация всех точек, которые показались до появления карты
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РІСЃРµС… С‚РѕС‡РµРє, РєРѕС‚РѕСЂС‹Рµ РїРѕРєР°Р·Р°Р»РёСЃСЊ РґРѕ РїРѕСЏРІР»РµРЅРёСЏ РєР°СЂС‚С‹
     initPendingObjects : function() {
         $.each(SXML.Project._pendingMapObjects, function(i, arr) {
             SXML.Project.initMapObject.apply(SXML.Project, arr);
@@ -121,24 +124,47 @@ SXML.Project = {
         });
     },
     
-    // Оживиляет комментарии и кнопки
+    // РћР¶РёРІРёР»СЏРµС‚ РєРѕРјРјРµРЅС‚Р°СЂРёРё Рё РєРЅРѕРїРєРё
     initPointDOMElems : function(id, domElem) {
-        // Включить-выключить режим редактирования
+        // Р’РєР»СЋС‡РёС‚СЊ-РІС‹РєР»СЋС‡РёС‚СЊ СЂРµР¶РёРј СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
         $(domElem).find('.point-edit-button').click(function(e) {
             $(this).closest('.point').toggleClass('editing');  
             e.preventDefault();
         });
         
-        // Сохранение
+        // РЎРѕС…СЂР°РЅРµРЅРёРµ
         $(domElem).find('.point-editor').submit(function(e) {
             $(this).closest('.point').hasClass('editing') && SXML.Project.Actions.savePointData(id, $(domElem).find('.point-title-input').val(), $(domElem).find('textarea.text').val(), $(domElem).find('textarea.question').val());
             e.preventDefault();
         });
         
+        // РЈРґР°Р»РµРЅРёРµ
+        $(domElem).find('.point-delete-button').click(function(e) {
+            SXML.Notifier.show(
+                $('<div/>')
+                    .html('РҐРѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚Сѓ С‚РѕС‡РєСѓ? ')
+                    .append($('<a/>')
+                        .html('Р”Р°')
+                        .addClass('button')
+                        .attr('href', '/')
+                        .click(function(e) {
+                            SXML.Project.Actions.deletePoint(id);
+                            e.preventDefault();
+                        })
+                    )
+            );
+        });
+        
+    },
+    
+    _onPointBalloonClose : function(e, node) {
+        if (node && SXML.getEntity(node) && SXML.getEntity(node).point.empty === 'true') {
+            SXML.Project.Actions.deletePoint(SXML.getEntity(node).point.id);
+        }
     },
     
     initPointThreadDOMElem : function(domElem) {
-        // Применяем стили, если нет ни одного комментария, разворачиваем-сворачиваем комментарии по клику, если они есть
+        // РџСЂРёРјРµРЅСЏРµРј СЃС‚РёР»Рё, РµСЃР»Рё РЅРµС‚ РЅРё РѕРґРЅРѕРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ, СЂР°Р·РІРѕСЂР°С‡РёРІР°РµРј-СЃРІРѕСЂР°С‡РёРІР°РµРј РєРѕРјРјРµРЅС‚Р°СЂРёРё РїРѕ РєР»РёРєСѓ, РµСЃР»Рё РѕРЅРё РµСЃС‚СЊ
         if ($(domElem).find('.point-comment').length == 0) {
             $(domElem).find('.point-comments')
                 .addClass('empty hidable hidden').end()
@@ -166,7 +192,7 @@ SXML.Project = {
             });
         }
         
-        // Делаем в поле ввода коммента отступ по размеру имени
+        // Р”РµР»Р°РµРј РІ РїРѕР»Рµ РІРІРѕРґР° РєРѕРјРјРµРЅС‚Р° РѕС‚СЃС‚СѓРї РїРѕ СЂР°Р·РјРµСЂСѓ РёРјРµРЅРё
         $(domElem).find('.point-comments-editor .point-comment-input').each(function() {  
             var m = $(this).prevAll('.point-comment-username').clone().css('opacity', 0).appendTo('body'),
                 l = m[0].offsetWidth + 5;
@@ -174,7 +200,7 @@ SXML.Project = {
             $(this).css('text-indent', l + 'px');
         });
         
-        // Вешаем экшн на поле ввода коммента
+        // Р’РµС€Р°РµРј СЌРєС€РЅ РЅР° РїРѕР»Рµ РІРІРѕРґР° РєРѕРјРјРµРЅС‚Р°
         $(domElem).find('.point-comments-editor').submit(function(e) {
             SXML.Project.Actions.postComment($(this).closest('.point-comments-thread')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
             e.preventDefault();
@@ -186,10 +212,10 @@ SXML.Project = {
         SXML.Project.initPendingObjects();
     },
     
-    // Неймспейс для кастомных контролов
+    // РќРµР№РјСЃРїРµР№СЃ РґР»СЏ РєР°СЃС‚РѕРјРЅС‹С… РєРѕРЅС‚СЂРѕР»РѕРІ
     Controls : {
     
-        // Добавление новой точки
+        // Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕР№ С‚РѕС‡РєРё
         createPointButton : function(map) {
             var pointButton = new ymaps.control.Button({ data : {
                     image : 'img/point11-xs.png'
@@ -212,12 +238,12 @@ SXML.Project = {
     
     },
     
-    // Действия, подразумевающие запросы к серверу
+    // Р”РµР№СЃС‚РІРёСЏ, РїРѕРґСЂР°Р·СѓРјРµРІР°СЋС‰РёРµ Р·Р°РїСЂРѕСЃС‹ Рє СЃРµСЂРІРµСЂСѓ
     Actions : {
     
-        // Точки
+        // РўРѕС‡РєРё
     
-        // Создание новой точки без дополнительных данных
+        // РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ С‚РѕС‡РєРё Р±РµР· РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹С… РґР°РЅРЅС‹С…
         createPoint : function(coords) {
             SXML.exec('create-point', {
                 lat : coords[0],
@@ -231,7 +257,7 @@ SXML.Project = {
             });
         },
         
-        // Редактирование точки (текстовые параметры)
+        // Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РѕС‡РєРё (С‚РµРєСЃС‚РѕРІС‹Рµ РїР°СЂР°РјРµС‚СЂС‹)
         savePointData : function(p, name, descr, q) {
             SXML.exec('edit-point', {
                 p : p,
@@ -245,9 +271,16 @@ SXML.Project = {
             });
         },
         
-        // Комментарии
+        // РЈРґР°Р»РµРЅРёРµ С‚РѕС‡РєРё
+        deletePoint : function(p) {
+            SXML.exec('delete-point', {
+                p : p
+            });
+        },        
         
-        // Отправляет комментарий в заданный тред. Обновляться будет само.
+        // РљРѕРјРјРµРЅС‚Р°СЂРёРё
+        
+        // РћС‚РїСЂР°РІР»СЏРµС‚ РєРѕРјРјРµРЅС‚Р°СЂРёР№ РІ Р·Р°РґР°РЅРЅС‹Р№ С‚СЂРµРґ. РћР±РЅРѕРІР»СЏС‚СЊСЃСЏ Р±СѓРґРµС‚ СЃР°РјРѕ.
         postComment : function(threadId, text) {
             SXML.exec('thread.xml', 'post', {
                 txt : text,
@@ -257,7 +290,7 @@ SXML.Project = {
         
     },
     
-    // Данные о проекте
+    // Р”Р°РЅРЅС‹Рµ Рѕ РїСЂРѕРµРєС‚Рµ
     data : { }
     
     
@@ -284,12 +317,12 @@ SXML.greet({ sxml : { 'class' : 'thread' } }, function(options) {
 });
 /*
 SXML.on('register', function(options) {
-    // Запоминаем информацию о проекте
+    // Р—Р°РїРѕРјРёРЅР°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїСЂРѕРµРєС‚Рµ
     if (options.entity.sxml['class'] == 'project') {
         SXML.Project.data.id = options.entity.sxml.item;
     }
     
-    // Раскладываем точки по карте
+    // Р Р°СЃРєР»Р°РґС‹РІР°РµРј С‚РѕС‡РєРё РїРѕ РєР°СЂС‚Рµ
     if (options.entity.map) {
         SXML.Project.initMapObject(options.node, options.entity.map);
     }
@@ -299,7 +332,7 @@ SXML.on('register', function(options) {
 });
 
 SXML.on('unregister', function(options) {
-    // Убираем точки с карты
+    // РЈР±РёСЂР°РµРј С‚РѕС‡РєРё СЃ РєР°СЂС‚С‹
     if (options.entity.map) {
         SXML.Project.destroyMapObject(options.entity.map.uniqueId);
     }
@@ -307,7 +340,7 @@ SXML.on('unregister', function(options) {
 
 //------------
 
-// Костыль для загрузки Я.Карт при xslt
+// РљРѕСЃС‚С‹Р»СЊ РґР»СЏ Р·Р°РіСЂСѓР·РєРё РЇ.РљР°СЂС‚ РїСЂРё xslt
 function _init() {
     SXML.Project.init();
 }

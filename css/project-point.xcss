@@ -89,15 +89,25 @@
             }
             
             .point-save-toolbar {
-                position: absolute;
                 margin-top: 5px;
-                margin-left: 260px;
+                margin-left: 23px;
+                margin-bottom: 5px;
             }
 
             .point-save-button {
+                margin-left: 238px;
                 width: 85px;
                 z-index: 2;
                 cursor: pointer;
                 position: absolute;
+            }
+            
+            .point-delete-button {
+                width: 23px;
+                z-index: 2;
+                position: absolute;
+                background: red url(//sxml/misc/img/trash.png) no-repeat;
+                background-position: 6px 5px;
+                cursor: pointer;
             }
             

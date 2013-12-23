@@ -39,8 +39,9 @@
                 <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
 
                 <div class="point-save-toolbar point-edit-only">
+                    <input type="button" class="button point-delete-button button-with-tooltip" title="Удалить точку"/>
                     <input type="submit" class="button point-save-button" value="Сохранить"/>
-                </div>        
+                </div>
             </form>
             
             <!--div class="permissions point-edit-blur">ограничить доступ пока нельзя</div-->
@@ -92,6 +93,10 @@
         uniqueId : '<xsl:call-template name="sxml:quote">
             <xsl:with-param name="v" select="generate-id(.)"/>
         </xsl:call-template>'
+    },
+    point : {
+        id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',
+        empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>'
     }</xsl:template>
     <xsl:template match="point">
         <div>

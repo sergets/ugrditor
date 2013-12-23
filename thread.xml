@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="xsl/project.xsl"?>
-<thread xmlns:sxml="http://sergets.ru/sxml">
+<thread xmlns:sxml="http://sergets.ru/sxml" sxml:class="thread" sxml:update="thread">
     <sxml:var name="thread" from="get" value="thread"/>
+    <sxml:attribute name="sxml:item-id"><sxml:value-of var="thread"/></sxml:attribute>
     <sxml:select what="title" from="threads" where="id = :thread" uses="thread" store="title"/>
     <title><sxml:value-of var="title"/></title>
     <id><sxml:value-of var="thread"/></id>
     <open-to>#</open-to>
     <sxml:select 
         tag="messages" entry="msg" entry-class="thread-message" attrs="sxml:time sxml:user thread" 
-        sxml:enumerable="true" sxml:default-range="5-1" sxml:update="messages"
-        from="mymessages" where="thread = :thread" uses="thread" sxml:id="messages"/>
+        sxml:enumerable="true" sxml:default-range="10-1" from="mymessages" where="thread = :thread" uses="thread"/>
     <sxml:action name="post">
         <sxml:var name="txt" from="post" value="txt"/>
         <sxml:var name="trd" from="post" value="trd"/>
-        <sxml:update tag="messages"/>
+        <sxml:update class="thread">
+            <sxml:attribute name="item"><sxml:value-of var="trd"/></sxml:attribute>
+        </sxml:update>
         <sxml:insert into="mymessages" uses="txt trd">
             <thread>:trd</thread>
             <text>:txt</text>
@@ -22,14 +24,14 @@
     <sxml:action name="edit">
         <sxml:var name="msg" from="post" value="msg"/>
         <sxml:var name="txt" from="post" value="txt"/>
-        <sxml:update tag="messages"/>
+        <sxml:update tag="thread"/>
         <sxml:edit in="mymessages" id=":msg" uses="msg txt">
             <text>:txt</text>
         </sxml:edit>
     </sxml:action>
     <sxml:action name="delete">
         <sxml:var name="msg" from="post" value="msg"/>
-        <sxml:update tag="messages"/>
+        <sxml:update tag="thread" item="thread"/>
         <sxml:delete from="mymessages" id=":msg" uses="msg"/>
     </sxml:action>
 </thread>

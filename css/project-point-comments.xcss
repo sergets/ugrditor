@@ -68,10 +68,15 @@
     margin-right: 4px;
 }
 
+.point-comment-date::before {
+    content: '  // ';
+}
+
 .point-comment-date {
     font-size: 9px;
     color: #f84;
     whitespace: nowrap;
+    margin-left: 10px;
 }
 
 .point-comment-input {

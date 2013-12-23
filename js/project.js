@@ -122,38 +122,49 @@ SXML.Project = {
     },
     
     // Оживиляет комментарии и кнопки
-    initPointDOMElems : function(domElem) {
+    initPointDOMElems : function(id, domElem) {
         // Включить-выключить режим редактирования
         $(domElem).find('.point-edit-button').click(function(e) {
             $(this).closest('.point').toggleClass('editing');  
             e.preventDefault();
         });
         
-        // Применяем стили, если нет ни одного комментария
-        $(domElem).find('.point-comments:not(:has(.point-comment))').addClass('empty hidable hidden');
-        
-        // Разворачиваем-сворачиваем комментарии по клику, если они есть
-        var nonEmpty = $(domElem).find('.point-comments:not(.empty)');
-        nonEmpty.add(nonEmpty.prev('.point-comments-header')).click(function() {
-            var comments = $(this).hasClass('point-comments') ? $(this) : $(this).next('.point-comments'); 
-            if (!(comments.hasClass('detached'))) {
-                comments.addClass('detached');
-                setTimeout(function() {
-                    comments.addClass('fully-detached');
-                }, 10);
-            }
-        });
-        $(domElem).find('.point-comments-close').click(function() {
-            $(this).closest('.point-comments').removeClass('fully-detached');
-            setTimeout($.proxy(function() {
-                $(this).closest('.point-comments').removeClass('detached');
-            }, this), 200);
+        // Сохранение
+        $(domElem).find('.point-save-button').click(function(e) {
+            SXML.Project.Actions.savePointData(id, $(domElem).find('.point-title-input').val(), $(domElem).find('textarea.text').val(), $(domElem).find('textarea.question').val());
+            e.preventDefault();
         });
         
-        // А иначе разворачиваем-сворачиваем форму добавления по клику
-        $(domElem).find('.point-comments.empty').prev('.point-comments-header').click(function() {
-            $(this).next('.point-comments').toggleClass('hidden');
-        });
+    },
+    
+    initPointThreadDOMElem : function(domElem) {
+        // Применяем стили, если нет ни одного комментария, разворачиваем-сворачиваем комментарии по клику, если они есть
+        if ($(domElem).find('.point-comment').length == 0) {
+            $(domElem).find('.point-comments')
+                .addClass('empty hidable hidden').end()
+                .find('.point-comments-header').click(function() {
+                    $(this).next('.point-comments').toggleClass('hidden');
+                });
+        } else {
+            $()
+                .add($(domElem).find('.point-comments-header'))
+                .add($(domElem).find('.point-comments'))
+                .click(function() {
+                    var comments = $(this).hasClass('point-comments') ? $(this) : $(this).next('.point-comments'); 
+                    if (!(comments.hasClass('detached'))) {
+                        comments.addClass('detached');
+                        setTimeout(function() {
+                            comments.addClass('fully-detached');
+                        }, 10);
+                    }
+                });
+            $(domElem).find('.point-comments-close').click(function() {
+                $(this).closest('.point-comments').removeClass('fully-detached');
+                setTimeout($.proxy(function() {
+                    $(this).closest('.point-comments').removeClass('detached');
+                }, this), 200);
+            });
+        }
         
         // Делаем в поле ввода коммента отступ по размеру имени
         $(domElem).find('.point-comments-editor .point-comment-input').each(function() {  
@@ -168,10 +179,6 @@ SXML.Project = {
             SXML.Project.Actions.postComment($(this).closest('.point-comments-thread')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
             e.preventDefault();
         });
-    },
-    
-    initPointCommentsDOMElem : function(domElem) {
-        // TODO перенести всё сюда
     },
     
     init : function() {
@@ -221,12 +228,31 @@ SXML.Project = {
                 if (data.action == 'create-point') {
                     SXML.greet({ sxml : { 'class' : 'point', item : data.returned } }, function(options) {
                         SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
-                        //console.log('My balloon ' + data.returned + ' is here!');
+                        $(options.node).toggleClass('editing');
                     }, this, true);
                     SXML.un('actioncomplete', setPointCreator);
                 }
             };
             SXML.on('actioncomplete', setPointCreator);
+        },
+        
+        // Редактирование точки (текстовые параметры)
+        savePointData : function(p, name, descr, q) {
+            SXML.exec('edit-point', {
+                p : p,
+                name : name,
+                descr : descr,
+                q : q
+            });
+            var setPointEditor = function(data) {
+                if (data.action == 'edit-point') {
+                    SXML.greet({ sxml : { 'class' : 'point', item : p } }, function(options) {
+                        SXML.Project.openObjectBalloon(options.entity.map.uniqueId);
+                    }, this, true);
+                    SXML.un('actioncomplete', setPointEditor);
+                }
+            };
+            SXML.on('actioncomplete', setPointEditor);
         },
         
         // Комментарии
@@ -256,12 +282,17 @@ SXML.greet({ map : {} }, function(options) {
 });
 
 SXML.greet({ sxml : { 'class' : 'point' } }, function(options) {
-    SXML.Project.initPointDOMElems(options.node);
+    SXML.Project.initPointDOMElems(options.entity.sxml.item, options.node);
 });
 
 SXML.goodbye({ map : {} }, function(options) {
     SXML.Project.destroyMapObject(options.entity.map.uniqueId);
 });
+
+SXML.greet({ sxml : { 'class' : 'thread' } }, function(options) {
+    SXML.Project.initPointThreadDOMElem(options.node);
+});
+
 /*
 SXML.on('register', function(options) {
     // Запоминаем информацию о проекте

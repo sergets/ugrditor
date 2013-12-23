@@ -1,9 +1,11 @@
 /* Служебные вещи: */
 
 // Кнопки «показать-скрыть»
-$('.hider').click(function() {
-    $($(this).next('.hidable')[0]).toggleClass('hidden');
-});
+var initHiders = function(nodes) {
+    nodes.click(function() {
+        $($(this).next('.hidable')[0]).toggleClass('hidden');
+    });
+};
 
 // Расширяющиеся textarea
 var startTextarea = function(nodes) {
@@ -29,12 +31,10 @@ var startForm = function(nodes) {
             e.preventDefault();
         }
     }).addClass('form-binded');
-}
-
-startTextarea($('textarea'));
-startForm($('form'));
+};
 
 SXML.greet({}, function(options) {
     startTextarea($(options.node).find('textarea'));
     startForm($(options.node).find('form'));
+    initHiders($(options.node).find('.hider'));
 });

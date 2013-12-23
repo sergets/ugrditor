@@ -71,7 +71,38 @@
                 color: #f84;
                 min-height: 17px;
             }
+      
+            .point-data-pane {
+                white-space: nowrap;
+                color: #0c4068;
+                margin-left: 25px;
+                margin-top: 2px;
+                width: 200px;
+                margin-bottom: 10px;
+            }       
             
+            .point-author::before, .point-edited-by::before, .point-date::before {
+                content: '';
+                display: inline-block;
+                margin-top: 2px;
+                margin-bottom: -2px;
+                margin-right: 2px;
+                width: 11px;
+                height: 11px;
+            }
+                
+            .point-author::before {
+                background: url(//img/new.png);
+            }
+            
+            .point-edited-by::before, .point-date::before {
+                background: url(//img/edit.png);
+            }
+            
+            .point-date {
+                margin-left: 15px;
+                color: #f84;
+            }
        
             /* Точка: редактирование */
             

@@ -33,9 +33,21 @@
                         добавить фото
                     </div>
                 </div-->
-                <div class="text point-view-only"><xsl:value-of select="$descr"/></div>
+                <div class="text point-view-only">
+                    <xsl:call-template name="sxml:replace">
+                        <xsl:with-param name="haystack" select="$descr"/>
+                        <xsl:with-param name="needle" select="'&#10;'"/>
+                        <xsl:with-param name="replace"><br/></xsl:with-param>
+                    </xsl:call-template>
+                </div>
                 <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
-                <div class="question point-view-only"><xsl:value-of select="$q"/></div>
+                <div class="question point-view-only">
+                    <xsl:call-template name="sxml:replace">
+                        <xsl:with-param name="haystack" select="$q"/>
+                        <xsl:with-param name="needle" select="'&#10;'"/>
+                        <xsl:with-param name="replace"><br/></xsl:with-param>
+                    </xsl:call-template>
+                </div>
                 <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
 
                 <div class="point-save-toolbar point-edit-only">
@@ -44,6 +56,15 @@
                 </div>
             </form>
             
+            <div class="point-data-pane">
+                <span class="point-author point-edit-blur">
+                    <xsl:apply-templates mode="sxml:user" select="."/>
+                </span>
+                
+                <span class="point-date">
+                    <xsl:apply-templates select="." mode="sxml:date"/>
+                </span>
+            </div>
             <!--div class="permissions point-edit-blur">ограничить доступ пока нельзя</div-->
             <xsl:copy-of select="exsl:node-set($comments)"/>
             <!--div class="point-comments-header point-edit-blur">

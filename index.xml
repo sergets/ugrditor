@@ -11,6 +11,7 @@
         <sxml:insert into="projects" uses="name descr">
             <name>:name</name>
             <descr>:descr</descr>
+            <sxml:open-to>"#"</sxml:open-to>
         </sxml:insert>
     </sxml:action>
     <sxml:action name="edit" sxml:open-to="#">

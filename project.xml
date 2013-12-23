@@ -91,9 +91,10 @@
         <sxml:var name="name" from="post" value="name"/>
         <sxml:var name="descr" from="post" value="descr"/>
         <sxml:var name="q" from="post" value="q"/>
+        <sxml:var name="projid" from="get" value="id"/>
         
         <!-- Дбавляем точку -->
-        <sxml:edit in="points" id=":p" uses="name descr q p">
+        <sxml:edit in="points" id=":p" uses="name descr q p" open-as-from="projects" open-as-where="(&quot;sxml:item-id&quot; = :projid)" open-as-uses="projid">
             <name>:name</name>
             <descr>:descr</descr>
             <q>:q</q>

@@ -59,10 +59,15 @@ SXML.Project = {
             var mapObject = new ymaps.Placemark([+mapData.lat, +mapData.lon], {
                 balloonContentLayout : SXML.Project.balloonLayout,
                 balloonContent : node
-            }, SXML.Project.getIconSettings(SXML.Project.map.getZoom()));
+            }, $.extend({}, SXML.Project.getIconSettings(SXML.Project.map.getZoom()), {
+                draggable : !!mapData.draggable
+            }));
             mapObject.events.add('balloonclose', function(e) {
                 SXML.Project._onPointBalloonClose(e, node);
             });
+            mapObject.events.add('dragend', function(e) {
+                SXML.Project._onPointDragEnd(e, node, mapObject.geometry.getCoordinates());
+            });            
             SXML.Project.map.geoObjects.add(mapObject);
             SXML.Project.map.events.add('boundschange', function(e) {
                 var nz = e.get('newZoom');
@@ -162,6 +167,12 @@ SXML.Project = {
             SXML.Project.Actions.deletePoint(SXML.getEntity(node).point.id);
         }
     },
+    
+    _onPointDragEnd : function(e, node, coords) {
+        if (node && SXML.getEntity(node)) {
+            SXML.Project.Actions.movePoint(SXML.getEntity(node).point.id, coords);
+        }
+    },    
     
     initPointThreadDOMElem : function(domElem) {
         // Применяем стили, если нет ни одного комментария, разворачиваем-сворачиваем комментарии по клику, если они есть
@@ -277,6 +288,15 @@ SXML.Project = {
                 p : p
             });
         },        
+        
+        // Удаление точки
+        movePoint : function(p, coords) {
+            SXML.exec('move-point', {
+                p : p,
+                lat : coords[0],
+                lon : coords[1]                
+            });
+        },            
         
         // Комментарии
         

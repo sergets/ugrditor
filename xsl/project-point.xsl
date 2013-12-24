@@ -113,7 +113,8 @@
         hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
         uniqueId : '<xsl:call-template name="sxml:quote">
             <xsl:with-param name="v" select="generate-id(.)"/>
-        </xsl:call-template>'
+        </xsl:call-template>',
+        draggable : true
     },
     point : {
         id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',

@@ -12,7 +12,7 @@
           
     <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:include href="project-point.xsl"/>
-          
+
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
             <xsl:with-param name="sxml-root" select="'../sxml'"/>
@@ -27,49 +27,21 @@
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
-    
+
     <xsl:template match="/project">
+        <!-- title -->
         <xsl:apply-templates select="descr/project"/>
-        <xsl:apply-templates select="points"/>
+        
+        <div id="project-hiddens">
+            <xsl:apply-templates select="points" mode="role.map"/>
+        </div>
+
+        <!-- rollout panes -->
+        <xsl:apply-templates select="points" mode="role.list"/> 
+
+        <!-- map pane -->
         <div id="project-map"/>
     </xsl:template>
-    
-    <!--xsl:template match="/thread">
-        <div>
-            <xsl:apply-templates mode="sxml" select="."/>
-        
-            <div class="point-comments-close"></div>
-            <div class="point-comments-wrapper">
-            
-                <xsl:apply-templates select="thread/messages/msg" mode="thread"/>
-                
-                <xsl:call-template name="sxml:if-permitted">
-                    <xsl:with-param name="rules" select="thread/open-to"/>
-                    <xsl:with-param name="then">
-                    
-                        <form class="point-comments-editor">
-                            <span class="point-comment-username">
-                                <xsl:call-template name="sxml:user">
-                                    <xsl:with-param name="user" select="/*/sxml:data/sxml:user"/>
-                                </xsl:call-template>:
-                            </span>
-                            <textarea class="point-comment-input inplace"></textarea>
-                            <div type="submit" class="point-comment-toolbar">
-                                <input type="submit" class="button point-comment-post-button" value="Отправить"/>
-                            </div>
-                        </form>
-                        
-                    </xsl:with-param>
-                    <xsl:with-param name="else">
-                    
-                        Нельзя :(
-                    
-                    </xsl:with-param>
-                </xsl:call-template>
-           
-            </div>
-        </div>
-    </xsl:template-->
     
     <xsl:template match="descr/project" mode="sxml:class">project-maintitle</xsl:template>
     <xsl:template match="descr/project">
@@ -78,14 +50,33 @@
             <h1><xsl:value-of select="name"/></h1>
         </div>
     </xsl:template>
-    
-    <xsl:template match="points" mode="sxml:class">points</xsl:template>
-    <xsl:template match="points" mode="sxml:extras">detachableChildren : true</xsl:template>    
-    <xsl:template match="points">
+
+    <xsl:template match="points" mode="role.map">
         <div>
-            <xsl:apply-templates select="." mode="sxml"/>
-            <xsl:apply-templates select="point"/>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">map</xsl:with-param>
+                <xsl:with-param name="class">project-mappoints</xsl:with-param>
+                <xsl:with-param name="extras">detachableChildren : true</xsl:with-param>
+            </xsl:call-template>
+            <xsl:apply-templates select="point" mode="role.map"/>
         </div>
+    </xsl:template>
+    
+    <xsl:template match="points" mode="role.list">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">list</xsl:with-param>
+                <xsl:with-param name="class">project-pointlist project-rollout</xsl:with-param>
+            </xsl:call-template>
+            <xsl:apply-templates select="point" mode="role.list"/>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="points">
+        <xsl:apply-templates select="." mode="role.map"/>
+        <xsl:apply-templates select="." mode="role.list"/>
     </xsl:template>
        
 </xsl:stylesheet>

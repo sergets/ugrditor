@@ -106,40 +106,57 @@
         
     </xsl:template>
     
-    <xsl:template match="point" mode="sxml:class">point</xsl:template>
-    <xsl:template match="point" mode="sxml:js">map: {
-        lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
-        lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
-        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
-        uniqueId : '<xsl:call-template name="sxml:quote">
-            <xsl:with-param name="v" select="generate-id(.)"/>
-        </xsl:call-template>',
-        draggable : true
-    },
-    point : {
+    <!-- Matching templates -->
+    
+    <xsl:template match="point" mode="sxml:js">point : {
         id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',
         empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>'
     }</xsl:template>
-    <xsl:template match="point">
+    
+    <xsl:template match="point" mode="role.map">
         <div>
-            <xsl:apply-templates select="." mode="sxml"/>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role" select="'map'"/>
+                <xsl:with-param name="class" select="'point'"/>
+                <xsl:with-param name="js">
+                    map: {
+                        lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
+                        lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
+                        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
+                        uniqueId : '<xsl:call-template name="sxml:quote">
+                            <xsl:with-param name="v" select="generate-id(.)"/>
+                        </xsl:call-template>',
+                        draggable : true
+                    },
+                    <xsl:apply-templates select="." mode="sxml:js"/>
+                </xsl:with-param>
+            </xsl:call-template>
             <xsl:call-template name="point">
                 <xsl:with-param name="name" select="name"/>
                 <xsl:with-param name="q" select="q"/>
                 <xsl:with-param name="descr" select="descr"/>
                 <xsl:with-param name="comments"><xsl:apply-templates select="thread"/></xsl:with-param>
-                
-                    <!--div class="point-comment">
-                        <span class="point-comment-username"><a href="//vk.com/" class="sxml_username">Сергей Цибульский</a>:</span>Неплохая точка. Там ещё во дворе милые домики, но мы не нашли, что именно там можно загадать.
-                        <span class="point-comment-date">вчера в 23:40</span>
-                    </div>
-                    <div class="point-comment">
-                        <span class="point-comment-username"><a href="//vk.com/" class="sxml_username">Евгений Аверкин</a>:</span>Я же тебе говорил, что мы не все дворы обошли!
-                        <span class="point-comment-date">вчера в 23:55</span>
-                    </div-->
-
             </xsl:call-template>
         </div>
-    </xsl:template> 
+    </xsl:template>
+    
+    <xsl:template match="point" mode="role.list">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role" select="'list'"/>
+                <xsl:with-param name="class" select="'project-list-point'"/>
+            </xsl:call-template>
+            <h3><xsl:value-of select="name"/></h3>
+            <div class="text"><xsl:value-of select="descr"/></div>
+            <div class="q"><xsl:value-of select="q"/></div>
+        </div>
+    </xsl:template>     
+    
+    <xsl:template match="point">
+        <xsl:apply-templates select="." mode="role.map"/>
+        <xsl:apply-templates select="." mode="role.list"/>
+    </xsl:template>
 
 </xsl:stylesheet>    

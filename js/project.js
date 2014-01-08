@@ -19,9 +19,9 @@ SXML.Project = {
             'mapTools',
             new ymaps.control.ToolBarSeparator(5),
             SXML.Project.Controls.createPointButton(map)
-        ], { position: { top: 75, left: 5 } });
+        ], { position: { top: 75, left: 275 } });
         map.controls.add(new ymaps.control.ToolBar([ 'typeSelector' ], { position: { top: 75, right: 5 } }));
-        map.controls.add(new ymaps.control.ToolBar([ 'zoomControl' ], { position: { top: 115, left: 5 } }));
+        map.controls.add(new ymaps.control.ToolBar([ 'zoomControl' ], { position: { top: 115, left: 275 } }));
         map.controls
             .add(topToolBar)
             .add('scaleLine');

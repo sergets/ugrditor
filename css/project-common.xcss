@@ -77,7 +77,7 @@ a:hover {
     padding: 10px;
 }
 
-.points {
+#project-hiddens {
     display: none !important;
 }
 

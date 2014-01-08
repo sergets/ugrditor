@@ -142,3 +142,34 @@
                 cursor: pointer;
             }
             
+            /* Точка в левой панели */
+            
+            .project-list-point {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .project-list-point h3 {
+                background: rgba(256, 128, 64, 0.6);
+                font-weight: bold;
+                font-size: 10pt;
+                font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+                margin: 2px -3px 2px -3px;
+                padding: 3px;
+                color: black;
+            }
+            
+            .project-list-point .text {
+                max-height: 50px;
+                overflow: hidden;
+                margin-bottom: 5px;
+            }            
+            
+            .project-list-point .q {
+                max-height: 100px;
+                overflow: hidden;
+                margin-bottom: 5px;
+                color: #f84;
+            }            
+            

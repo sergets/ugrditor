@@ -6,7 +6,6 @@ define(['sxml/sxml'], function(sxml) {
     
         // —оздание новой точки без дополнительных данных
         createPoint : function(pr, coords, callback) {
-            console.warn(callback);
             sxml.exec('create-point', {
                 lat : coords[0],
                 lon : coords[1],

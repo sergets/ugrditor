@@ -19,7 +19,6 @@ define([
     Map.prototype = $.extend({}, Observable.prototype, {
 
         init : function(elem, extControls, gaps) {
-            //console.log(elem);
             this._map = new ymaps.Map(elem, {
                 center: [55.79, 37.48],
                 zoom: 13

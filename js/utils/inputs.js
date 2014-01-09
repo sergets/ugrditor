@@ -3,7 +3,6 @@ define(['jquery', 'sxml/sxml'], function($, sxml) {
     
     //  нопки Ђпоказать-скрытьї
     var initHiders = function(nodes) {
-        console.log('potential hiders are', nodes);
         nodes
             .filter(':not(.hider-binded)')
             .addClass('hider-binded')

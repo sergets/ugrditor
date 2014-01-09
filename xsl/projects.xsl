@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:sxml="http://sergets.ru/sxml">
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" xmlns:sxml="http://sergets.ru/sxml"
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt"    
+    xmlns:exsl="http://exslt.org/common"
+    >
 
-    <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
           doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
+    
+    <xsl:include href="../sxml/client/xsl/sxml.xsl"/>
           
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
             <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <script relative="true">/js/ugrd.js</script>
                 <script relative="true">/js/projects.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">

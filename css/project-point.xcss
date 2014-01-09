@@ -145,29 +145,38 @@
             /* Точка в левой панели */
             
             .project-list-point {
-                margin-top: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
             }
             
             .project-list-point h3 {
-                background: rgba(256, 128, 64, 0.6);
+                background: linear-gradient(to bottom, rgba(256,128,64,0.2) 0%, rgba(256, 128, 64, 0.6) 100%);
+                border-radius: 2px;
                 font-weight: bold;
                 font-size: 10pt;
                 font-family: dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
                 font-weight: 100;
-                margin: 2px -3px 2px -3px;
+                margin: 1px -3px 1px -3px;
                 padding: 3px;
-                color: black;
+                color: white;
+            }
+            
+            .project-list-point .map-link {
+                position: absolute;
+                margin-left: 190px;
+                margin-top: 3px;
+                line-height: 11px;
+                font-size: 7pt;
+                cursor: pointer;
+                height: 11px;
+                width: 55px;
+                padding: 2px;
             }
             
             .project-list-point .text {
-                max-height: 50px;
-                overflow: hidden;
                 margin-bottom: 5px;
             }            
             
             .project-list-point .q {
-                max-height: 100px;
                 overflow: hidden;
                 margin-bottom: 5px;
                 color: #f84;

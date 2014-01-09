@@ -5,7 +5,7 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:include href="project-point-comments.xsl"/>
+    <xsl:include href="point-comments.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -110,7 +110,8 @@
     
     <xsl:template match="point" mode="sxml:js">point : {
         id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',
-        empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>'
+        empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>',
+        mapId : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="generate-id(.)"/></xsl:call-template>',
     }</xsl:template>
     
     <xsl:template match="point" mode="role.map">
@@ -124,9 +125,7 @@
                         lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
                         lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
                         hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
-                        uniqueId : '<xsl:call-template name="sxml:quote">
-                            <xsl:with-param name="v" select="generate-id(.)"/>
-                        </xsl:call-template>',
+                        uniqueId : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="generate-id(.)"/></xsl:call-template>',
                         draggable : true
                     },
                     <xsl:apply-templates select="." mode="sxml:js"/>
@@ -148,9 +147,12 @@
                 <xsl:with-param name="role" select="'list'"/>
                 <xsl:with-param name="class" select="'project-list-point'"/>
             </xsl:call-template>
-            <h3><xsl:value-of select="name"/></h3>
-            <div class="text"><xsl:value-of select="descr"/></div>
-            <div class="q"><xsl:value-of select="q"/></div>
+            <div class="map-link button">на карте</div>            
+            <h3 class="hider"><xsl:value-of select="name"/></h3>
+            <div class="hidable hidden">
+                <div class="text"><xsl:value-of select="descr"/></div>
+                <div class="q"><xsl:value-of select="q"/></div>
+            </div>
         </div>
     </xsl:template>     
     

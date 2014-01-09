@@ -5,7 +5,6 @@
     xmlns:sxml="http://sergets.ru/sxml"
     xmlns:exsl="http://exslt.org/common">
 
-    <xsl:include href="../sxml/client/sxml.xsl"/>
     <xsl:output media-type="text/html" method="html"
           omit-xml-declaration="yes"
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -36,9 +35,9 @@
         
             <div class="point-comments-header point-edit-blur">
                 <xsl:choose>
-                    <xsl:when test="count(messages/msg) &gt; 0">
+                    <xsl:when test="messages/@sxml:total &gt; 0">
                         <xsl:call-template name="sxml:incline">
-                            <xsl:with-param name="number" select="count(messages/msg)"/>
+                            <xsl:with-param name="number" select="messages/@sxml:total"/>
                             <xsl:with-param name="one">комментарий</xsl:with-param>
                             <xsl:with-param name="few">комментария</xsl:with-param>
                             <xsl:with-param name="many">комментариев</xsl:with-param>
@@ -86,6 +85,6 @@
     
     <xsl:template match="thread" mode="sxml:class">point-comments-thread point-edit-blur</xsl:template>
     <xsl:template match="thread" mode="sxml:js">thread : { id : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="id"/></xsl:call-template>' }</xsl:template>
-    <xsl:template match="thread" mode="sxml:extras">loginDependent: true, update : [ 'messages' ]</xsl:template>
+    <xsl:template match="thread" mode="sxml:extras">loginDependent: true, update : [ 'thread' ]</xsl:template>
     
 </xsl:stylesheet>

@@ -10,15 +10,16 @@
           doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
           doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
           
-    <xsl:include href="../sxml/client/sxml.xsl"/>
-    <xsl:include href="project-point.xsl"/>
+    <xsl:include href="../sxml/client/xsl/sxml.xsl"/>
+    <xsl:include href="project/point.xsl"/>
 
     <xsl:template match="/">
         <xsl:call-template name="sxml:page">
             <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <script relative="true">/js/ugrd.js</script>
+                <!--script requirejs="true" relative="true">/js/project</script-->
                 <script>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</script>
+                <!--script relative="true">/js/ugrd.js</script-->
                 <script relative="true">/js/project.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
@@ -48,6 +49,11 @@
         <div id="project-maintitle">
             <xsl:apply-templates select="." mode="sxml"/>
             <h1><xsl:value-of select="name"/></h1>
+            <div class="rollouts-header rollouts-header-left">
+                <div class="rollout-header rollout-header-selected">Точки <!--span class="rollout-header-number">3</span--></div>
+                <!--div class="rollout-header">Задачи <span class="rollout-header-number">0</span></div>
+                <div class="rollout-header">Трасса <span class="rollout-header-number">0</span></div-->
+            </div>
         </div>
     </xsl:template>
 

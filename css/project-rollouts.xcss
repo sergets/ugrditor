@@ -10,3 +10,48 @@
     background: linear-gradient(to bottom, rgba(32,16,8,0.6) 0%, rgba(32,16,8,0.7) 50%, rgba(32,16,8,0.7) 100%);
     color: white;
 }
+
+/* ROLLOUT HEADERS */
+
+.rollouts-header {
+    height: 25px;
+    display: block;
+    position: absolute;
+}
+
+.rollouts-header-left {
+    width: 500px;
+    left: 7px;
+}
+
+.rollout-header {
+    float: left;
+    cursor: pointer;
+    width: 75px;
+    padding: 5px;
+    border-radius: 4px;
+    background: rgba(32,16,8,0.2);
+    text-align: center;
+    color: #f84;
+    font-weight: bold;
+    margin-right: 10px;
+    box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.5);
+}
+
+.rollout-header-selected {
+    background: rgba(32,16,8,0.4);
+    text-align: center;
+    color: #f84;
+    font-weight: bold;
+    margin-right: 9px;
+    margin-left: 1px;
+    margin-top: 1px;
+    margin-bottom: -1px;
+    box-shadow: 0px 0px 4px 0px rgba(255,255,255,0.7);
+}
+
+.rollout-header-number {
+    font-weight: normal;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+}

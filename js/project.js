@@ -129,7 +129,7 @@ require([
                     image : 'img/point11-xs.png',
                     title : 'Поставить точку'
                 }, function(coords) {
-                    actions.createPoint(coords, function(options) {
+                    actions.createPoint(project.data.id, coords, function(options) {
                         project._map.openObjectBalloon(options.entity.map.uniqueId);
                         $(options.node).toggleClass('editing');
                     });
@@ -140,6 +140,7 @@ require([
             this._map.on('dragend', $.proxy(this._onPointDragEnd, this));
             
             sxml.ready();
+            this._map.reframe();
         },
         
         data : {}

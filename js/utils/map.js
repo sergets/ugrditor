@@ -168,6 +168,14 @@ define([
             sxml.goodbye({ map : {} }, $.proxy(function(options) {
                 this.destroyObject(options.entity.map.uniqueId);
             }, this));
+        },
+        
+        setBounds : function() {
+            this._map.setBounds.apply(this._map, arguments);
+        },
+        
+        reframe : function() {
+            this.setBounds(this._map.geoObjects.getBounds());
         }
     });
     

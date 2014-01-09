@@ -5,11 +5,12 @@ define(['sxml/sxml'], function(sxml) {
         // Точки
     
         // Создание новой точки без дополнительных данных
-        createPoint : function(coords, map, callback) {
+        createPoint : function(pr, coords, callback) {
+            console.warn(callback);
             sxml.exec('create-point', {
                 lat : coords[0],
                 lon : coords[1],
-                pr : project.data.id
+                pr : pr
             }, function(returned) {
                 sxml.greet({ sxml : { 'class' : 'point', item : returned, role : 'map' } }, callback, this, true);
             });

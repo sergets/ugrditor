@@ -34,9 +34,12 @@
         sxml:update="news" from="news" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="news"/-->
         
     <!-- ДЕЙСТВИЯ --> 
+    
+    <!-- Права на действия — как у проекта -->
+    <sxml:var name="pperm">=projects/<sxml:value-of var="projid"/></sxml:var>        
         
     <!-- Добавление точки -->
-    <sxml:action returns="newpointid" name="create-point" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+    <sxml:action returns="newpointid" name="create-point" sxml:open-as="pperm">
 
         <sxml:var name="lat" from="post" value="lat"/>
         <sxml:var name="lon" from="post" value="lon"/>
@@ -55,6 +58,8 @@
             <lon>:lon</lon>
             <project>:pr</project>
             <empty>"true"</empty>
+            <sxml:visible-to>'=projects/' || :pr</sxml:visible-to>
+            <sxml:open-to>'=projects/' || :pr</sxml:open-to>
         </sxml:insert>
         
         <!-- Пишем об этом новость -->
@@ -82,10 +87,11 @@
         <!--sxml:update tag="news"/>
         <sxml:update tag="projects"/-->
     </sxml:action>
+
     
     <!-- Редактирование текста точки -->
     
-    <sxml:action name="edit-point" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+    <sxml:action name="edit-point" sxml:open-as="pperm">
 
         <sxml:var name="p" from="post" value="p"/>
         <sxml:var name="name" from="post" value="name"/>
@@ -94,7 +100,7 @@
         <sxml:var name="projid" from="get" value="id"/>
         
         <!-- Дбавляем точку -->
-        <sxml:edit in="points" id=":p" uses="name descr q p" open-as-from="projects" open-as-where="(&quot;sxml:item-id&quot; = :projid)" open-as-uses="projid">
+        <sxml:edit in="points" id=":p" uses="name descr q p" open-as="pperm">
             <name>:name</name>
             <descr>:descr</descr>
             <q>:q</q>
@@ -118,13 +124,13 @@
     
     <!-- Перетаскивание точки -->
     
-    <sxml:action name="move-point" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+    <sxml:action name="move-point" sxml:open-as="pperm">
 
         <sxml:var name="p" from="post" value="p"/>
         <sxml:var name="lat" from="post" value="lat"/>
         <sxml:var name="lon" from="post" value="lon"/>
 
-        <sxml:edit in="points" id=":p" uses="lat lon p" open-as-from="projects" open-as-where="(&quot;sxml:item-id&quot; = :projid)" open-as-uses="projid">
+        <sxml:edit in="points" id=":p" uses="lat lon p" open-as="pperm">
             <lat>:lat</lat>
             <lon>:lon</lon>
         </sxml:edit>        
@@ -135,7 +141,7 @@
     
     <!-- Удаление точки -->    
     
-    <sxml:action name="delete-point" sxml:open-as-from="projects" sxml:open-as-where="(&quot;sxml:item-id&quot; = :projid)" sxml:open-as-uses="projid">
+    <sxml:action name="delete-point" sxml:open-as="pperm">
 
         <sxml:var name="p" from="post" value="p"/>
 

@@ -82,6 +82,25 @@ a:hover {
     display: none !important;
 }
 
+.project-orgs {
+    width: 500px;
+    text-align: right;
+    margin-right: 10px;
+    backgorund: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    line-height: 20px;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 22px;
+    right: 5px;
+}
+
+.project-orgs .userinput {
+    float: right;
+    margin-top: -3px;
+    margin-left: 10px;    
+    display: inline;
+}
     
 .hidable {
     display: block;

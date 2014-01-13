@@ -1,6 +1,7 @@
 require([
         'jquery',
         'sxml/sxml',
+        'sxml/interface/rightsinput',
         'js/utils/map',
         'js/project/controls',
         'js/project/actions',
@@ -9,6 +10,7 @@ require([
     ], function(
         $,
         sxml,
+        RightsInput,
         Map,
         controls,
         actions
@@ -123,6 +125,10 @@ require([
             });
         },
         
+        initProjectDOMElems : function() {
+            var input = new RightsInput($('.project-orgs .userinput'), this.data.orgs, { mutable : false });
+        },
+        
         init : function() {
             this._map = new Map('project-map', [
                 controls.createClicker({
@@ -138,6 +144,7 @@ require([
             this._map.startGreeting(sxml);
             this._map.on('balloonclose', $.proxy(this._onPointBalloonClose, this));
             this._map.on('dragend', $.proxy(this._onPointDragEnd, this));
+            //this.initProjectDOMElems();
             
             sxml.ready();
             this._map.reframe();
@@ -149,6 +156,8 @@ require([
 
     sxml.greet({ sxml : { 'class' : 'project' } }, function(options) {
         project.data.id = options.entity.sxml.item;
+        project.data.orgs = options.entity.project.orgs;
+        project.initProjectDOMElems();
     });
 
     sxml.greet({ sxml : { 'class' : 'point', role : 'map' } }, function(options) {

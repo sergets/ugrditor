@@ -5,3 +5,4 @@
 @import "project-point.xcss";
 @import "project-point-photo.xcss";
 @import "project-point-comments.xcss";
+@import "ugrd-sxml.xcss";

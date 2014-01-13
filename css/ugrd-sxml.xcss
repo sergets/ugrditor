@@ -1,0 +1,107 @@
+  /* SXML dropdown */
+      
+    .sxml_rightsinput {
+        min-height: 0px !important;
+        padding-top: 3px !important;
+        padding-bottom: 1px !important;
+        height: auto;
+    }
+    
+    .sxml_rightsinput-hidden {
+        display: none !important;
+    }
+    
+    .sxml_rightsinput-dropdown {
+        overflow: hidden;
+        width: 250px;
+        position: absolute;
+        display: inline-block;
+        background: white;
+        margin-top: 20px;
+        border: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 2px 2px 5px -1px rgba(64, 22, 0, 0.4);
+    }
+    
+    .sxml_rightsinput-suggestitem {
+        font: 8pt verdana;
+        font-weight: bold;
+        padding: 6px;
+        color: #0c4068;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        cursor: pointer;
+    }
+    
+    .sxml_rightsinput-suggestitem-user {
+        color: #0c4068;
+    }    
+    
+    .sxml_rightsinput-suggestitem-group {
+        color: #5ac48d;
+    }    
+    
+    .sxml_rightsinput-suggestitem-vk {
+        color: #45688e;
+    }
+    
+    .sxml_rightsinput-suggestupic {
+        width: 25px;
+        height: 25px;
+        margin-top: -5px;
+        margin-left: -5px;
+        margin-bottom: -8px;
+        margin-right: 5px;
+    }    
+    
+    .sxml_rightsinput-service {
+        font: 8pt verdana;
+        font-style: italic;
+        padding: 6px;
+        color: #ccc;
+    }    
+    
+    .sxml_rightsinput-suggestitem:hover, .sxml_rightsinput-suggestitem.sxml_rightsinput-selected {
+        color: white;
+        background: #5a8dc4;
+    }
+    
+    .sxml_rightsinput-user {
+        display: inline-block;
+        background: #5a8dc4;
+        border-radius: 2px;
+        margin-right: 5px;
+        color: white;
+        height: 18px;
+        line-height: 18px;
+        padding-left: 5px;
+        padding-right: 5px;
+        font-weight: bold;
+    }
+    
+    .sxml_rightsinput-user-group {
+        background: #5ac48d;
+    }
+    
+    .sxml_rightsinput-user-inherited {
+        background: #c48d5a;
+    }        
+    
+    .sxml_rightsinput-close {
+        cursor: pointer;
+        width: 7px;
+        height: 7px;
+        opacity: 0.6;
+        display: inline-block;
+        background: url(//img/lr.png);
+        background-position: -9px -59px;
+        margin-left: 5px;
+    }
+    
+    .sxml_rightsinput-input {
+        font: 8pt verdana;
+        outline: none;
+        border: 0px;
+        height: 18px;
+        line-height: 18px;
+        color: #0c4068;
+        font-weight: bold;
+    }

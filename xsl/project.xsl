@@ -17,9 +17,7 @@
         <xsl:call-template name="sxml:page">
             <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <!--script requirejs="true" relative="true">/js/project</script-->
                 <script>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</script>
-                <!--script relative="true">/js/ugrd.js</script-->
                 <script relative="true">/js/project.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
@@ -45,10 +43,12 @@
     </xsl:template>
     
     <xsl:template match="descr/project" mode="sxml:class">project-maintitle</xsl:template>
+    <xsl:template match="descr/project" mode="sxml:js">project : { orgs : '<xsl:apply-templates mode="sxml:quote" select="@sxml:open-to"/>' }</xsl:template>
     <xsl:template match="descr/project">
         <div id="project-maintitle">
             <xsl:apply-templates select="." mode="sxml"/>
             <h1><xsl:value-of select="name"/></h1>
+            <div class="project-orgs">Организаторы: <div class="userinput"></div></div>
             <div class="rollouts-header rollouts-header-left">
                 <div class="rollout-header rollout-header-selected">Точки <!--span class="rollout-header-number">3</span--></div>
                 <!--div class="rollout-header">Задачи <span class="rollout-header-number">0</span></div>

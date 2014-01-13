@@ -7,11 +7,13 @@
     <sxml:action name="create" sxml:open-to="#">
         <sxml:var name="name" from="post" value="name"/>
         <sxml:var name="descr" from="post" value="descr"/>
+        <sxml:var name="rights" from="post" value="rights"/>
         <sxml:update tag="projects"/>
-        <sxml:insert into="projects" uses="name descr">
+        <sxml:insert into="projects" uses="name descr rights">
             <name>:name</name>
             <descr>:descr</descr>
-            <sxml:open-to>"#"</sxml:open-to>
+            <sxml:open-to>:rights</sxml:open-to>
+            <sxml:visible-to>:rights</sxml:visible-to>
         </sxml:insert>
     </sxml:action>
     <sxml:action name="edit" sxml:open-to="#">
@@ -19,9 +21,11 @@
         <sxml:var name="name" from="post" value="name"/>
         <sxml:var name="descr" from="post" value="descr"/>
         <sxml:update tag="messages"/>
-        <sxml:edit in="projects" id=":project" uses="project name descr">
+        <sxml:edit in="projects" id=":project" uses="project name descr rights">
             <name>:name</name>
             <descr>:descr</descr>
+            <sxml:open-to>:rights</sxml:open-to>
+            <sxml:visible-to>:rights</sxml:visible-to>
         </sxml:edit>
     </sxml:action>
 </page>

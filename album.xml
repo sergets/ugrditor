@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="xsl/project.xsl"?>
+<album xmlns:sxml="http://sergets.ru/sxml" sxml:class="album">
+    <sxml:var name="album" from="get" value="album"/>
+    <sxml:attribute name="sxml:item-id"><sxml:value-of var="album"/></sxml:attribute>
+    <sxml:select what="title" from="albums" where="id = :album" uses="album" store="title"/>
+    <sxml:select what="sxml:open-to" from="albums" where="id = :album" uses="album" store="open"/>
+    
+    <title><sxml:value-of var="title"/></title>
+    <id><sxml:value-of var="album"/></id>
+    <open-to><sxml:value-of var="open"/></open-to>
+    
+    <sxml:select 
+        tag="photos" entry="photo" entry-class="album-photo" attrs="sxml:time sxml:user album" 
+        sxml:enumerable="true" sxml:default-range="10-1"
+        from="albumphotos" where="album = :album" uses="album"/>
+        
+    <sxml:action name="add">
+        <sxml:var name="hashes" from="post" value="hashes"/>
+        <sxml:var name="album" from="post" value="album"/>
+        <sxml:update class="album">
+            <sxml:attribute name="item"><sxml:value-of var="album"/></sxml:attribute>
+        </sxml:update>
+        <sxml:foreach array="hashes" as="hash">
+            <sxml:insert into="albumphotos" uses="album hash">
+                <hash>:hash</hash>
+                <album>:album</album>
+            </sxml:insert>
+        </sxml:foreach>
+    </sxml:action>
+    
+    <sxml:action name="remove">
+        <sxml:var name="hash" from="post" value="hash"/>
+        <sxml:var name="album" from="post" value="album"/>
+        <sxml:update class="album">
+            <sxml:attribute name="item"><sxml:value-of var="album"/></sxml:attribute>
+        </sxml:update>
+        <sxml:delete from="albumphotos" id=":hash" uses="hash"/>
+    </sxml:action>
+</album>

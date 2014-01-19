@@ -26,6 +26,7 @@
         tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon thread empty"
         sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points">
         <sxml:include from="thread.xml?thread={$thread}"/>
+        <sxml:include from="album.xml?album={$album}"/>
     </sxml:select>
         
     <!-- Новости -->
@@ -77,9 +78,16 @@
             <name>null</name>
         </sxml:insert>
         
-        <!-- Прикрепляем тему к точке -->
-        <sxml:edit in="points" id=":newpointid" uses="newpointid newthreadid">
+        <!-- Создаём альбом -->
+        <sxml:insert into="albums" store="newalbumid">
+            <type>'point'</type>
+            <name>null</name>
+        </sxml:insert>
+        
+        <!-- Прикрепляем тему и альбом к точке -->
+        <sxml:edit in="points" id=":newpointid" uses="newpointid newthreadid newalbumid">
             <thread>:newthreadid</thread>
+            <album>:newalbumid</album>
         </sxml:edit>
 
         <!-- Когда всё получится, обновим все три штуки: появилась точка, новость о ней, и изменилось число точек в проекте -->

@@ -3,7 +3,7 @@
 .project-rollout {
     width: 250px;
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 70px;
     padding: 10px;

@@ -171,10 +171,27 @@ define([
         
         setBounds : function() {
             this._map.setBounds.apply(this._map, arguments);
+            // TODO gaps
         },
-        
+
+        setCenter : function() {
+            this._map.setCenter.apply(this._map, arguments);
+            // TODO gaps
+        },
+
+        getNumObjects : function() {
+            var i = 0;
+            this._map.geoObjects.each(function() { i++; });
+            return i;
+        },
+
         reframe : function() {
-            this.setBounds(this._map.geoObjects.getBounds());
+            var keys = Object.keys(this._objects);
+            if (keys.length < 2) {
+                this.setCenter(keys[0]? this._objects[keys[0]].geometry.getCoordinates() : [55.79, 37.48], 13);
+            } else {
+                this.setBounds(this._map.geoObjects.getBounds());
+            }
         }
     });
     

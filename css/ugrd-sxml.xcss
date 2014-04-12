@@ -105,3 +105,135 @@
         color: #0c4068;
         font-weight: bold;
     }
+    
+    
+    /* fileinput */
+    
+    .sxml_fileinput {
+        width: auto;
+        margin: 3px;
+    }
+
+    .sxml_fileinput-iframe {
+        width: 0px;
+        height: 0px;
+        margin: 0px;
+        position: absolute;
+        opacity: 0;
+    }
+    
+    .sxml_fileinput-file {
+        width: 50px;
+        height: 50px;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .sxml_fileinput-file img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .sxml_fileinput-file-remove {
+        width: 15px;
+        height: 15px;
+        border-radius: 3px;
+        opacity: 0.1;
+        position: absolute;
+        background-color: black;
+        background: black url(//sxml/misc/img/delete.png) no-repeat;
+        background-position: 2px 2px;
+        color: white;
+        margin-top: 3px;
+        margin-left: 31px;
+        cursor: pointer;
+    }
+    
+    .sxml_fileinput-file-loading {
+        background: #fc9 url(//sxml/misc/img/wait.gif) no-repeat;
+        background-position: 13px 13px;
+    }
+    
+    .sxml_fileinput-file-loading img {
+        display: none;
+    }
+    
+    .sxml_fileinput-file:hover .sxml_fileinput-file-remove {
+        opacity: 0.8;
+    }
+    
+    .sxml_fileinput-wrapper {
+        overflow: hidden;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 5px;        
+        float: left;
+        background: #fc9;
+        border-radius: 3px;
+        text-align: center;
+        padding: 0px;
+    }
+    
+    .sxml_fileinput-wrapper-hidden {
+        display: none;
+    }
+
+    .sxml_fileinput-input {
+        width: 26px;
+        height: 26px;
+        margin: 12px;
+        border-radius: 5px;
+        overflow: hidden;
+        opacity: 0.8;
+    }
+    
+    .sxml_fileinput-input:hover {
+        opacity: 1;
+    }    
+    
+    .sxml_fileinput-input::before {
+        content: '';
+        background: #f84 url(//sxml/misc/img/file.png) no-repeat;
+        background-position: 6px 4px;
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    
+
+    /* notifier */
+    
+    .sxml_confirm-button {
+        float: right;
+        margin-top: -2px;
+        padding: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border: 0px;
+        border-radius: 4px;
+        font: 8pt verdana;
+        background: none repeat scroll 0 0 #FF8844;
+        color: white;
+        cursor: pointer;
+        box-shadow: 2px 2px 5px -1px rgba(64, 22, 0, 0.4);
+    }
+    
+    .sxml_confirm-button:hover {
+        box-shadow: 2px 2px 5px -1px rgba(64, 22, 0, 0.4), 0px 0px 3px 0px yellow;
+        text-decoration: none;
+    }
+    
+    .sxml_confirm-button:active {
+        padding-top: 5px;
+        padding-bottom: 3px;
+        padding-left: 11px;
+        padding-right: 9px;
+        box-shadow: 2px 2px 5px -1px rgba(64, 22, 0, 0.4) inset
+    }
+    

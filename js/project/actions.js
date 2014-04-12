@@ -16,12 +16,13 @@ define(['sxml/sxml'], function(sxml) {
         },
         
         // Редактирование точки (текстовые параметры)
-        savePointData : function(p, name, descr, q, callback) {
+        savePointData : function(p, name, descr, q, photos, callback) {
             sxml.exec('edit-point', {
                 p : p,
                 name : name,
                 descr : descr,
-                q : q
+                q : q,
+                photos : photos
             }, function(returned) {
                 sxml.greet({ sxml : { 'class' : 'point', item : p, role : 'map' } }, callback, this, true);
             });
@@ -32,7 +33,7 @@ define(['sxml/sxml'], function(sxml) {
             sxml.exec('delete-point', {
                 p : p
             });
-        },        
+        },
         
         // Удаление точки
         movePoint : function(p, coords) {

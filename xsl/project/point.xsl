@@ -16,6 +16,7 @@
         <xsl:param name="q"/>
         <xsl:param name="descr"/>
         <xsl:param name="comments"/>
+        <xsl:param name="photos"/>
         <!-- TODO: param name="permit-..." -->
             <form class="point-editor">
                 <div class="small-toolbar">
@@ -25,6 +26,8 @@
                     <span class="point-view-only"><xsl:value-of select="$name"/></span>
                     <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
                 </h3>
+                <div class="photos point-view-photos point-view-only"/>
+                <div class="photos point-edit-photos point-edit-only"/>
                 <!--div class="photos point-edit-blur">
                     <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
                     <img src="http://cs319121.vk.me/v319121831/75c2/M2XcOQhlFdk.jpg" class="photo"/>
@@ -112,6 +115,7 @@
         id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',
         empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>',
         mapId : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="generate-id(.)"/></xsl:call-template>',
+        photos : '<xsl:apply-templates select="photos" mode="sxml:quote"/>'
     }</xsl:template>
     
     <xsl:template match="point" mode="role.map">
@@ -124,7 +128,16 @@
                     map: {
                         lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
                         lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
-                        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/>',
+                        hint : '<xsl:apply-templates select="name" mode="sxml:quote"/><xsl:if
+                            test="photos or thread/messages/msg"> (<xsl:if
+                                test="photos">c фото</xsl:if><xsl:if
+                                test="photos and thread/messages/msg">, </xsl:if><xsl:if
+                                test="thread/messages/msg"><xsl:call-template name="sxml:incline">
+                                    <xsl:with-param name="number" select="thread/messages/@sxml:total"/>
+                                    <xsl:with-param name="one">ответ</xsl:with-param>
+                                    <xsl:with-param name="few">ответа</xsl:with-param>
+                                    <xsl:with-param name="many">ответов</xsl:with-param>
+                                </xsl:call-template></xsl:if>)</xsl:if>',
                         uniqueId : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="generate-id(.)"/></xsl:call-template>',
                         draggable : true
                     },
@@ -154,7 +167,7 @@
                 <div class="q"><xsl:value-of select="q"/></div>
             </div>
         </div>
-    </xsl:template>     
+    </xsl:template>
     
     <xsl:template match="point">
         <xsl:apply-templates select="." mode="role.map"/>

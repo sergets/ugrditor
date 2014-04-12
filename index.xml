@@ -2,20 +2,39 @@
 <?xml-stylesheet type="text/xsl" href="xsl/projects.xsl"?>
 <page xmlns:sxml="http://sergets.ru/sxml">
     <sxml:select 
-        tag="projects" entry="project" entry-class="project" attrs="sxml:time sxml:user sxml:visible-to"
-        sxml:update="projects" from="projects" sxml:id="projects"/>
+            tag="projects" entry="project" entry-class="project" attrs="sxml:time sxml:user sxml:visible-to"
+            sxml:update="projects" from="projects" sxml:id="projects">
+        <sxml:var name="pid"><sxml:value-of var="sxml:item-id"/></sxml:var>
+        <sxml:select what="count(*) as count" from="points" where="(&quot;project&quot; = :pid)" uses="pid" store="count"/>
+        <points><sxml:value-of var="count"/></points>
+    </sxml:select>
     <sxml:action name="create" sxml:open-to="#">
         <sxml:var name="name" from="post" value="name"/>
         <sxml:var name="descr" from="post" value="descr"/>
         <sxml:var name="rights" from="post" value="rights"/>
+        <sxml:var name="cover" from="post" value="cover"/>
         <sxml:update tag="projects"/>
-        <sxml:insert into="projects" uses="name descr rights">
+        <sxml:insert into="projects" uses="name descr rights cover">
             <name>:name</name>
             <descr>:descr</descr>
             <sxml:open-to>:rights</sxml:open-to>
             <sxml:visible-to>:rights</sxml:visible-to>
+            <cover>:cover</cover>
         </sxml:insert>
     </sxml:action>
+    
+    <sxml:action name="delete" sxml:open-to="#">
+        <sxml:var name="project" from="post" value="project"/>
+        <sxml:select what="count(*) as count" from="points" where="(&quot;project&quot; = :project)" uses="project" store="pointcount"/>
+        <sxml:unless test="pointcount">
+            <sxml:delete from="projects" id=":project" uses="project"/>
+        </sxml:unless>
+        <sxml:if test="pointcount">
+            <sxml:error message="Есть точки в проекте"/>
+        </sxml:if>
+        <sxml:update tag="projects"/>
+    </sxml:action>
+    
     <sxml:action name="edit" sxml:open-to="#">
         <sxml:var name="project" from="post" value="project"/>
         <sxml:var name="name" from="post" value="name"/>
@@ -26,6 +45,7 @@
             <descr>:descr</descr>
             <sxml:open-to>:rights</sxml:open-to>
             <sxml:visible-to>:rights</sxml:visible-to>
+            <cover>:cover</cover>
         </sxml:edit>
     </sxml:action>
 </page>

@@ -19,7 +19,7 @@
                 <script relative="true">/js/projects.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">
-                <style relative="true">/css/ugrd.xcss</style>
+                <style relative="true">/css/projects.xcss</style>
                 <style relative="true">/css/sxml-loginlinks.xcss</style>
             </xsl:with-param>
         </xsl:call-template>
@@ -42,7 +42,11 @@
             <xsl:apply-templates select="." mode="sxml"/>
             <div class="section pagebody">
                 <h3>Проекты</h3>
-                <xsl:apply-templates select="project"/>
+                <xsl:for-each select="project">
+                    <xsl:sort select="position()" data-type="number" order="descending"/>
+                    <xsl:apply-templates select="."/>
+                </xsl:for-each>
+                <!--xsl:apply-templates select="project"/-->
             </div>
             <xsl:call-template name="sxml:if-permitted">
             <xsl:with-param name="rules" select="'#'"/>
@@ -54,6 +58,7 @@
                             <dl class="sectioncontent">
                                 <dt>Название:</dt><dd><input class="panel field" name="name"/></dd>
                                 <dt>Организаторы:</dt><dd><div class="panel field rightsinput"/></dd>
+                                <dt>Обложка:</dt><dd><div class="panel fileinput"/></dd>
                                 <dt>Описание:</dt><dd><textarea class="panel field" name="descr"></textarea></dd>
                             </dl>
                         </div>
@@ -69,11 +74,28 @@
     <xsl:template match="project">
         <div>
             <xsl:apply-templates select="." mode="sxml"/>
-            <h4><a href="project.xml?id={@sxml:item-id}"><xsl:value-of select="name"/></a></h4>
-            <xsl:value-of select="descr"/>
+            <xsl:if test="cover">
+                <xsl:attribute name="style">
+                    background-image: url('uploads/<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="cover"/></xsl:call-template>?s=310x240');
+                </xsl:attribute>
+            </xsl:if>    
+            <div class="projdescr">
+                <div class="text">
+                    <h4><a href="project.xml?id={@sxml:item-id}"><xsl:value-of select="name"/></a></h4>
+                    <xsl:value-of select="descr"/>
+                </div>
+                <xsl:if test="not(@sxml:open-to-me) and (points = '0')">
+                    <div class="button delete"/>
+                </xsl:if>
+                <div class="orgs">
+                    <div class="userinput"/>
+                </div>
+            </div>
+            
         </div>
     </xsl:template>
     <xsl:template match="project" mode="sxml:class">sectioncontent panel project</xsl:template>
+    <xsl:template match="project" mode="sxml:js">project : { id : '<xsl:apply-templates mode="sxml:quote" select="@sxml:item-id"/>', orgs : '<xsl:apply-templates mode="sxml:quote" select="@sxml:open-to"/>' }</xsl:template>
     <xsl:template match="project" mode="sxml:extras">loginDependent: true</xsl:template>
 
 </xsl:stylesheet>

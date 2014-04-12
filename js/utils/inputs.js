@@ -7,7 +7,15 @@ define(['jquery', 'sxml/sxml'], function($, sxml) {
             .filter(':not(.hider-binded)')
             .addClass('hider-binded')
             .click(function() {
-                $($(this).next('.hidable')[0]).toggleClass('hidden');
+                var next = $($(this).next('.hidable')[0]),
+                    length = 500,
+                    interval = setInterval(function() { 
+                        next[0].scrollIntoView();
+                    }, length / 5);
+                setTimeout(function() {
+                    clearTimeout(interval);
+                }, length);
+                next.toggleClass('hidden');
             });
     };
 

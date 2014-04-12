@@ -1,7 +1,8 @@
-require([
+    require([
         'jquery',
         'sxml/sxml',
         'sxml/interface/rightsinput',
+        'sxml/interface/fileinput',
         'js/utils/map',
         'js/project/controls',
         'js/project/actions',
@@ -11,6 +12,7 @@ require([
         $,
         sxml,
         RightsInput,
+        FileInput,
         Map,
         controls,
         actions
@@ -20,13 +22,23 @@ require([
     var project = {
     
         // Оживиляет комментарии и кнопки
-        initMapPointDOMElems : function(id, domElem) {
+        initMapPointDOMElems : function(entity, domElem) {
+            var id = entity.sxml.item;
+
             // Включить-выключить режим редактирования
             $(domElem).find('.point-edit-button').click(function(e) {
                 $(this).closest('.point').toggleClass('editing');  
                 e.preventDefault();
-            });
-            
+            })
+
+            var photoView = new FileInput($(domElem).find('.point-view-photos'), {
+                    val : entity.point.photos,
+                    readOnly : true
+                }),
+                photoEdit = new FileInput($(domElem).find('.point-edit-photos'), {
+                    val : entity.point.photos
+                });
+
             // Сохранение
             $(domElem).find('.point-editor').submit(function(e) {
                 $(this).closest('.point').hasClass('editing') && actions.savePointData(
@@ -34,6 +46,7 @@ require([
                     $(domElem).find('.point-title-input').val(),
                     $(domElem).find('textarea.text').val(),
                     $(domElem).find('textarea.question').val(),
+                    photoEdit.val(),
                     function(options) {
                         project._map.openObjectBalloon(options.entity.map.uniqueId);
                     }
@@ -161,7 +174,7 @@ require([
     });
 
     sxml.greet({ sxml : { 'class' : 'point', role : 'map' } }, function(options) {
-        project.initMapPointDOMElems(options.entity.sxml.item, options.node);
+        project.initMapPointDOMElems(options.entity, options.node);
     });
     
     sxml.greet({ sxml : { 'class' : 'point', role : 'list' } }, function(options) {

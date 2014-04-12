@@ -58,7 +58,7 @@
                             <dl class="sectioncontent">
                                 <dt>Название:</dt><dd><input class="panel field" name="name"/></dd>
                                 <dt>Организаторы:</dt><dd><div class="panel field rightsinput"/></dd>
-                                <dt>Обложка:</dt><dd><div class="panel fileinput"/></dd>
+                                <dt>Обложка:</dt><dd><div class="fileinput"/></dd>
                                 <dt>Описание:</dt><dd><textarea class="panel field" name="descr"></textarea></dd>
                             </dl>
                         </div>

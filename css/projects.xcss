@@ -44,3 +44,8 @@
     background-position: 6px 5px;
     cursor: pointer;
 }
+
+.newprojectform .fileinput {
+    width: 510px;
+    float: right;
+}

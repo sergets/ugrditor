@@ -119,6 +119,10 @@
     }</xsl:template>
     
     <xsl:template match="point" mode="role.map">
+        <xsl:variable name="photocount"><xsl:call-template name="sxml:count">
+            <xsl:with-param name="haystack" select="photos"/>
+            <xsl:with-param name="needle" select="' '"/>
+        </xsl:call-template></xsl:variable>
         <div>
             <xsl:call-template name="sxml:attrs">
                 <xsl:with-param name="node" select="exsl:node-set(.)"/>
@@ -130,7 +134,12 @@
                         lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
                         hint : '<xsl:apply-templates select="name" mode="sxml:quote"/><xsl:if
                             test="photos or thread/messages/msg"> (<xsl:if
-                                test="photos">c фото</xsl:if><xsl:if
+                                test="photos"><xsl:call-template name="sxml:incline">
+                                    <xsl:with-param name="number" select="$photocount + 1"/>
+                                    <xsl:with-param name="one">фотка</xsl:with-param>
+                                    <xsl:with-param name="few">фотки</xsl:with-param>
+                                    <xsl:with-param name="many">фоток</xsl:with-param>
+                                </xsl:call-template></xsl:if><xsl:if
                                 test="photos and thread/messages/msg">, </xsl:if><xsl:if
                                 test="thread/messages/msg"><xsl:call-template name="sxml:incline">
                                     <xsl:with-param name="number" select="thread/messages/@sxml:total"/>

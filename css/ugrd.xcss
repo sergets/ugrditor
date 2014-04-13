@@ -1,5 +1,10 @@
     /* GENERAL */
 
+    @font-face {
+        font-family: djvsl;
+        src: url(//img/djvsl.woff);
+    }    
+    
     body {
         margin: 0 auto;
         width: 640px;
@@ -37,7 +42,7 @@
 
     h1 { 
         background: #ff8844;
-        font-family: dejavu sans light, dejavu sans, segoe ui, verdana, sans-serif;
+        font-family: djvsl, dejavu sans light, dejavu sans, segoe ui, verdana, sans-serif;
         font-size: 18pt;
         font-weight: 100;
         padding: 6px;
@@ -52,7 +57,7 @@
 
     h2 {
         background: #ffcc99;
-        font: 11pt dejavu sans light, dejavu sans, segoe ui, verdana, sans-serif;
+        font: 11pt djvsl, dejavu sans light, dejavu sans, segoe ui, verdana, sans-serif;
         font-weight: 100;
         padding: 4px;
         margin: 2px;

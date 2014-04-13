@@ -28,8 +28,11 @@
 }
 
 .projdescr .orgs {
-    margin-top: 88px;
-    position: absolute;
+    margin-top: 113px;
+    width: 280px;
+    line-height: 23px;
+    -webkit-transform: translate(0,-100%);
+    transform: translate(0,-100%);
 }
 
 .projdescr .delete {

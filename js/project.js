@@ -3,16 +3,18 @@
         'sxml/sxml',
         'sxml/interface/rightsinput',
         'sxml/interface/fileinput',
+        'sxml/interface/globalgallery',
         'js/utils/map',
         'js/project/controls',
         'js/project/actions',
         //'js/project/rollouts',
-        'js/utils/inputs'
+        'js/utils/inputs',
     ], function(
         $,
         sxml,
         RightsInput,
         FileInput,
+        gallery,
         Map,
         controls,
         actions
@@ -33,7 +35,10 @@
 
             var photoView = new FileInput($(domElem).find('.point-view-photos'), {
                     val : entity.point.photos,
-                    readOnly : true
+                    readOnly : true,
+                    onClick : function(hash, val) {
+                        gallery.open(hash, val.split(' '));
+                    }
                 }),
                 photoEdit = new FileInput($(domElem).find('.point-edit-photos'), {
                     val : entity.point.photos

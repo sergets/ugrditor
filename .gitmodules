@@ -1,0 +1,3 @@
+[submodule "sxml"]
+	path = sxml
+	url = git://github.com/sergets/sxml.git

@@ -49,10 +49,13 @@ define([
         },
         
         setGaps : function(gaps) {
+            var oldGaps = this._gaps,
+                oldCenter = this.getCenter();
             this._gaps = gaps;
             this._toolbar.options.set('position', { top: this._gaps[0] + 5, left: this._gaps[1] + 5 });
             this._typeSelector.options.set('position', { top: this._gaps[0] + 5, right: this._gaps[3] + 5 });
-            this._zoomControl.options.set('position', { top: this._gaps[0] + 45, left: this._gaps[1] + 5 })
+            this._zoomControl.options.set('position', { top: this._gaps[0] + 45, left: this._gaps[1] + 5 });
+            this.setCenter(oldCenter);
         },
         
         _enableExpandingBalloons : function() {
@@ -140,13 +143,12 @@ define([
         
         // ¬ычисление картинки значка дл€ точки по зуму
         _getIconSettings : function(icon, zoom) {
-            icon = icon || 'point11';
             if (zoom <= 12) return {
                 iconImageHref : 'img/' + icon + '-s.png',
                 iconImageSize : [20, 20],
                 iconImageOffset : [-7, -17]
             };
-            if (zoom >= 15) return {
+            if (zoom >= 16) return {
                 iconImageHref : 'img/' + icon + '-l.png',
                 iconImageSize : [44, 44],
                 iconImageOffset : [-15, -37]
@@ -174,9 +176,13 @@ define([
             // TODO gaps
         },
 
+        getCenter : function() {
+            // TODO gaps
+            return this._map.getCenter();
+        },
+        
         setCenter : function() {
             this._map.setCenter.apply(this._map, arguments);
-            // TODO gaps
         },
 
         getNumObjects : function() {

@@ -10,17 +10,36 @@
     <sxml:select 
         tag="messages" entry="msg" entry-class="thread-message" attrs="sxml:time sxml:user thread" 
         sxml:enumerable="true" sxml:default-range="10-1" from="mymessages" where="thread = :thread" uses="thread"/>
+
     <sxml:action name="post">
         <sxml:var name="txt" from="post" value="txt"/>
         <sxml:var name="trd" from="post" value="trd"/>
         <sxml:update class="thread">
             <sxml:attribute name="item"><sxml:value-of var="trd"/></sxml:attribute>
         </sxml:update>
+        <sxml:update tag="news"/>
         <sxml:insert into="mymessages" uses="txt trd">
             <thread>:trd</thread>
             <text>:txt</text>
         </sxml:insert>
+
+        <sxml:select what="type" from="threads" where="(&quot;sxml:item-id&quot; = :trd)" uses="trd" store="type"/>
+        <sxml:if test="type" equals-val="point">
+        
+            <sxml:select what="ref" from="threads" where="(&quot;sxml:item-id&quot; = :trd)" uses="trd" store="ref"/>
+            <sxml:select what="project" from="points" where="(&quot;sxml:item-id&quot; = :ref)" uses="ref" store="project"/>
+            <sxml:select what="name" from="points" where="(&quot;sxml:item-id&quot; = :ref)" uses="ref" store="refname"/>
+
+            <sxml:insert into="news" uses="txt ref refname project">
+                <type>'pointcomment'</type>
+                <project>:project</project>
+                <ref>:ref</ref>
+                <refname>:refname</refname>
+                <text>:txt</text>
+            </sxml:insert>
+        </sxml:if>
     </sxml:action>
+
     <sxml:action name="edit">
         <sxml:var name="msg" from="post" value="msg"/>
         <sxml:var name="txt" from="post" value="txt"/>

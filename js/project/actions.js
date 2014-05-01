@@ -2,6 +2,22 @@ define(['sxml/sxml'], function(sxml) {
 
     return {
     
+        // Проект
+        
+        renameProject : function(pr, name, callback) {
+            sxml.exec('rename-project', {
+                name : name,
+                pr : pr
+            });            
+        },
+        
+        setProjectRights : function(pr, rights, callback) {
+            sxml.exec('set-project-rights', {
+                rights : rights,
+                pr : pr
+            });
+        },
+    
         // Точки
     
         // Создание новой точки без дополнительных данных

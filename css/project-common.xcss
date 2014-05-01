@@ -37,6 +37,59 @@ h1 {
     padding: 0px;
 }
 
+h1.editing .project-name-view, h1 .project-name-edit {
+    display: none;
+}
+
+h1.editing form.project-name-edit {
+    display: inline-block;
+}
+
+h1 .project-name-edit input {
+    font-family: djvsl, dejavu sans light,dejavu sans,segoe ui,verdana,sans-serif;
+    font-size: 20px;
+    width: 650px;
+    color: white;
+    margin-top: -2px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 0px;
+}
+
+h1 .project-name-edit-button {
+    opacity: 0;
+    background: url(/editor/sxml/misc/img/thread.png);
+    background-position: -16px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px;
+    margin-left: 6px;
+    border-radius: 3px;
+    transition: all ease 0.5s
+}
+
+h1.editing .project-name-edit-button {
+    display: none;
+}
+
+h1:hover .project-name-edit-button {
+    opacity: 1;
+}
+
+h1 a {
+    display: inline-block;
+    margin-left: -10px;
+    text-decoration: none;
+    font-weight: normal;
+    color: #f84;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
 a {
     text-decoration: none;
     font-weight: bold;
@@ -88,11 +141,10 @@ a:hover {
 }
 
 .project-orgs {
-    width: 500px;
+    width: 1000px;
     text-align: right;
     margin-right: 10px;
     backgorund: rgba(255, 255, 255, 0.2);
-    overflow: hidden;
     line-height: 20px;
     margin-bottom: 10px;
     position: absolute;
@@ -100,13 +152,59 @@ a:hover {
     right: 5px;
 }
 
-.project-orgs .userinput {
+.project-orgs .user-view-input {
     float: right;
     margin-top: -3px;
     margin-left: 10px;    
     display: inline;
 }
-    
+
+.project-orgs .user-edit-input {
+    display: none;
+    float: right;
+    margin-top: -3px;
+    margin-left: 10px;
+    z-index: 3;
+}
+
+.project-orgs .user-edit-input .sxml_rightsinput-input {
+    color: white;
+    background: rgba(0,0,0,0.4);
+}
+
+.project-orgs .user-edit-input .sxml_rightsinput-suggestitem {
+    text-align: left;
+}
+
+.project-orgs.editing .user-edit-input {
+    display: inline;
+}
+
+.project-orgs.editing .user-view-input {
+    display: none;
+}
+
+.project-orgs .project-perms-edit-button {
+    opacity: 0;
+    background: url(/editor/sxml/misc/img/thread.png);
+    background-position: -16px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-top: -3px;
+    padding: 0px;
+    margin-left: 6px;
+    border-radius: 3px;
+    transition: all ease 0.5s;
+    margin-top: 3px;
+}
+
+.project-orgs:hover .project-perms-edit-button {
+    opacity: 1;
+}
+
 .hidable {
     display: block;
     overflow: hidden;

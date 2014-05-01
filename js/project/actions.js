@@ -32,12 +32,13 @@ define(['sxml/sxml'], function(sxml) {
         },
         
         // –едактирование точки (текстовые параметры)
-        savePointData : function(p, name, descr, q, photos, callback) {
+        savePointData : function(p, name, descr, q, marker, photos, callback) {
             sxml.exec('edit-point', {
                 p : p,
                 name : name,
                 descr : descr,
                 q : q,
+                marker : marker,
                 photos : photos
             }, function(returned) {
                 sxml.greet({ sxml : { 'class' : 'point', item : p, role : 'map' } }, callback, this, true);

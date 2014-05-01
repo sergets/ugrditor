@@ -15,6 +15,7 @@
         <xsl:param name="name"/>
         <xsl:param name="q"/>
         <xsl:param name="descr"/>
+        <xsl:param name="marker"/>
         <xsl:param name="comments"/>
         <xsl:param name="photos"/>
         <!-- TODO: param name="permit-..." -->
@@ -23,19 +24,14 @@
                     <a class="button point-edit-button" href="#"></a>
                 </div>
                 <h3>
+                    <img class="point-view-only point-marker point-view-marker" src="img/{$marker}-xs.png"/>
+                    <img class="point-edit-only point-marker point-edit-marker" src="img/{$marker}-xs.png"/>
+                    <div class="point-marker-dropdown hidden"></div>
                     <span class="point-view-only"><xsl:value-of select="$name"/></span>
                     <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
                 </h3>
                 <div class="photos point-view-photos point-view-only"/>
                 <div class="photos point-edit-photos point-edit-only"/>
-                <!--div class="photos point-edit-blur">
-                    <img src="http://cs425624.vk.me/v425624831/1ff/lxW1fNbt9O0.jpg" class="photo"/>
-                    <img src="http://cs319121.vk.me/v319121831/75c2/M2XcOQhlFdk.jpg" class="photo"/>
-                    <img src="http://cs425624.vk.me/v425624831/217/riX0zunRVXA.jpg" class="photo"/>
-                    <div class="photo plus">
-                        добавить фото
-                    </div>
-                </div-->
                 <div class="text point-view-only">
                     <xsl:call-template name="sxml:replace">
                         <xsl:with-param name="haystack" select="$descr"/>
@@ -115,7 +111,11 @@
         id : '<xsl:apply-templates select="@sxml:item-id" mode="sxml:quote"/>',
         empty : '<xsl:apply-templates select="@empty" mode="sxml:quote"/>',
         mapId : '<xsl:call-template name="sxml:quote"><xsl:with-param name="v" select="generate-id(.)"/></xsl:call-template>',
-        photos : '<xsl:apply-templates select="photos" mode="sxml:quote"/>'
+        photos : '<xsl:apply-templates select="photos" mode="sxml:quote"/>',
+        marker : '<xsl:choose>
+            <xsl:when test="@marker"><xsl:apply-templates select="@marker" mode="sxml:quote"/></xsl:when>
+            <xsl:otherwise>point11</xsl:otherwise>
+        </xsl:choose>'
     }</xsl:template>
     
     <xsl:template match="point" mode="role.map">
@@ -132,6 +132,10 @@
                     map: {
                         lat : '<xsl:apply-templates select="@lat" mode="sxml:quote"/>',
                         lon : '<xsl:apply-templates select="@lon" mode="sxml:quote"/>',
+                        icon : '<xsl:choose>
+                            <xsl:when test="@marker"><xsl:apply-templates select="@marker" mode="sxml:quote"/></xsl:when>
+                            <xsl:otherwise>point11</xsl:otherwise>
+                        </xsl:choose>',
                         hint : '<xsl:apply-templates select="name" mode="sxml:quote"/><xsl:if
                             test="photos or thread/messages/msg"> (<xsl:if
                                 test="photos"><xsl:call-template name="sxml:incline">
@@ -157,6 +161,12 @@
                 <xsl:with-param name="name" select="name"/>
                 <xsl:with-param name="q" select="q"/>
                 <xsl:with-param name="descr" select="descr"/>
+                <xsl:with-param name="marker">
+                    <xsl:choose>
+                        <xsl:when test="@marker"><xsl:apply-templates select="@marker" mode="sxml:quote"/></xsl:when>
+                        <xsl:otherwise>point11</xsl:otherwise>
+                    </xsl:choose>
+                </xsl:with-param>
                 <xsl:with-param name="comments"><xsl:apply-templates select="thread"/></xsl:with-param>
             </xsl:call-template>
         </div>

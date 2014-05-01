@@ -47,6 +47,12 @@
             .point.editing .point-edit-blur {
                 opacity: 0.3;
             }
+
+            .point-marker {
+                float: left;
+                margin-left: -20px;
+                position: absolute;
+            }
             
             /* Точка: просмотр */
             
@@ -141,6 +147,39 @@
                 background-position: 6px 5px;
                 cursor: pointer;
             }
+            
+            .point-edit-marker {
+                cursor: pointer;
+            }
+            
+            .point-marker-dropdown {
+                height: 62px;
+                width: 52px;
+                overflow: hidden;
+                transition: all ease 0.3s;
+                opacity: 1;
+                padding: 3px;
+                border: 1px solid rgba(0,0,0,0.4);
+                background: rgba(255,255,255,0.9);
+                border-radius: 4px;
+                position: absolute;
+                margin-left: -40px;
+                margin-top: 18px;
+                z-index: 5;
+                box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+            }
+            
+            .point-marker-dropdown.hidden {
+                max-height: 0px;
+                opacity: 0;
+            }
+            
+            .point-marker-dropdown-item {
+                float: left;
+                cursor: pointer;
+                margin: 2px;
+            }
+            
             
             /* Точка в левой панели */
             

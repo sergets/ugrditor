@@ -9,34 +9,46 @@
         sxml:update="projects" from="projects" where="(&quot;sxml:item-id&quot; = :projid)" uses="projid" sxml:id="descr"/>
         
     <!-- Список точек -->
-    <!--points>
-        <point sxml:item-id="456" sxml:class="point" sxml:user="vk:595374" lat="55.782537" lon="37.482672" cool="2" deep="3" warn="0">
-            <name>Пушкинский сквер</name>
-            <descr>Мем. доска в честь последнего внука Пушкина</descr>
-            <q>Инициалы Пушкина:</q>
-        </point>
-        <point sxml:item-id="457" sxml:class="point" sxml:user="vk:595374" lat="55.795064" lon="37.488871" cool="2" deep="3" warn="0">
-            <name>Немецкая слобода</name>
-            <descr>Крутой квартал</descr>
-            <q>Последний номер квартиры в среднем доме:</q>
-        </point>
-    </points-->
-    
     <sxml:select
-        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon thread empty"
+        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon thread marker empty"
         sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points">
         <sxml:include from="thread.xml?thread={$thread}"/>
     </sxml:select>
         
     <!-- Новости -->
-    <!--sxml:select
-        tag="newslist" entry="news" entry-class="news" attrs="sxml:time sxml:user" sxml:enumerable="yes"
-        sxml:update="news" from="news" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="news"/-->
+    <sxml:select
+        tag="newslist" entry="news" entry-class="news" attrs="sxml:time sxml:user type ref refname" sxml:enumerable="yes"
+        sxml:update="news" from="news" where="(&quot;project&quot; = :projid)" order-by="&quot;sxml:item-id&quot;" order="desc" uses="projid" sxml:id="news"/>
         
     <!-- ДЕЙСТВИЯ --> 
     
     <!-- Права на действия — как у проекта -->
-    <sxml:var name="pperm">=projects/<sxml:value-of var="projid"/></sxml:var>        
+    <sxml:var name="pperm">=projects/<sxml:value-of var="projid"/></sxml:var>
+    
+    <!-- Переименование проекта -->
+    <sxml:action name="rename-project" sxml:open-as="pperm">
+        <sxml:var name="name" from="post" value="name"/>
+        <sxml:var name="pr" from="post" value="pr"/>
+        
+        <sxml:edit in="projects" id=":pr" uses="pr name">
+            <name>:name</name>
+        </sxml:edit>
+        
+        <sxml:update tag="projects"/>
+    </sxml:action>
+    
+    <!-- Смена прав -->
+    <sxml:action name="set-project-rights" sxml:open-as="pperm">
+        <sxml:var name="rights" from="post" value="rights"/>
+        <sxml:var name="pr" from="post" value="pr"/>
+        
+        <sxml:edit in="projects" id=":pr" uses="pr rights">
+            <sxml:open-to>:rights</sxml:open-to>
+            <sxml:visible-to>:rights</sxml:visible-to>
+        </sxml:edit>
+        
+        <sxml:update tag="projects"/>
+    </sxml:action>
         
     <!-- Добавление точки -->
     <sxml:action returns="newpointid" name="create-point" sxml:open-as="pperm">

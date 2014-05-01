@@ -48,6 +48,7 @@
             <text>:txt</text>
         </sxml:edit>
     </sxml:action>
+
     <sxml:action name="delete">
         <sxml:var name="msg" from="post" value="msg"/>
         <sxml:update tag="thread" item="thread"/>

@@ -244,14 +244,14 @@
     
     .sxml_globalgallery-button-prev {
         position: absolute;
-        left: 0px;
+        left: -35px;
         top: 50%;
         margin-top: -13px;
     }
 
     .sxml_globalgallery-button-next {
         position: absolute;
-        right: 0;        
+        right: -35px;
         top: 50%;
         margin-top: -13px;
         background-position: 0px -25px;
@@ -259,7 +259,7 @@
 
     .sxml_globalgallery-button-close {
         position: absolute;
-        right: 0px;
+        right: -35px;
         top: 0px;
         background-position: 0px -50px;
     }
@@ -283,10 +283,7 @@
     .sxml_globalgallery-loader.hidden {
         opacity: 0;
     }
-    
 
-
-    
     .sxml_globalgallery-wrapper {
         position: absolute;
         left: 50%;
@@ -297,14 +294,12 @@
     }
 
     .sxml_globalgallery-img {
-        max-width: 90%;
-        max-height: 90%;
-        min-width: 10%;
-        min-height: 10%;
         border: 0px;
         cursor: pointer;
+        opacity: 1;
+        transition: opacity ease 1s;
+        line-height: 0px;
     }
-        
 
     /* notifier */
     

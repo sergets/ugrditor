@@ -30,34 +30,50 @@
 
     <xsl:template match="/project">
         <!-- title -->
-        <xsl:apply-templates select="descr/project"/>
+        <div id="project-maintitle">        
+            <xsl:apply-templates select="descr"/>
+            
+            <!-- rollout headers -->
+            <div class="rollouts-header rollouts-header-left">
+                <xsl:apply-templates select="points" mode="role.header"/>
+                <xsl:apply-templates select="newslist" mode="role.header"/>
+            </div>
+        </div>
         
         <div id="project-hiddens">
             <xsl:apply-templates select="points" mode="role.map"/>
         </div>
 
         <!-- rollout panes -->
-        <xsl:apply-templates select="points" mode="role.list"/> 
-
+        <xsl:apply-templates select="points" mode="role.list"/>
+        <xsl:apply-templates select="newslist" mode="role.list"/>
+        
         <!-- map pane -->
         <div id="project-map"/>
     </xsl:template>
-    
-    <xsl:template match="descr/project" mode="sxml:class">project-maintitle</xsl:template>
-    <xsl:template match="descr/project" mode="sxml:js">project : { orgs : '<xsl:apply-templates mode="sxml:quote" select="@sxml:open-to"/>' }</xsl:template>
-    <xsl:template match="descr/project">
-        <div id="project-maintitle">
+
+    <xsl:template match="descr" mode="sxml:js">project : {
+        id : '<xsl:apply-templates mode="sxml:quote" select="project/@sxml:item-id"/>',
+        orgs : '<xsl:apply-templates mode="sxml:quote" select="project/@sxml:open-to"/>'
+    }</xsl:template>
+    <xsl:template match="descr">
+        <span>
             <xsl:apply-templates select="." mode="sxml"/>
-            <h1><xsl:value-of select="name"/></h1>
-            <div class="project-orgs">Организаторы: <div class="userinput"></div></div>
-            <div class="rollouts-header rollouts-header-left">
-                <div class="rollout-header rollout-header-selected">Точки <!--span class="rollout-header-number">3</span--></div>
-                <!--div class="rollout-header">Задачи <span class="rollout-header-number">0</span></div>
-                <div class="rollout-header">Трасса <span class="rollout-header-number">0</span></div-->
-            </div>
-        </div>
+            <h1 class="project-name viewing">
+                <a href="./">‹</a>
+                <span class="project-name-view">
+                    <xsl:value-of select="project/name"/>
+                </span>
+                <form class="project-name-edit">
+                    <input value="{project/name}"/>
+                </form>
+                <div class="project-name-edit-button"/>
+            </h1>
+            <div class="project-orgs"><div class="project-perms-edit-button"></div> Организаторы: <div class="user-view-input"></div><div class="user-edit-input"></div></div>
+        </span>
     </xsl:template>
 
+    <!-- ТОЧКИ -->
     <xsl:template match="points" mode="role.map">
         <div>
             <xsl:call-template name="sxml:attrs">

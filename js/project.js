@@ -5,10 +5,12 @@
         'sxml/interface/fileinput',
         'sxml/interface/globalgallery',
         'js/utils/map',
+        'js/project/points',
+        'js/project/news',
         'js/project/controls',
         'js/project/actions',
-        //'js/project/rollouts',
-        'js/utils/inputs',
+        'js/project/rollouts',
+        'js/utils/inputs'
     ], function(
         $,
         sxml,
@@ -16,139 +18,38 @@
         FileInput,
         gallery,
         Map,
+        points,
+        news,
         controls,
-        actions
-        //rollouts
+        actions,
+        rollouts
     ) {
 
     var project = {
-    
-        // Оживиляет комментарии и кнопки
-        initMapPointDOMElems : function(entity, domElem) {
-            var id = entity.sxml.item;
 
-            // Включить-выключить режим редактирования
-            $(domElem).find('.point-edit-button').click(function(e) {
-                $(this).closest('.point').toggleClass('editing');  
-                e.preventDefault();
-            })
-
-            var photoView = new FileInput($(domElem).find('.point-view-photos'), {
-                    val : entity.point.photos,
-                    readOnly : true,
-                    onClick : function(hash, val) {
-                        gallery.open(hash, val.split(' '));
-                    }
-                }),
-                photoEdit = new FileInput($(domElem).find('.point-edit-photos'), {
-                    val : entity.point.photos
-                });
-
-            // Сохранение
-            $(domElem).find('.point-editor').submit(function(e) {
-                $(this).closest('.point').hasClass('editing') && actions.savePointData(
-                    id,
-                    $(domElem).find('.point-title-input').val(),
-                    $(domElem).find('textarea.text').val(),
-                    $(domElem).find('textarea.question').val(),
-                    photoEdit.val(),
-                    function(options) {
-                        project._map.openObjectBalloon(options.entity.map.uniqueId);
-                    }
-                );
-                e.preventDefault();
-            });
-            
-            // Удаление
-            $(domElem).find('.point-delete-button').click(function(e) {
-                sxml.Notifier.show(
-                    $('<div/>')
-                        .html('Хотите удалить эту точку? ')
-                        .append($('<a/>')
-                            .html('Да')
-                            .addClass('button')
-                            .attr('href', '/')
-                            .click(function(e) {
-                                actions.deletePoint(id);
-                                e.preventDefault();
-                            })
-                        )
-                );
-            });
-            
-        },
-        
-        // Оживиляет комментарии и кнопки
-        initListPointDOMElems : function(id, domElem) {
-            // Включить-выключить режим редактирования
-            $(domElem).find('.map-link').click($.proxy(function(e) {
-                this._map.openObjectBalloon(sxml.getEntity(domElem).point.mapId);
-                e.preventDefault();
-            }, this));
-        },        
-        
-        _onPointBalloonClose : function(node) {
-            if (node && sxml.getEntity(node) && sxml.getEntity(node).point.empty === 'true') {
-                actions.deletePoint(sxml.getEntity(node).point.id);
-            }
-        },
-        
-        _onPointDragEnd : function(data) {
-            if (data.node && sxml.getEntity(data.node)) {
-                actions.movePoint(sxml.getEntity(data.node).point.id, data.coords);
-            }
-        },    
-        
-        initPointThreadDOMElem : function(domElem) {
-            // Применяем стили, если нет ни одного комментария, разворачиваем-сворачиваем комментарии по клику, если они есть
-            if ($(domElem).find('.point-comment').length == 0) {
-                $(domElem).find('.point-comments')
-                    .addClass('empty hidable hidden').end()
-                    .find('.point-comments-header').click(function() {
-                        $(this).next('.point-comments').toggleClass('hidden');
-                    });
-            } else {
-                $()
-                    .add($(domElem).find('.point-comments-header'))
-                    .add($(domElem).find('.point-comments'))
-                    .click(function() {
-                        var comments = $(this).hasClass('point-comments') ? $(this) : $(this).next('.point-comments'); 
-                        if (!(comments.hasClass('detached'))) {
-                            comments.addClass('detached');
-                            setTimeout(function() {
-                                comments.addClass('fully-detached');
-                            }, 10);
-                        }
-                    });
-                $(domElem).find('.point-comments-close').click(function() {
-                    $(this).closest('.point-comments').removeClass('fully-detached');
-                    setTimeout($.proxy(function() {
-                        $(this).closest('.point-comments').removeClass('detached');
-                    }, this), 200);
-                });
-            }
-            
-            // Делаем в поле ввода коммента отступ по размеру имени
-            $(domElem).find('.point-comments-editor .point-comment-input').each(function() {  
-                var m = $(this).prevAll('.point-comment-username').clone().css('opacity', 0).appendTo('body'),
-                    l = m[0].offsetWidth + 5;
-                $(m).detach();
-                $(this).css('text-indent', l + 'px');
-            });
-            
-            // Вешаем экшн на поле ввода коммента
-            $(domElem).find('.point-comments-editor').submit(function(e) {
-                actions.postComment($(this).closest('.point-comments-thread')[0].ondblclick().thread.id, $(this).find('.point-comment-input').val());
-                e.preventDefault();
-            });
-        },
-        
         initProjectDOMElems : function() {
-            var input = new RightsInput($('.project-orgs .userinput'), this.data.orgs, { mutable : false });
+            var viewRightsInput = new RightsInput($('.project-orgs .user-view-input'), this.data.orgs, { mutable : false }),
+                editRightsInput = new RightsInput($('.project-orgs .user-edit-input'), this.data.orgs, { mutable : true }),
+                h1 = $('h1'),
+                renameForm = $('form.project-name-edit');
+                
+            $('.project-name-edit-button').click(function() {
+                h1.toggleClass('editing');
+            });
+            $('.project-perms-edit-button').click(function() {
+                $('.project-orgs').toggleClass('editing');
+            });
+            renameForm.submit(function() {
+                actions.renameProject(project.data.id, renameForm.find('input').val());
+                return false;
+            });
+            editRightsInput.on('change', function(e) {
+                actions.setProjectRights(project.data.id, editRightsInput.val());
+            });
         },
         
         init : function() {
-            this._map = new Map('project-map', [
+            var map = this._map = new Map('project-map', [
                 controls.createClicker({
                     image : 'img/point11-xs.png',
                     title : 'Поставить точку'
@@ -158,36 +59,32 @@
                         $(options.node).toggleClass('editing');
                     });
                 }, project)
-            ], [70, 270, 0, 0]);
-            this._map.startGreeting(sxml);
-            this._map.on('balloonclose', $.proxy(this._onPointBalloonClose, this));
-            this._map.on('dragend', $.proxy(this._onPointDragEnd, this));
-            //this.initProjectDOMElems();
+            ], [70, 0, 0, 0]);
+            map.startGreeting(sxml);
             
             sxml.ready();
-            this._map.reframe();
+            map.reframe();
+            points.setMap(map);
+
+            news.on('refclick', function(data) {
+                if (data.type == 'point') {
+                    points.openOnMap(data.id);
+                }
+            });
+
+            rollouts.on('gapschange', function(gaps) {
+                map.setGaps(gaps);
+            });
         },
         
         data : {}
        
     };
 
-    sxml.greet({ sxml : { 'class' : 'project' } }, function(options) {
-        project.data.id = options.entity.sxml.item;
+    sxml.greet({ sxml : { id : 'descr' } }, function(options) {
+        project.data.id = options.entity.project.id;
         project.data.orgs = options.entity.project.orgs;
         project.initProjectDOMElems();
-    });
-
-    sxml.greet({ sxml : { 'class' : 'point', role : 'map' } }, function(options) {
-        project.initMapPointDOMElems(options.entity, options.node);
-    });
-    
-    sxml.greet({ sxml : { 'class' : 'point', role : 'list' } }, function(options) {
-        project.initListPointDOMElems(options.entity.sxml.item, options.node);
-    });    
-
-    sxml.greet({ sxml : { 'class' : 'thread' } }, function(options) {
-        project.initPointThreadDOMElem(options.node);
     });
 
     //------------

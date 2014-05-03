@@ -18,7 +18,8 @@
         <xsl:call-template name="sxml:page">
             <xsl:with-param name="sxml-root" select="'../sxml'"/>
             <xsl:with-param name="scripts">
-                <script>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</script>
+                <!--script>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</script-->
+                <script>http://ymapsapi.sergets.ru/api.js</script>
                 <script relative="true">/js/project.js</script>
             </xsl:with-param>
             <xsl:with-param name="styles">

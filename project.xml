@@ -10,11 +10,19 @@
         
     <!-- Список точек -->
     <sxml:select
-        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user cool deep warn lat lon thread marker empty"
-        sxml:update="points" from="points" where="(&quot;project&quot; = :projid)" uses="projid" sxml:id="points">
+        tag="points" entry="point" entry-class="point" attrs="sxml:time sxml:user lat lon thread marker empty task"
+        sxml:update="points" from="points" where="((&quot;project&quot; = :projid) and ((&quot;empty&quot; is null) or (&quot;sxml:user&quot; = :user)))" uses="projid" sxml:id="points">
         <sxml:include from="thread.xml?thread={$thread}"/>
     </sxml:select>
-        
+
+    <!-- Задачи -->
+    <sxml:select
+        tag="tasks" entry="task" entry-class="task" attrs="sxml:time sxml:user thread extthread marker empty"
+        sxml:update="tasks" from="tasks" where="((&quot;project&quot; = :projid) and ((&quot;empty&quot; is null) or (&quot;sxml:user&quot; = :user)))" uses="projid user" sxml:id="tasks">
+        <sxml:include from="thread.xml?thread={$thread}"/>
+        <sxml:include from="thread.xml?thread={$extthread}"/>
+    </sxml:select>
+    
     <!-- Новости -->
     <sxml:select
         tag="newslist" entry="news" entry-class="news" attrs="sxml:time sxml:user type ref refname" sxml:enumerable="yes"
@@ -24,6 +32,8 @@
     
     <!-- Права на действия — как у проекта -->
     <sxml:var name="pperm">=projects/<sxml:value-of var="projid"/></sxml:var>
+    
+    <!-- ДЕЙСТВИЯ В ПРОЕКТЕ -->
     
     <!-- Переименование проекта -->
     <sxml:action name="rename-project" sxml:open-as="pperm">
@@ -49,7 +59,9 @@
         
         <sxml:update tag="projects"/>
     </sxml:action>
-        
+ 
+    <!-- ДЕЙСТВИЯ НАД ТОЧКАМИ -->
+
     <!-- Добавление точки -->
     <sxml:action returns="newpointid" name="create-point" sxml:open-as="pperm">
 
@@ -111,11 +123,6 @@
             <sxml:select what="q" from="points" where="(&quot;sxml:item-id&quot; = :p)" uses="p" store="oldq"/>
         </sxml:unless>
 
-        <sxml:select what="thread" from="points" where="(&quot;sxml:item-id&quot; = :p)" uses="p" store="trr"/>
-        <sxml:edit in="threads" id=":trr" uses="p trr" open-as="pperm">
-            <ref>:p</ref>
-        </sxml:edit>
-        
         <sxml:edit in="points" id=":p" uses="name descr q p marker photos" open-as="pperm">
             <name>:name</name>
             <descr>:descr</descr>
@@ -182,7 +189,6 @@
     <!-- Перетаскивание точки -->
     
     <sxml:action name="move-point" sxml:open-as="pperm">
-
         <sxml:var name="p" from="post" value="p"/>
         <sxml:var name="lat" from="post" value="lat"/>
         <sxml:var name="lon" from="post" value="lon"/>
@@ -193,19 +199,197 @@
         </sxml:edit>        
         
         <sxml:update tag="points"/>
-        
     </sxml:action>
    
     <!-- Удаление точки -->    
     
     <sxml:action name="delete-point" sxml:open-as="pperm">
+        <sxml:var name="p" from="post" value="p"/>
+        <sxml:delete from="points" id=":p" uses="p"/>
+        <sxml:update tag="points"/>        
+    </sxml:action>
+    
+    <!-- ДЕЙСТВИЯ НАД ЗАДАЧАМИ -->
+    
+    <!-- Добавление задачи -->
+    
+    <sxml:action returns="newtaskid" name="create-task" sxml:open-as="pperm">
+        <sxml:var name="lat" from="post" value="lat"/>
+        <sxml:var name="lon" from="post" value="lon"/>
+        <sxml:var name="pr" from="post" value="pr"/>
+        
+        <!-- Добавляем задачу -->
+        <sxml:insert into="tasks" uses="lat lon pr" store="newtaskid">
+            <lat>:lat</lat>
+            <lon>:lon</lon>
+            <project>:pr</project>
+            <empty>'true'</empty>
+            <marker>'task11'</marker>
+            <point>null</point>
+            <sxml:visible-to>'=projects/' || :pr</sxml:visible-to>
+            <sxml:open-to>'=projects/' || :pr</sxml:open-to>
+        </sxml:insert>
 
+        <!-- Создаём обсуждения -->
+        <sxml:insert into="threads" uses="newtaskid" store="threadid">
+            <type>'task'</type>
+            <ref>:newtaskid</ref>
+            <title>null</title>
+        </sxml:insert>
+        <sxml:insert into="threads" uses="newtaskid" store="extthreadid">
+            <type>'exttask'</type>
+            <ref>:newtaskid</ref>
+            <title>null</title>
+        </sxml:insert>
+        
+        <!-- Прикрепляем темы к задаче -->
+        <sxml:edit in="tasks" id=":newtaskid" uses="threadid extthreadid">
+            <thread>:threadid</thread>
+            <extthread>:extthreadid</extthread>
+        </sxml:edit>
+
+        <sxml:update tag="tasks"/>
+    </sxml:action>
+
+    <!-- Перетаскивание задачи -->
+    
+    <sxml:action name="move-task" sxml:open-as="pperm">
+        <sxml:var name="t" from="post" value="t"/>
+        <sxml:var name="lat" from="post" value="lat"/>
+        <sxml:var name="lon" from="post" value="lon"/>
+
+        <sxml:edit in="tasks" id=":t" uses="lat lon t" open-as="pperm">
+            <lat>:lat</lat>
+            <lon>:lon</lon>
+        </sxml:edit>
+        
+        <sxml:update tag="tasks"/>
+        
+    </sxml:action>
+
+    <!-- Прикрепление задачи к точке -->
+    
+    <sxml:action name="snap-task" sxml:open-as="pperm">
+        <sxml:var name="t" from="post" value="t"/>
         <sxml:var name="p" from="post" value="p"/>
 
-        <sxml:delete from="points" id=":p" uses="p"/>
+        <sxml:edit in="tasks" id=":t" uses="t p" open-as="pperm">
+            <point>:p</point>
+        </sxml:edit>
+        <sxml:edit in="points" id=":p" uses="t p" open-as="pperm">
+            <task>:t</task>
+        </sxml:edit>
         
-        <sxml:update tag="points"/>        
-
+        <sxml:update tag="tasks"/>
+        <sxml:update tag="points"/>
     </sxml:action>
+    
+    <!-- Открепление задачи от точки -->
+    
+    <sxml:action name="unsnap-task" sxml:open-as="pperm">
+        <sxml:var name="t" from="post" value="t"/>
+
+        <sxml:select what="point" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="pointid"/>
+        <sxml:edit in="tasks" id=":t" uses="t" open-as="pperm">
+            <point>null</point>
+        </sxml:edit>
+        <sxml:edit in="points" id=":pointid" uses="pointid" open-as="pperm">
+            <task>null</task>
+        </sxml:edit>
+
+        <sxml:update tag="tasks"/>
+        <sxml:update tag="points"/>
+    </sxml:action>
+    
+    <!-- Перевод задачи в открытые -->
+    
+    <sxml:action name="reveal-task" sxml:open-as="pperm">
+        <sxml:var name="t" from="post" value="t"/>
+        
+        <sxml:select what="concerning" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="oldconcern"/>
+        <sxml:select what="text" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="text"/>
+        <sxml:var name="newconcern"><sxml:value-of var="oldconcern"/> <sxml:value-of var="user"/></sxml:var>
+        
+        <sxml:edit in="tasks" id=":t" uses="t newconcern" open-as="pperm">
+            <concerning>:newconcern</concerning>
+        </sxml:edit>
+
+        <sxml:insert into="news" uses="t projid text">
+            <type>'revealtask'</type>
+            <project>:projid</project>
+            <ref>:t</ref>
+            <text>:text</text>
+        </sxml:insert>
+
+        <sxml:update tag="tasks"/>
+    </sxml:action>
+    
+    <!-- Редактирование задачи -->
+    
+    <sxml:action name="edit-task" sxml:open-as="pperm">
+        <sxml:var name="t" from="post" value="t"/>
+        <sxml:var name="name" from="post" value="name"/>
+        <sxml:var name="text" from="post" value="text"/>
+        <sxml:var name="marker" from="post" value="marker"/>
+        <sxml:var name="solution" from="post" value="solution"/>
+        <sxml:var name="concerning" from="post" value="concerning"/>
+        <sxml:var name="photos" from="post" value="photos"/>
+        <sxml:var name="projid" from="get" value="id"/>
+        
+        <sxml:select what="empty" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="empty"/>
+        <sxml:unless test="empty">
+            <sxml:select what="text" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="oldtext"/>
+        </sxml:unless>
+
+        <sxml:edit in="tasks" id=":t" uses="t name text marker solution concerning photos" open-as="pperm">
+            <name>:name</name>
+            <text>:text</text>
+            <solution>:solution</solution>
+            <marker>:marker</marker>
+            <concerning>:concerning</concerning>
+            <photos>:photos</photos>
+            <empty>null</empty>
+        </sxml:edit>
+
+        <sxml:unless test="empty">
+            <sxml:unless test="text" equals="oldtext">
+                <sxml:insert into="news" uses="t projid text">
+                    <type>'edittask'</type>
+                    <project>:projid</project>
+                    <ref>:t</ref>
+                    <text>:descr</text>
+                </sxml:insert>
+            </sxml:unless>
+        </sxml:unless>
+
+        <sxml:if test="empty">
+            <sxml:insert into="news" uses="t projid text">
+                <type>'newtask'</type>
+                <project>:projid</project>
+                <ref>:t</ref>
+                <text>:text</text>
+            </sxml:insert>
+        </sxml:if>
+        
+        <!-- Когда всё получится, обновим все штуки: появилась загадка, новость о ней -->
+        <sxml:update tag="tasks"/>
+        <sxml:update tag="news"/>
+    </sxml:action>    
+
+    <!-- Удаление задачи -->
+
+    <sxml:action name="delete-task">
+        <sxml:var name="t" from="post" value="t"/>
+        
+        <sxml:select what="point" from="tasks" where="(&quot;sxml:item-id&quot; = :t)" uses="t" store="pointid"/>
+        <sxml:if test="pointid">
+            <sxml:edit in="points" id=":pointid" uses="pointid" open-as="pperm">
+                <task>null</task>
+            </sxml:edit>
+        </sxml:if>
+
+        <sxml:delete from="tasks" id=":t" uses="t"/>
+        <sxml:update tag="tasks"/>
+    </sxml:action>    
     
 </project>

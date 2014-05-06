@@ -6,6 +6,7 @@
         'sxml/interface/globalgallery',
         'js/utils/map',
         'js/project/points',
+        'js/project/tasks',
         'js/project/news',
         'js/project/controls',
         'js/project/actions',
@@ -19,6 +20,7 @@
         gallery,
         Map,
         points,
+        tasks,
         news,
         controls,
         actions,
@@ -58,7 +60,17 @@
                         project._map.openObjectBalloon(options.entity.map.uniqueId);
                         $(options.node).toggleClass('editing');
                     });
-                }, project)
+                }, project),
+
+                controls.createClicker({
+                    image : 'img/task11-xs.png',
+                    title : 'Создать загадку'
+                }, function(coords) {
+                    actions.createTask(project.data.id, coords, function(options) {
+                        project._map.openObjectBalloon(options.entity.map.uniqueId);
+                        $(options.node).toggleClass('editing');
+                    });
+                }, project),
             ], [70, 0, 0, 0]);
             map.startGreeting(sxml);
             

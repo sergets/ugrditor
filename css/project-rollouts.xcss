@@ -50,6 +50,10 @@
     box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.5);
 }
 
+.rollout-header-long {
+    width: 125px;
+}
+
 .rollout-header.selected {
     background: rgba(32,16,8,0.4);
     text-align: center;

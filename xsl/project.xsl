@@ -13,6 +13,7 @@
     <xsl:include href="../sxml/client/xsl/sxml.xsl"/>
     <xsl:include href="project/map-objects.xsl"/>
     <xsl:include href="project/point.xsl"/>
+    <xsl:include href="project/task.xsl"/>
     <xsl:include href="project/news.xsl"/>
     
     <xsl:template match="/">
@@ -37,16 +38,21 @@
             <!-- rollout headers -->
             <div class="rollouts-header rollouts-header-left">
                 <xsl:apply-templates select="points" mode="role.header"/>
+                <xsl:apply-templates select="tasks" mode="role.main-header"/>
+                <xsl:apply-templates select="tasks" mode="role.testing-header"/>
                 <xsl:apply-templates select="newslist" mode="role.header"/>
             </div>
         </div>
         
         <div id="project-hiddens">
             <xsl:apply-templates select="points" mode="role.map"/>
+            <xsl:apply-templates select="tasks" mode="role.map"/>
         </div>
 
         <!-- rollout panes -->
         <xsl:apply-templates select="points" mode="role.list"/>
+        <xsl:apply-templates select="tasks" mode="role.main-list"/>
+        <xsl:apply-templates select="tasks" mode="role.testing-list"/>
         <xsl:apply-templates select="newslist" mode="role.list"/>
         
         <!-- map pane -->
@@ -115,6 +121,75 @@
         <xsl:apply-templates select="." mode="role.map"/>
         <xsl:apply-templates select="." mode="role.list"/>
         <xsl:apply-templates select="." mode="role.header"/>
+    </xsl:template>
+
+    <!-- ЗАГАДКИ -->
+    <xsl:template match="tasks" mode="role.map">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">map</xsl:with-param>
+                <xsl:with-param name="class">project-mappoints</xsl:with-param>
+                <xsl:with-param name="extras">detachableChildren : true</xsl:with-param>
+            </xsl:call-template>
+            <xsl:apply-templates select="point" mode="role.map"/>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="tasks" mode="role.main-list">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">list</xsl:with-param>
+                <xsl:with-param name="class">project-pointlist project-rollout</xsl:with-param>
+                <xsl:with-param name="js">rollout : { id : 'tasks', role : 'rollout' }</xsl:with-param>
+                </xsl:call-template>
+            <!--xsl:apply-templates select="point" mode="role.list"/-->
+        </div>
+    </xsl:template>
+
+    <xsl:template match="tasks" mode="role.testing-list">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">list</xsl:with-param>
+                <xsl:with-param name="class">project-pointlist project-rollout</xsl:with-param>
+                <xsl:with-param name="js">rollout : { id : 'testing', role : 'rollout' }</xsl:with-param>
+                </xsl:call-template>
+            <!--xsl:apply-templates select="point" mode="role.list"/-->
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="tasks" mode="role.main-header">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">header</xsl:with-param>
+                <xsl:with-param name="class">rollout-header</xsl:with-param>
+                <xsl:with-param name="js">rollout : { id : 'tasks', role : 'header' }</xsl:with-param>
+            </xsl:call-template>
+            Загадки <span class="rollout-header-number"><xsl:value-of select="78"/></span>
+        </div>
+    </xsl:template>    
+
+    <xsl:template match="tasks" mode="role.testing-header">
+        <div>
+            <xsl:call-template name="sxml:attrs">
+                <xsl:with-param name="node" select="exsl:node-set(.)"/>
+                <xsl:with-param name="role">header</xsl:with-param>
+                <xsl:with-param name="class">rollout-header rollout-header-long</xsl:with-param>
+                <xsl:with-param name="js">rollout : { id : 'testing', role : 'header' }</xsl:with-param>
+            </xsl:call-template>
+            Тестирование <span class="rollout-header-number"><xsl:value-of select="90"/></span>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="tasks">
+        <xsl:apply-templates select="." mode="role.map"/>
+        <xsl:apply-templates select="." mode="role.main-list"/>
+        <xsl:apply-templates select="." mode="role.main-header"/>
+        <xsl:apply-templates select="." mode="role.testing-list"/>
+        <xsl:apply-templates select="." mode="role.testing-header"/>
     </xsl:template>
     
     <!-- НОВОСТИ -->

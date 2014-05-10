@@ -17,7 +17,7 @@
 
     <!-- Задачи -->
     <sxml:select
-        tag="tasks" entry="task" entry-class="task" attrs="sxml:time sxml:user thread extthread marker empty"
+        tag="tasks" entry="task" entry-class="task" attrs="sxml:time sxml:user thread extthread marker empty concerning"
         sxml:update="tasks" from="tasks" where="((&quot;project&quot; = :projid) and ((&quot;empty&quot; is null) or (&quot;sxml:user&quot; = :user)))" uses="projid user" sxml:id="tasks">
         <sxml:include from="thread.xml?thread={$thread}"/>
         <sxml:include from="thread.xml?thread={$extthread}"/>

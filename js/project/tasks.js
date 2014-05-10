@@ -2,82 +2,111 @@ define([
     'jquery',  
     'sxml/sxml',
     'js/project/actions',
+    'sxml/interface/rightsinput',
     'js/project/map-objects'
 ], function(
     $,
     sxml,
     actions,
+    RightsInput,
     mapObjects
 ) {
-    var PointBalloonForm = function(options) {
+    var TaskBalloonForm = function(options) {
         mapObjects.RichBalloonForm.apply(this, arguments);
     };
     
-    PointBalloonForm.prototype = $.extend({}, mapObjects.RichBalloonForm.prototype, {
+    TaskBalloonForm.prototype = $.extend({}, mapObjects.RichBalloonForm.prototype, {
         _entitySection : 'point',
         
-        _classes : $.extend(mapObjects.RichBalloonForm.prototype._classes, {}, {
-            confirmText : 'Удалить эту точку?'
-        }),
+        _classes : {
+            editorSwitch : 'task-edit-button',
+            editing : 'editing',
+            editorForm : 'task-editor',
+            deleteButton : 'task-delete-button',
+            photoView : 'task-view-photos',
+            photoEdit : 'task-edit-photos',
+            rightsView : 'task-view-rights',
+            rightsEdit : 'task-edit-rights',
+            markerControl : 'edit-marker',
+            markerDropdown : 'marker-dropdown',
+            markerDropdownElem : 'marker-dropdown-elem',
+            confirmText : 'Удалить эту загадку?'
+        },
 
-        _markers : [ 'point10', 'point11', 'point12', 'point20', 'point21', 'point22', 'point13', 'point3', 'point0' ],
+        _markers : [ 'task11' ],
 
         _serialize : function() {
             return {
                 id : this._entityData.id,
-                title : $(this._domElem).find('.title-input').val(),
-                descr : $(this._domElem).find('textarea.text').val(),
-                q : $(this._domElem).find('textarea.question').val(),
+                title : $(this._domElem).find('.task-title-input').val(),
+                text : $(this._domElem).find('textarea.text').val(),
+                concerning : this._rightsEdit.val(),
                 marker : this._currentMarker,
                 photos : this._photoEdit.val(),
             }
+        },
+        
+        _init : function() {
+            RichBalloonForm.prototype._init.apply(this, arguments);
+            this._initRights();
+        },
+
+        _initRights : function() {
+            this._rightsView = new RightsInput($(this._domElem).find('.' + this._classes.rightsView), {
+                val : this._entityData.concerning,
+                readOnly : true
+            });
+            this._rightEdit = new RightsInput($(this._domElem).find('.' + this._classes.rightsEdit), {
+                val : this._entityData.concerning
+            });
         }
     });
     
-    var MapPointSet = function() {
+    var MapTaskSet = function() {
         mapObjects.MapObjectSet.apply(this, arguments);
     }
     
-    MapPointSet.prototype = $.extend({}, mapObjects.MapObjectSet.prototype, {
-        _elemClass : PointBalloonForm,
+    MapTaskSet.prototype = $.extend({}, mapObjects.MapObjectSet.prototype, {
+        _elemClass : TaskBalloonForm,
         
-        _greetPattern : { 'class' : 'point', role : 'map' },
+        _greetPattern : { 'class' : 'task', role : 'map' },
         
         _actions : {
             submit : function(data) {
-                console.log(data);
-            
-                actions.savePointData(
+                actions.saveTaskData(
                     data.id,
                     data.title,
-                    data.descr,
-                    data.q,
+                    data.text,
+                    data.concerning,
                     data.marker,
                     data.photos,
                     $.proxy(function() {
-                        this.openOnMap(data.id);
+                        this.openOnMap(id);
                     }, this)
                 )
             },
             
             move : function(data) {
-                actions.movePoint(data.id, data.coords);
+                actions.moveTask(data.id, data.coords);
             },
             
             'delete' : function(id) {
-                actions.deletePoint(id)
+                actions.deleteTask(id)
             }
         }
     });
     
-    var points = new MapPointSet();
+    var tasks = new MapTaskSet();
+    
+    /*
     
     // Оживиляет комментарии и кнопки
     function _initListPointDOMElems(id, domElem) {
+        // Включить-выключить режим редактирования
         $(domElem).find('.map-link').click(function() {
             points.openOnMap(id);
         });
-    }
+    },
         
     function _initPointThreadDOMElem(domElem) {
         // Применяем стили, если нет ни одного комментария, разворачиваем-сворачиваем комментарии по клику, если они есть
@@ -129,7 +158,7 @@ define([
 
     sxml.greet({ sxml : { 'class' : 'thread' } }, function(options) {
         _initPointThreadDOMElem(options.node);
-    });
+    });*/
     
-    return points;
+    return tasks;
 });

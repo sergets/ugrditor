@@ -11,6 +11,7 @@
           doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
           
     <xsl:include href="../sxml/client/xsl/sxml.xsl"/>
+    <xsl:include href="project/map-objects.xsl"/>
     <xsl:include href="project/point.xsl"/>
     <xsl:include href="project/news.xsl"/>
     

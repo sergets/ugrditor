@@ -20,8 +20,8 @@ define([
 
         if (options.entity.news.type == 'editpointphotos') {
             var file = $(options.node).find('.news-photos-fileinput'),
-                data = file[0].ondblclick(),
-                input = new FileInput(file, {
+                data = file && file[0] && file[0].ondblclick(),
+                input = data && new FileInput(file, {
                     val : data.photos,
                     readOnly : true,
                     onClick : function(hash, val) {

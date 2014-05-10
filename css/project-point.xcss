@@ -7,7 +7,7 @@
                 overflow: auto;
             }
            
-            .point h3, .point-title-input {
+            .point h3, .point .title-input {
                 font-size: 15px;
                 line-height: 20px;
                 font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
@@ -24,31 +24,31 @@
                 display: block;
             }
             
-            .point-edit-button.button {
+            .point .edit-button.button {
                 background-position: -16px;
             }
 
-            .point-edit-button:hover::before {
+            .point .edit-button:hover::before {
                 content: 'Редактировать' !important;
             }
             
-            .point .point-edit-only {
+            .point .edit-only {
                 display: none;
             }
             
-            .point.editing .point-edit-only {
+            .point.editing .edit-only {
                 display: block;
             }
             
-            .point.editing .point-view-only {
+            .point.editing .view-only {
                 display: none;
             }
             
-            .point.editing .point-edit-blur {
+            .point.editing .edit-blur {
                 opacity: 0.3;
             }
 
-            .point-marker {
+            .point .marker {
                 float: left;
                 margin-left: -20px;
                 position: absolute;
@@ -78,7 +78,7 @@
                 min-height: 17px;
             }
       
-            .point-data-pane {
+            .point .data-pane {
                 white-space: nowrap;
                 color: #0c4068;
                 margin-left: 25px;
@@ -87,7 +87,7 @@
                 margin-bottom: 10px;
             }       
             
-            .point-author::before, .point-edited-by::before, .point-date::before {
+            .point .editor-author::before, .point .edited-by::before, .point .editor-date::before {
                 content: '';
                 display: inline-block;
                 margin-top: 2px;
@@ -97,22 +97,22 @@
                 height: 11px;
             }
                 
-            .point-author::before {
+            .point .editor-author::before {
                 background: url(//img/new.png);
             }
             
-            .point-edited-by::before, .point-date::before {
+            .point .edited-by::before, .point .date::before {
                 background: url(//img/edit.png);
             }
             
-            .point-date {
+            .point .editor-date {
                 margin-left: 15px;
                 color: #f84;
             }
        
             /* Точка: редактирование */
             
-            .point-title-input {
+            .point .title-input {
                 font-size: 11pt;
                 font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
                 font-weight: 100;
@@ -125,13 +125,13 @@
                 margin-left: 23px;
             }
             
-            .point-save-toolbar {
+            .point .save-toolbar {
                 margin-top: 5px;
                 margin-left: 23px;
                 margin-bottom: 5px;
             }
 
-            .point-save-button {
+            .point .save-button {
                 margin-left: 238px;
                 width: 85px;
                 z-index: 2;
@@ -139,7 +139,7 @@
                 position: absolute;
             }
             
-            .point-delete-button {
+            .point .delete-button {
                 width: 23px;
                 z-index: 2;
                 position: absolute;
@@ -148,11 +148,11 @@
                 cursor: pointer;
             }
             
-            .point-edit-marker {
+            .point .edit-marker {
                 cursor: pointer;
             }
             
-            .point-marker-dropdown {
+            .point .marker-dropdown {
                 height: 62px;
                 width: 52px;
                 overflow: hidden;
@@ -169,12 +169,12 @@
                 box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
             }
             
-            .point-marker-dropdown.hidden {
+            .point .marker-dropdown.hidden {
                 max-height: 0px;
                 opacity: 0;
             }
             
-            .point-marker-dropdown-item {
+            .point .marker-dropdown-item {
                 float: left;
                 cursor: pointer;
                 margin: 2px;

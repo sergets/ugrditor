@@ -18,91 +18,29 @@
         <xsl:param name="marker"/>
         <xsl:param name="comments"/>
         <xsl:param name="photos"/>
+        <xsl:param name="node"/>
         <!-- TODO: param name="permit-..." -->
-            <form class="point-editor">
-                <div class="small-toolbar">
-                    <a class="button point-edit-button" href="#"></a>
-                </div>
-                <h3>
-                    <img class="point-view-only point-marker point-view-marker" src="img/{$marker}-xs.png"/>
-                    <img class="point-edit-only point-marker point-edit-marker" src="img/{$marker}-xs.png"/>
-                    <div class="point-marker-dropdown hidden"></div>
-                    <span class="point-view-only"><xsl:value-of select="$name"/></span>
-                    <input class="point-edit-only point-title-input inplace" value="{$name}" placeholder="Краткое название точки"/>
-                </h3>
-                <div class="photos point-view-photos point-view-only"/>
-                <div class="photos point-edit-photos point-edit-only"/>
-                <div class="text point-view-only">
-                    <xsl:call-template name="sxml:replace">
-                        <xsl:with-param name="haystack" select="$descr"/>
-                        <xsl:with-param name="needle" select="'&#10;'"/>
-                        <xsl:with-param name="replace"><br/></xsl:with-param>
-                    </xsl:call-template>
-                </div>
-                <textarea class="text point-edit-only inplace" placeholder="Описание точки, комментарий"><xsl:value-of select="$descr"/></textarea>
-                <div class="question point-view-only">
-                    <xsl:call-template name="sxml:replace">
-                        <xsl:with-param name="haystack" select="$q"/>
-                        <xsl:with-param name="needle" select="'&#10;'"/>
-                        <xsl:with-param name="replace"><br/></xsl:with-param>
-                    </xsl:call-template>
-                </div>
-                <textarea class="question point-edit-only inplace" placeholder="Варианты вопроса на местности"><xsl:value-of select="$q"/></textarea>
 
-                <div class="point-save-toolbar point-edit-only">
-                    <input type="button" class="button point-delete-button button-with-tooltip" title="Удалить точку"/>
-                    <input type="submit" class="button point-save-button" value="Сохранить"/>
-                </div>
-            </form>
-            
-            <div class="point-data-pane">
-                <span class="point-author point-edit-blur">
-                    <xsl:apply-templates mode="sxml:user" select="."/>
-                </span>
-                
-                <span class="point-date">
-                    <xsl:apply-templates select="." mode="sxml:date"/>
-                </span>
-            </div>
-            <!--div class="permissions point-edit-blur">ограничить доступ пока нельзя</div-->
-            <xsl:copy-of select="exsl:node-set($comments)"/>
-            <!--div class="point-comments-header point-edit-blur">
-                <xsl:choose> 
-                    <xsl:when test="count(exsl:node-set($comments)/*) &gt; 0">
-                        <xsl:call-template name="sxml:incline">
-                            <xsl:with-param name="number" select="count(exsl:node-set($comments)/*)"/>
-                            <xsl:with-param name="one">комментарий</xsl:with-param>
-                            <xsl:with-param name="few">комментария</xsl:with-param>
-                            <xsl:with-param name="many">комментариев</xsl:with-param>
-                        </xsl:call-template>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        Написать первый комментарий
-                    </xsl:otherwise>
-                </xsl:choose>
-            </div>
-            <div class="point-comments point-edit-blur">
-            
-                <div class="point-comments-close"></div>
-                <div class="point-comments-wrapper">
-                
-                    <xsl:copy-of select="exsl:node-set($comments)"/>
-                    <xsl:choose >
-                    <form class="point-comments-editor">
-                        <span class="point-comment-username">
-                            <xsl:call-template name="sxml:user">
-                                <xsl:with-param name="user" select="/*/sxml:data/sxml:user"/>
-                            </xsl:call-template>:
-                        </span>
-                        <textarea class="point-comment-input inplace"></textarea>
-                        <div type="submit" class="point-comment-toolbar">
-                            <input type="submit" class="button point-comment-post-button" value="Отправить"/>
-                        </div>
-                    </form>
-               
-                </div>
-            </div-->
-        
+        <xsl:call-template name="rich-map-object-form">
+            <xsl:with-param name="name" select="$name"/>
+            <xsl:with-param name="marker" select="$marker"/>
+            <xsl:with-param name="title-placeholder" select="'Краткое название точки'"/>
+            <xsl:with-param name="comments" select="$comments"/>
+            <xsl:with-param name="photos" select="$photos"/>
+            <xsl:with-param name="node-for-data" select="$node"/>
+            <xsl:with-param name="content">
+                <xsl:call-template name="inplace-textarea">
+                    <xsl:with-param name="class" select="'text'"/>
+                    <xsl:with-param name="val" select="$descr"/>
+                    <xsl:with-param name="placeholder" select="'Описание точки, комментарий'"/>
+                </xsl:call-template>
+                <xsl:call-template name="inplace-textarea">
+                    <xsl:with-param name="class" select="'question'"/>
+                    <xsl:with-param name="val" select="$q"/>
+                    <xsl:with-param name="placeholder" select="'Варианты вопроса на местности c ответами'"/>
+                </xsl:call-template>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
     
     <!-- Matching templates -->
@@ -161,6 +99,7 @@
                 <xsl:with-param name="name" select="name"/>
                 <xsl:with-param name="q" select="q"/>
                 <xsl:with-param name="descr" select="descr"/>
+                <xsl:with-param name="node" select="."/>
                 <xsl:with-param name="marker">
                     <xsl:choose>
                         <xsl:when test="@marker"><xsl:apply-templates select="@marker" mode="sxml:quote"/></xsl:when>

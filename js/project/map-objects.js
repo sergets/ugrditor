@@ -164,15 +164,15 @@ define([
     
     RichBalloonForm.prototype = $.extend({}, BalloonForm.prototype, {
         _classes : {
-            editorSwitch : '',
-            editing : '',
-            editorForm : '',
-            deleteButton : '',
-            photoView : '',
-            photoEdit : '',
-            markerControl : '',
-            markerDropdown : '',
-            markerDropdownElem : '',
+            editorSwitch : 'edit-button',
+            editing : 'editing',
+            editorForm : 'editor',
+            deleteButton : 'delete-button',
+            photoView : 'view-photos',
+            photoEdit : 'edit-photos',
+            markerControl : 'edit-marker',
+            markerDropdown : 'marker-dropdown',
+            markerDropdownElem : 'marker-dropdown-elem',
             confirmText : ''
         },
         

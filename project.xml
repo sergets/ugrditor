@@ -133,13 +133,6 @@
         </sxml:edit>
 
         <sxml:unless test="empty">
-            <sxml:unless test="name" equals="oldname">
-                <sxml:select what="thread" from="points" where="(&quot;sxml:item-id&quot; = :p)" uses="p" store="threadid"/>
-                <sxml:edit in="threads" id=":threadid" uses="name threadid">
-                    <title>:name</title>
-                </sxml:edit>
-            </sxml:unless>
-        
             <sxml:unless test="descr" equals="olddesc">
                 <sxml:insert into="news" uses="p projid name descr">
                     <type>'editpointdescr'</type>
@@ -178,7 +171,7 @@
                 <ref>:p</ref>
                 <refname>:name</refname>
                 <text>:descr</text>
-            </sxml:insert>        
+            </sxml:insert>
         </sxml:if>
         
         <!-- Когда всё получится, обновим все штуки: появилась точка, новость о ней -->

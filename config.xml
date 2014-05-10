@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<sxml:config xmlns:sxml="http://sergets.ru/sxml">
-    <ymapsapi>http://api-maps.yandex.ru/2.0-stable/?load=package.standard&amp;lang=ru-RU&amp;onload=_init</ymapsapi>
-</sxml:config>

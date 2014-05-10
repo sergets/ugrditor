@@ -28,7 +28,12 @@
                     <xsl:with-param name="m">добавил</xsl:with-param>
                     <xsl:with-param name="f">добавила</xsl:with-param>
                 </xsl:call-template>
-                новую точку «<a class="news-ref"><xsl:value-of select="$refname"/></a>» с описанием:
+                новую
+                <xsl:choose>
+                    <xsl:when test="$refname">точку «<a class="news-ref"><xsl:value-of select="$refname"/></a>»</xsl:when>
+                    <xsl:otherwise><a class="news-ref">точку</a></xsl:otherwise>
+                </xsl:choose>
+                с описанием:
                 <span class="news-text"><xsl:value-of select="$text"/></span>
             </xsl:when>
 
@@ -42,7 +47,11 @@
                     <xsl:with-param name="m">изменил</xsl:with-param>
                     <xsl:with-param name="f">изменила</xsl:with-param>
                 </xsl:call-template>
-                описание у точки «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:
+                описание у 
+                <xsl:choose>
+                    <xsl:when test="$refname">точки «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:</xsl:when>
+                    <xsl:otherwise><a class="news-ref">точки</a>:</xsl:otherwise>
+                </xsl:choose>
                 <span class="news-text"><xsl:value-of select="$text"/></span>
             </xsl:when>
 
@@ -56,7 +65,11 @@
                     <xsl:with-param name="m">поменял</xsl:with-param>
                     <xsl:with-param name="f">поменяла</xsl:with-param>
                 </xsl:call-template>
-                вопрос на местности к точке «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:
+                вопрос на местности к 
+                <xsl:choose>
+                    <xsl:when test="$refname">точке «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:</xsl:when>
+                    <xsl:otherwise><a class="news-ref">точке</a>:</xsl:otherwise>
+                </xsl:choose>
                 <span class="news-text"><xsl:value-of select="$text"/></span>
             </xsl:when>
             
@@ -70,7 +83,11 @@
                     <xsl:with-param name="m">оставил</xsl:with-param>
                     <xsl:with-param name="f">оставила</xsl:with-param>
                 </xsl:call-template>
-                комментарий к точке «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:
+                комментарий к
+                <xsl:choose>
+                    <xsl:when test="$refname">точке «<a class="news-ref"><xsl:value-of select="$refname"/></a>»:</xsl:when>
+                    <xsl:otherwise><a class="news-ref">точке</a>:</xsl:otherwise>
+                </xsl:choose>
                 <span class="news-text"><xsl:value-of select="$text"/></span>
             </xsl:when>            
             
@@ -133,7 +150,11 @@
                             <xsl:with-param name="m">изменил</xsl:with-param>
                             <xsl:with-param name="f">изменила</xsl:with-param>
                         </xsl:call-template>
-                        фотографии точки «<a class="news-ref"><xsl:value-of select="$refname"/></a>».
+                        фотографии
+                        <xsl:choose>
+                            <xsl:when test="$refname">точки «<a class="news-ref"><xsl:value-of select="$refname"/></a>».</xsl:when>
+                            <xsl:otherwise><a class="news-ref">точки</a>.</xsl:otherwise>
+                        </xsl:choose>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>

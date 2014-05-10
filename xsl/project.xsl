@@ -140,7 +140,7 @@
         <div>
             <xsl:call-template name="sxml:attrs">
                 <xsl:with-param name="node" select="exsl:node-set(.)"/>
-                <xsl:with-param name="role">list</xsl:with-param>
+                <xsl:with-param name="role">main-list</xsl:with-param>
                 <xsl:with-param name="class">project-pointlist project-rollout</xsl:with-param>
                 <xsl:with-param name="js">rollout : { id : 'tasks', role : 'rollout' }</xsl:with-param>
                 </xsl:call-template>
@@ -152,7 +152,7 @@
         <div>
             <xsl:call-template name="sxml:attrs">
                 <xsl:with-param name="node" select="exsl:node-set(.)"/>
-                <xsl:with-param name="role">list</xsl:with-param>
+                <xsl:with-param name="role">testing-list</xsl:with-param>
                 <xsl:with-param name="class">project-pointlist project-rollout</xsl:with-param>
                 <xsl:with-param name="js">rollout : { id : 'testing', role : 'rollout' }</xsl:with-param>
                 </xsl:call-template>
@@ -164,7 +164,7 @@
         <div>
             <xsl:call-template name="sxml:attrs">
                 <xsl:with-param name="node" select="exsl:node-set(.)"/>
-                <xsl:with-param name="role">header</xsl:with-param>
+                <xsl:with-param name="role">main-header</xsl:with-param>
                 <xsl:with-param name="class">rollout-header</xsl:with-param>
                 <xsl:with-param name="js">rollout : { id : 'tasks', role : 'header' }</xsl:with-param>
             </xsl:call-template>
@@ -176,7 +176,7 @@
         <div>
             <xsl:call-template name="sxml:attrs">
                 <xsl:with-param name="node" select="exsl:node-set(.)"/>
-                <xsl:with-param name="role">header</xsl:with-param>
+                <xsl:with-param name="role">testing-header</xsl:with-param>
                 <xsl:with-param name="class">rollout-header rollout-header-long</xsl:with-param>
                 <xsl:with-param name="js">rollout : { id : 'testing', role : 'header' }</xsl:with-param>
             </xsl:call-template>

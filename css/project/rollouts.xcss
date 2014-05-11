@@ -39,7 +39,7 @@
 .rollout-header {
     float: left;
     cursor: pointer;
-    width: 75px;
+    width: 85px;
     padding: 5px;
     border-radius: 4px;
     background: rgba(32,16,8,0.2);

@@ -1,8 +1,9 @@
-@import "project-common.xcss";
-@import "project-rollouts.xcss";
-@import "project-buttons.xcss";
-@import "project-permissions.xcss";
-@import "project-point.xcss";
-@import "project-point-comments.xcss";
-@import "project-news.xcss";
+@import "project/common.xcss";
+@import "project/rollouts.xcss";
+@import "project/buttons.xcss";
+@import "project/permissions.xcss";
+@import "project/map-objects.xcss";
+@import "project/point.xcss";
+@import "project/point-comments.xcss";
+@import "project/news.xcss";
 @import "ugrd-sxml.xcss";

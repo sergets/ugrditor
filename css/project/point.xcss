@@ -1,0 +1,115 @@
+            /* Точка: заголовок */
+        
+            .point h3, .point .title-input {
+                font-size: 15px;
+                line-height: 20px;
+                font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+            }
+
+            .point h3 {
+                background: #fc9;
+                padding: 3px 25px;
+                height: 19px;
+                margin-top: 0px;
+                margin-bottom: 2px;
+                border: 0px;
+                display: block;
+            }
+            
+            .point .title-input {
+                font-size: 11pt;
+                font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+                width: 290px;
+            }
+            
+            /* Точка: вопрос на местности */
+            
+            .point .question {
+                color: #f84;
+                min-height: 17px;
+                height: 17px;
+            }
+
+/*            .point textarea.text, .point textarea.question {
+                margin-top: 1px;
+                margin-bottom: 2px;
+                margin-left: 23px;
+            }*/
+            
+            /* Точка в левой панели */
+            
+            .project-list-point {
+                margin-bottom: 5px;
+            }
+            
+            .project-list-point h3 {
+                background: linear-gradient(to bottom, rgba(256,128,64,0.2) 0%, rgba(256, 128, 64, 0.6) 100%);
+                border-radius: 2px;
+                font-weight: bold;
+                font-size: 10pt;
+                font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
+                font-weight: 100;
+                margin: 1px -3px 1px -3px;
+                padding: 3px;
+                color: white;
+            }
+            
+            .project-list-point .map-link {
+                position: absolute;
+                margin-left: 190px;
+                margin-top: 3px;
+                line-height: 11px;
+                font-size: 7pt;
+                cursor: pointer;
+                height: 11px;
+                width: 55px;
+                padding: 2px;
+            }
+            
+            .project-list-point .text {
+                margin-bottom: 5px;
+            }            
+            
+            .project-list-point .q {
+                overflow: hidden;
+                margin-bottom: 5px;
+                color: #f84;
+            }            
+            
+            /* Точка: фотографии */
+            
+            .point .photos {
+                overflow: visible;
+                margin-left: 25px;
+                width: auto;
+                margin-bottom: 10px;
+                margin-top: 5px;
+            }
+            
+            .point .photo {
+                display: block;
+                float: left;
+                margin: 3px;
+                width: 50px;
+                height: 50px;
+                box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+                opacity: 0.85;
+                cursor: pointer;
+            }
+            
+            .point .photo:hover {
+                opacity: 1;
+            }
+
+            .point .photo.plus {
+                background: rgba(255, 220, 192, 0.5);
+                box-shadow: none;
+                color: #f84;
+                font-size: 9px;
+                vertical-align: middle;
+                text-align: center;
+                cursor: pointer;
+            }            
+            

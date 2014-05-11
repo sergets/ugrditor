@@ -1,20 +1,18 @@
-            /* Точка: общее */
-        
-            .point {
+            .map-object {
                 display: block;
                 width: 355px;
                 background: white;
                 overflow: auto;
             }
            
-            .point h3, .point .title-input {
+            .map-object h3, .map-object .title-input {
                 font-size: 15px;
                 line-height: 20px;
                 font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
                 font-weight: 100;
             }
 
-            .point h3 {
+            .map-object h3 {
                 background: #fc9;
                 padding: 3px 25px;
                 height: 19px;
@@ -24,31 +22,31 @@
                 display: block;
             }
             
-            .point .edit-button.button {
+            .map-object .edit-button.button {
                 background-position: -16px;
             }
 
-            .point .edit-button:hover::before {
+            .map-object .edit-button:hover::before {
                 content: 'Редактировать' !important;
             }
             
-            .point .edit-only {
+            .map-object .edit-only {
                 display: none;
             }
             
-            .point.editing .edit-only {
+            .map-object.editing .edit-only {
                 display: block;
             }
             
-            .point.editing .view-only {
+            .map-object.editing .view-only {
                 display: none;
             }
             
-            .point.editing .edit-blur {
+            .map-object.editing .edit-blur {
                 opacity: 0.3;
             }
 
-            .point .marker {
+            .map-object .marker {
                 float: left;
                 margin-left: -20px;
                 position: absolute;
@@ -56,7 +54,7 @@
             
             /* Точка: просмотр */
             
-            .point .text {
+            .map-object p, .map-object textarea {
                 margin-top: 5px;
                 margin-bottom: 5px;
                 margin-left: 25px;
@@ -66,19 +64,7 @@
                 min-height: 34px;
             }
             
-            .point .question {
-                margin-top: 5px;
-                margin-bottom: 5px;
-                margin-left: 25px;
-                margin-right: 20px;
-                width: 320px;
-                font: 11px verdana;
-                clear: left;
-                color: #f84;
-                min-height: 17px;
-            }
-      
-            .point .data-pane {
+            .map-object .data-pane {
                 white-space: nowrap;
                 color: #0c4068;
                 margin-left: 25px;
@@ -87,7 +73,7 @@
                 margin-bottom: 10px;
             }       
             
-            .point .editor-author::before, .point .edited-by::before, .point .editor-date::before {
+            .map-object .editor-author::before, .map-object .edited-by::before, .map-object .editor-date::before {
                 content: '';
                 display: inline-block;
                 margin-top: 2px;
@@ -97,41 +83,43 @@
                 height: 11px;
             }
                 
-            .point .editor-author::before {
+            .map-object .editor-author::before {
                 background: url(//img/new.png);
             }
             
-            .point .edited-by::before, .point .date::before {
+            .map-object .edited-by::before, .map-object .date::before {
                 background: url(//img/edit.png);
             }
             
-            .point .editor-date {
+            .map-object .editor-date {
                 margin-left: 15px;
                 color: #f84;
             }
        
             /* Точка: редактирование */
             
-            .point .title-input {
+            .map-object .title-input {
                 font-size: 11pt;
                 font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
                 font-weight: 100;
                 width: 290px;
             }
             
-            .point textarea.text, .point textarea.question {
+            /*.map-object textarea {
                 margin-top: 1px;
                 margin-bottom: 2px;
                 margin-left: 23px;
-            }
+                clear: left;
+                min-height: 
+            }*/
             
-            .point .save-toolbar {
+            .map-object .save-toolbar {
                 margin-top: 5px;
                 margin-left: 23px;
                 margin-bottom: 5px;
             }
 
-            .point .save-button {
+            .map-object .save-button {
                 margin-left: 238px;
                 width: 85px;
                 z-index: 2;
@@ -139,7 +127,7 @@
                 position: absolute;
             }
             
-            .point .delete-button {
+            .map-object .delete-button {
                 width: 23px;
                 z-index: 2;
                 position: absolute;
@@ -148,11 +136,11 @@
                 cursor: pointer;
             }
             
-            .point .edit-marker {
+            .map-object .edit-marker {
                 cursor: pointer;
             }
             
-            .point .marker-dropdown {
+            .map-object .marker-dropdown {
                 height: 62px;
                 width: 52px;
                 overflow: hidden;
@@ -169,61 +157,20 @@
                 box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
             }
             
-            .point .marker-dropdown.hidden {
+            .map-object .marker-dropdown.hidden {
                 max-height: 0px;
                 opacity: 0;
             }
             
-            .point .marker-dropdown-item {
+            .map-object .marker-dropdown-item {
                 float: left;
                 cursor: pointer;
                 margin: 2px;
             }
             
-            
-            /* Точка в левой панели */
-            
-            .project-list-point {
-                margin-bottom: 5px;
-            }
-            
-            .project-list-point h3 {
-                background: linear-gradient(to bottom, rgba(256,128,64,0.2) 0%, rgba(256, 128, 64, 0.6) 100%);
-                border-radius: 2px;
-                font-weight: bold;
-                font-size: 10pt;
-                font-family: djvsl,dejavu sans light, dejavu sans, segoe ui, verdana,sans-serif;
-                font-weight: 100;
-                margin: 1px -3px 1px -3px;
-                padding: 3px;
-                color: white;
-            }
-            
-            .project-list-point .map-link {
-                position: absolute;
-                margin-left: 190px;
-                margin-top: 3px;
-                line-height: 11px;
-                font-size: 7pt;
-                cursor: pointer;
-                height: 11px;
-                width: 55px;
-                padding: 2px;
-            }
-            
-            .project-list-point .text {
-                margin-bottom: 5px;
-            }            
-            
-            .project-list-point .q {
-                overflow: hidden;
-                margin-bottom: 5px;
-                color: #f84;
-            }            
-            
             /* Точка: фотографии */
             
-            .point .photos {
+            .map-object .photos {
                 overflow: visible;
                 margin-left: 25px;
                 width: auto;
@@ -231,7 +178,7 @@
                 margin-top: 5px;
             }
             
-            .point .photo {
+            .map-object .photo {
                 display: block;
                 float: left;
                 margin: 3px;
@@ -242,11 +189,11 @@
                 cursor: pointer;
             }
             
-            .point .photo:hover {
+            .map-object .photo:hover {
                 opacity: 1;
             }
 
-            .point .photo.plus {
+            .map-object .photo.plus {
                 background: rgba(255, 220, 192, 0.5);
                 box-shadow: none;
                 color: #f84;
